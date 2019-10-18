@@ -98,7 +98,7 @@ class Plugin {
 	 *
 	 * Register plugin action hooks and filters
 	 *
-	 * @since 1.2.0
+	 * @since 0.0.1
 	 * @access public
 	 */
 	public function __construct() {
@@ -110,7 +110,7 @@ class Plugin {
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
 
 		// Create EM membership
-		add_action( 'elementor/elements/categories_registered', 'add_elemental_membership_category' );
+		add_action( 'elementor/elements/categories_registered', [ $this, 'add_elemental_membership_category'] );
 
 	}
 }
