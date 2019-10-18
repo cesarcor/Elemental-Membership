@@ -1,5 +1,5 @@
 <?php
-namespace ElementorHelloWorld;
+namespace ElementalMembership;
 
 /**
  * Class Plugin
@@ -60,6 +60,7 @@ class Plugin {
 	private function include_widgets_files() {
 		require_once( __DIR__ . '/widgets/hello-world.php' );
 		require_once( __DIR__ . '/widgets/inline-editing.php' );
+		require_once( __DIR__ . '/widgets/forms/widgets/registration-form.php' );
 	}
 
 	/**
@@ -77,6 +78,19 @@ class Plugin {
 		// Register Widgets
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Hello_World() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Inline_Editing() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Registration_Form() );
+	}
+
+	function add_elemental_membership_category($elements_manager){
+
+		$elements_manager->add_category(
+			'elemental-membership-category',
+			[
+				'title' => __('Elemental Membership', 'elemental-membership'),
+				'icon' => 'fa fa-plug'
+			]
+		);
+	
 	}
 
 	/**
@@ -94,8 +108,14 @@ class Plugin {
 
 		// Register widgets
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
+
+		// Create EM membership
+		add_action( 'elementor/elements/categories_registered', 'add_elemental_membership_category' );
+
 	}
 }
+
+
 
 // Instantiate Plugin Class
 Plugin::instance();
