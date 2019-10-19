@@ -3,6 +3,7 @@ namespace ElementalMembership\Widgets;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Repeater;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -34,21 +35,96 @@ class Registration_Form extends Widget_Base{
 
     protected function _register_controls()
     {
+        $repeater = new Repeater();
+
+        $em_field_types = [
+            'text' => __('Text', 'elemental-membership'),
+            'email' => __('Email', 'elemental-membership'),
+            'password' => __('Password', 'elemental-membership'),
+            'textarea' => __('Text Area', 'elemental-membership'),
+            'tel' => __('Telephone', 'elemental-membership'),
+            'checkbox' => __( 'Checkbox', 'elementor-pro' )
+        ];
+
         $this->start_controls_section(
-            'content_section',
+            'em_fields_section',
             [
-                'label' => __( 'Content', 'elemental-membership' ),
+                'label' => __( 'Fields', 'elemental-membership' ),
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
 
-        $this->add_control(
-            'important_note',
+        $repeater->add_control(
+            'em_field_type',
             [
-                'label' => __( 'Important Note', 'elemental-membership' ),
-                'type' => \Elementor\Controls_Manager::RAW_HTML,
-                'raw' => __('The forms contetn', 'elemental-membership'),
-                'content_classes' => 'reg-form',
+                'label' => __('Field Type', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'text',
+                'options' => $em_field_types
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_label',
+            [
+                'label' => __( 'Field Label', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => 'fcd',
+                'placeholder' => 'ds'
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_placeholder',
+            [
+                'label' => __( 'Field Placeholder', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => '',
+                'placeholder' => ''
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_required',
+            [
+                'label' => __('Required', 'elemental-membership'),
+                'type' => Controls_Manager::SWITCHER,
+                'return_value' => 'true',
+                'default' => ''
+            ]
+        );
+
+        $this->add_control(
+            'em_field_list',
+            [
+                'label' => __('Field List', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'default' => [
+                    [
+                        'em_field_type' => 'email',
+                        'em_field_label' => __('Your Email', 'elemental-membership'),
+                        'em_field_placeholder' => 'jondoe@mail.com',
+                        'em_field_required' => 'true'
+                    ],
+
+                    [
+                        'em_field_type' => 'password',
+                        'em_field_label' => __('Password', 'elemental-membership'),
+                        'em_field_placeholder' => __('Type password', 'elemental-membership'),
+                        'em_field_required' => 'true'
+                    ],
+
+                    [
+                        'em_field_type' => 'password',
+                        'em_field_label' => __('Confirm Password', 'elemental-membership'),
+                        'em_field_placeholder' => __('Type password again', 'elemental-membership'),
+                        'em_field_required' => 'true'
+                    ]
+
+                    ],
+
+                'title_field' => '{{{ em_field_label }}}',
             ]
         );
 
@@ -60,8 +136,8 @@ class Registration_Form extends Widget_Base{
         $settings = $this -> get_settings_for_display();
 
         echo '<div class="title">';
-		echo $settings['title'];
-		echo '</div>'; 
+		echo 'Hi!';
+		echo '</div>';
     }
 
     protected function _content_template(){
