@@ -1,9 +1,10 @@
 <?php
-namespace ElementalMembership\Widgets;
+namespace ElementalMembership\Widgets\Forms;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
+use ElementalMembership\Widgets\Forms\Classes\EM_Form_Base;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -134,10 +135,22 @@ class Registration_Form extends Widget_Base{
 
     protected function render(){
         $settings = $this -> get_settings_for_display();
+    ?>
 
-        echo '<div class="title">';
-		echo 'Hi!';
-		echo '</div>';
+        <form class="em-user-registration-form" method="post" >
+            <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
+
+
+            <?php endforeach; ?>
+
+            <button type="submit">
+                    Register
+            </button>
+
+        </form>
+
+    <?php
+
     }
 
     protected function _content_template(){
