@@ -78,7 +78,7 @@ class Plugin {
 		// Register Widgets
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Hello_World() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Inline_Editing() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Registration_Form() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Registration_Form() );
 	}
 
 	function add_elemental_membership_category($elements_manager){
