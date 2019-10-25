@@ -4,7 +4,10 @@ namespace ElementalMembership\Widgets\Forms;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
-use ElementalMembership\Widgets\Forms\Classes\EM_Form_Base;
+use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
+
+//For now...
+include plugin_dir_path( __DIR__ ) . 'classes/field-creation.php';
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -43,8 +46,23 @@ class Registration_Form extends Widget_Base{
             'email' => __('Email', 'elemental-membership'),
             'password' => __('Password', 'elemental-membership'),
             'textarea' => __('Text Area', 'elemental-membership'),
+            'date' => __('Date', 'elemental-membership'),
             'tel' => __('Telephone', 'elemental-membership'),
             'checkbox' => __( 'Checkbox', 'elementor-pro' )
+        ];
+
+        $em_field_widths = [
+                '' => __( 'Default', 'elementor-pro' ),
+                '100' => '100%',
+                '80' => '80%',
+                '75' => '75%',
+                '66' => '66%',
+                '60' => '60%',
+                '50' => '50%',
+                '40' => '40%',
+                '33' => '33%',
+                '25' => '25%',
+                '20' => '20%',
         ];
 
         $this->start_controls_section(
@@ -70,8 +88,7 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __( 'Field Label', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => 'fcd',
-                'placeholder' => 'ds'
+                'default' => ''
             ]
         );
 
@@ -92,6 +109,16 @@ class Registration_Form extends Widget_Base{
                 'type' => Controls_Manager::SWITCHER,
                 'return_value' => 'true',
                 'default' => ''
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_width',
+            [
+                'label' => __('Field Width', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'text',
+                'options' => $em_field_widths
             ]
         );
 
@@ -138,14 +165,43 @@ class Registration_Form extends Widget_Base{
     ?>
 
         <form class="em-user-registration-form" method="post" >
+            <?php $field_creation = new Field_Creation(); ?>
+
             <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
 
+            <div class="em-user-registration-form__field">
+
+            <?php 
+
+                echo('<label>'. $item['em_field_label'] .'</label>');
+
+                switch($item['em_field_type']):
+                    case "text":
+                    case "email":
+                    case "password":
+                    case "tel":
+                    case "date":
+                        $field_creation->create_input_field($item['em_field_label'], $item['em_field_type'], $item['em_field_placeholder']);
+                    break;
+                    case "textarea":
+                        $field_creation->create_textarea_field();
+                    break;
+                    case "checkbox":
+                        $field_creation->create_checkbox_field();
+                    break;
+                endswitch;
+            
+            ?>
+
+            </div>
 
             <?php endforeach; ?>
 
-            <button type="submit">
-                    Register
-            </button>
+            <div class="em-user-registration-form__button">
+                <button type="submit">
+                        Register
+                </button>
+            </div>
 
         </form>
 
