@@ -42,13 +42,14 @@ class Registration_Form extends Widget_Base{
         $repeater = new Repeater();
 
         $em_field_types = [
-            'text' => __('Text', 'elemental-membership'),
             'email' => __('Email', 'elemental-membership'),
             'password' => __('Password', 'elemental-membership'),
-            'textarea' => __('Text Area', 'elemental-membership'),
+            'text' => __('Text', 'elemental-membership'),
+            'textarea' => __('Textarea', 'elemental-membership'),
             'date' => __('Date', 'elemental-membership'),
             'tel' => __('Telephone', 'elemental-membership'),
-            'checkbox' => __( 'Checkbox', 'elementor-pro' )
+            'checkbox' => __('Checkbox', 'elemental-membership'),
+            'select' => __('Select', 'elemental-membership')
         ];
 
         $em_field_widths = [
@@ -63,6 +64,32 @@ class Registration_Form extends Widget_Base{
                 '33' => '33%',
                 '25' => '25%',
                 '20' => '20%',
+        ];
+
+        $control_exceptions = [
+            'terms' => [
+                [
+                    'name' => 'em_field_type',
+                    'operator' => '!in',
+                    'value' => [
+                        'checkbox',
+                        'select'
+                    ]
+                ]
+            ]
+        ];
+
+        $fields_with_options = [
+            'terms' => [
+                [
+                    'name' => 'em_field_type',
+                    'operator' => 'in',
+                    'value' => [
+                        'checkbox',
+                        'select'
+                    ]
+                ]
+            ]
         ];
 
         $this->start_controls_section(
@@ -98,7 +125,7 @@ class Registration_Form extends Widget_Base{
                 'label' => __( 'Field Placeholder', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => '',
-                'placeholder' => ''
+                'conditions' => $control_exceptions
             ]
         );
 
@@ -108,7 +135,8 @@ class Registration_Form extends Widget_Base{
                 'label' => __('Required', 'elemental-membership'),
                 'type' => Controls_Manager::SWITCHER,
                 'return_value' => 'true',
-                'default' => ''
+                'default' => '',
+                'conditions' => $control_exceptions
             ]
         );
 
@@ -118,7 +146,18 @@ class Registration_Form extends Widget_Base{
                 'label' => __('Field Width', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => 'text',
-                'options' => $em_field_widths
+                'options' => $em_field_widths,
+                'conditions' => $control_exceptions
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_options',
+            [
+                'label' => __('Options', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'default' => '',
+                'conditions' => $fields_with_options
             ]
         );
 
