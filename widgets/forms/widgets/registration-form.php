@@ -158,6 +158,26 @@ class Registration_Form extends Widget_Base{
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'em_submit_button_section',
+            [
+                'label' => __( 'Submit Button', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'em_submit_button_text',
+            [
+                'label' => __( 'Button Text', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => 'Register',
+                'placeholder' => ''
+            ]
+        );
+
+        $this->end_controls_section();
+
     }
 
     protected function render(){
@@ -199,7 +219,7 @@ class Registration_Form extends Widget_Base{
 
             <div class="em-user-registration-form__button">
                 <button type="submit">
-                        Register
+                  <?php echo $settings['em_submit_button_text']; ?>
                 </button>
             </div>
 
@@ -211,9 +231,78 @@ class Registration_Form extends Widget_Base{
 
     protected function _content_template(){
         ?>
-		<div class="title">
-			{{{ settings.title }}}
-		</div>
+            <form class="em-user-registration-form">
+
+                <div class="em-user-registration-form__field">
+
+                    <#
+
+                    if(settings.em_field_list){
+                        var count = 0;
+
+                        _.each( settings.em_field_list, function( item, index ) {
+
+                            count++;
+                            #>
+
+                            <#
+                            if(item.em_field_label){
+                            #>
+
+                                <label for="em_field_{{{ count }}}"> {{{item.em_field_label}}} </label>
+
+                            <#
+                            }
+                            #>
+
+                            <#
+
+                            if(item.em_field_type){
+
+                                switch(item.em_field_type){
+                                    case 'text':
+                                    case 'password':
+                                    case 'tel':
+                                    case 'email': 
+                                
+                                #>
+                                    <input type="{{{ item.em_field_type }}}" id="em_field_{{{ count }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
+                                <# break;
+                                    case 'textarea': 
+                                #>
+                                    <textarea class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}"></textarea>
+                                <# 
+                                    break;
+                                    case 'checkbox':
+                                #>
+
+                                    <input type="checkbox" />
+
+                                <#
+                                    break;
+                                    default: 
+                                #>
+                                    <!-- nothing for now -->
+                                <#
+                                
+                                }
+
+                            }
+
+                        });
+                    }
+                    
+                    #>
+
+                </div>
+
+                <div class="em-user-registration-form__button">
+                    <button type="submit">
+                        {{{ settings.em_submit_button_text }}}
+                    </button>
+                </div>
+
+            </form>
 		<?php
     }
 
