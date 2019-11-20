@@ -231,7 +231,6 @@ class Registration_Form extends Widget_Base{
             <div class="em-user-registration-form__field">
 
             <?php 
-
                 echo('<label>'. $item['em_field_label'] .'</label>');
 
                 switch($item['em_field_type']):
@@ -247,9 +246,10 @@ class Registration_Form extends Widget_Base{
                     break;
                     case "checkbox":
                         $field_creation->create_checkbox_field();
+                    case "select":
+                        $field_creation->create_select_field($item['em_field_label'], $item['em_field_options']);
                     break;
                 endswitch;
-            
             ?>
 
             </div>
@@ -302,14 +302,16 @@ class Registration_Form extends Widget_Base{
                                     case 'text':
                                     case 'password':
                                     case 'tel':
-                                    case 'email': 
-                                
+                                    case 'email':
                                 #>
                                     <input type="{{{ item.em_field_type }}}" id="em_field_{{{ count }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
+                                
                                 <# break;
                                     case 'textarea': 
                                 #>
+
                                     <textarea class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}"></textarea>
+                               
                                 <# 
                                     break;
                                     case 'checkbox':
@@ -319,9 +321,31 @@ class Registration_Form extends Widget_Base{
 
                                 <#
                                     break;
-                                    default: 
+                                    case 'select':
                                 #>
-                                    <!-- nothing for now -->
+
+                                    <select>
+                                    
+                                        <#
+
+                                            if(item.em_field_options){
+
+                                            for(var x in item.em_field_options){
+
+                                             '<option>' + item.em_field_options[x] + '</option>';
+
+                                                }
+                                        
+                                            }
+
+                                        #>
+                                    
+                                    </select>
+
+                                <#
+                                    break;
+                                #>
+
                                 <#
                                 
                                 }

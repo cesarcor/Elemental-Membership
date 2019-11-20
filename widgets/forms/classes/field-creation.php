@@ -21,5 +21,24 @@ class Field_Creation{
         echo '<input type="checkbox" value="Checkbox!" class="em-form-field"/>';
     }
 
+    function create_select_field($field_label, $field_options){
+        $options = preg_split( "/\\r\\n|\\r|\\n/", $field_options );
+
+        if ( ! $options ) {
+			return '';
+		}
+
+        echo '<select>';
+
+        foreach($options as $option):
+            $option_label = esc_html( $option );
+
+            echo '<option>' . $option_label . '</option>';
+
+        endforeach;
+         
+        echo '</select>';
+    }
+
 
 }
