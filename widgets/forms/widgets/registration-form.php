@@ -216,6 +216,19 @@ class Registration_Form extends Widget_Base{
         );
 
         $this->end_controls_section();
+        
+
+        $this->start_controls_section(
+            'em_registration_form_style',
+            [
+                'label' => __( 'Registration Form Styles', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+
+
+        $this-> end_controls_section();
 
     }
 
@@ -272,14 +285,17 @@ class Registration_Form extends Widget_Base{
         ?>
             <form class="em-user-registration-form">
 
-                <div class="em-user-registration-form__field">
-
                     <#
 
                     if(settings.em_field_list){
                         var count = 0;
 
                         _.each( settings.em_field_list, function( item, index ) {
+                    #>
+
+                        <div class="em-user-registration-form__field">
+
+                    <#
 
                             count++;
                             #>
@@ -310,7 +326,7 @@ class Registration_Form extends Widget_Base{
                                     case 'textarea': 
                                 #>
 
-                                    <textarea class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}"></textarea>
+                                    <textarea class="em-form-field em-textarea-field" placeholder="{{{ item.em_field_placeholder }}}"></textarea>
                                
                                 <# 
                                     break;
@@ -324,7 +340,7 @@ class Registration_Form extends Widget_Base{
                                     case 'select':
                                 #>
 
-                                    <select>
+                                    <select class="em-form-field em-select-field">
                                     
                                         <#
 
@@ -350,14 +366,17 @@ class Registration_Form extends Widget_Base{
                                 
                                 }
 
-                            }
+                            } #>
+
+                            </div>
+
+
+                            <#
 
                         });
                     }
                     
                     #>
-
-                </div>
 
                 <div class="em-user-registration-form__button">
                     <button type="submit">
