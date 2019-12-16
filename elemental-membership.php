@@ -11,6 +11,12 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+define( 'EM__FILE__', __FILE__ );
+define( 'EM_DIR_PATH', plugin_dir_path( EM__FILE__ ) );
+define( 'EM_DIR_URL', plugin_dir_url( EM__FILE__ ) );
+define( 'EM_ASSETS', trailingslashit( EM_DIR_URL . 'assets' ) );
+
+
 /**
  * Main Elementor Elemental Membership Class
  *
