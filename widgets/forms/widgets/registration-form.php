@@ -30,7 +30,7 @@ class Registration_Form extends Widget_Base{
     }
 
     public function get_icon(){
-        return 'fas fa-jedi';
+        return 'em-registration-icon';
     }
 
     public function get_categories(){

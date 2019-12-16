@@ -50,6 +50,24 @@ class Plugin {
 	}
 
 	/**
+	 * widget_editor_styles
+	 *
+	 * Load required plugin editor styles.
+	 *
+	 * @since 1.2.0
+	 * @access public
+	 */
+	public function widget_editor_styles()
+	{
+		wp_enqueue_style(
+			'em-icons',
+			EM_ASSETS . 'icons/elemental-membership-icons/css/elemental-membership-icons.css',
+			array()
+		);
+	}
+
+
+	/**
 	 * Include Widgets files
 	 *
 	 * Load widgets files
@@ -107,6 +125,9 @@ class Plugin {
 
 		// Create EM membership
 		add_action( 'elementor/elements/categories_registered', [ $this, 'add_elemental_membership_category'] );
+
+		//Custom EM icons
+		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'widget_editor_styles' ), 10 );
 
 	}
 }
