@@ -46,7 +46,7 @@ class Plugin {
 	 * @access public
 	 */
 	public function widget_scripts() {
-		// wp_register_script( 'elementor-hello-world', plugins_url( '/assets/js/hello-world.js', __FILE__ ), [ 'jquery' ], false, true );
+		wp_register_script( 'elementor-hello-world', plugins_url( '/assets/js/em.js', __FILE__ ), [ 'jquery' ], false, true );
 	}
 
 	/**
@@ -77,6 +77,7 @@ class Plugin {
 	 */
 	private function include_widgets_files() {
 		require_once( __DIR__ . '/widgets/forms/widgets/registration-form.php' );
+		require_once( __DIR__ . '/widgets/forms/widgets/login-form.php' );
 	}
 
 	/**
@@ -93,6 +94,7 @@ class Plugin {
 
 		// Register Widgets
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Registration_Form() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Login_Form() );
 	}
 
 	function add_elemental_membership_category($elements_manager){
