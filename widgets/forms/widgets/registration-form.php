@@ -70,6 +70,7 @@ class Registration_Form extends Widget_Base{
         ];
 
         $em_field_role = [
+            'username' => __( 'Username', 'elemental-memebership' ),
             'user_email' => __( 'User Email', 'elemental-memebership' ),
             'user_password' => __( 'User Password', 'elemental-memebership' ),
             'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
@@ -191,28 +192,32 @@ class Registration_Form extends Widget_Base{
                         'em_field_type' => 'text',
                         'em_field_label' => __('Username', 'elemental-membership'),
                         'em_field_placeholder' => 'jondoe',
-                        'em_field_required' => 'true'
+                        'em_field_required' => 'true',
+                        'em_field_role' => 'username'
                     ],
 
                     [
                         'em_field_type' => 'email',
                         'em_field_label' => __('Your Email', 'elemental-membership'),
                         'em_field_placeholder' => 'jondoe@mail.com',
-                        'em_field_required' => 'true'
+                        'em_field_required' => 'true',
+                        'em_field_role' => 'user_email'
                     ],
 
                     [
                         'em_field_type' => 'password',
                         'em_field_label' => __('Password', 'elemental-membership'),
                         'em_field_placeholder' => __('Type password', 'elemental-membership'),
-                        'em_field_required' => 'true'
+                        'em_field_required' => 'true',
+                        'em_field_role' => 'user_password'
                     ],
 
                     [
                         'em_field_type' => 'password',
                         'em_field_label' => __('Confirm Password', 'elemental-membership'),
                         'em_field_placeholder' => __('Type password again', 'elemental-membership'),
-                        'em_field_required' => 'true'
+                        'em_field_required' => 'true',
+                        'em_field_role' => 'user_password_confirm'
                     ]
 
                     ],
