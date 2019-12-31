@@ -7,6 +7,7 @@ namespace ElementalMembership;
  * Main Plugin class
  * @since 1.2.0
  */
+
 class Plugin {
 
 	/**
@@ -46,7 +47,16 @@ class Plugin {
 	 * @access public
 	 */
 	public function widget_scripts() {
-		wp_register_script( 'elementor-hello-world', plugins_url( '/assets/js/em.js', __FILE__ ), [ 'jquery' ], false, true );
+
+		wp_enqueue_script( 'em-js', EM_ASSETS . 'js/em.js', [ 'jquery' ], false, true );
+
+		$translation_array = array(
+			'ajax_url' => admin_url( 'admin-ajax.php' )
+		);
+		wp_localize_script( 'em-js', 'em_ajax', $translation_array );
+
+		wp_enqueue_script('em-js');
+
 	}
 
 	/**
@@ -108,7 +118,7 @@ class Plugin {
 		);
 	
 	}
-
+	
 	/**
 	 *  Plugin class constructor
 	 *
@@ -130,10 +140,11 @@ class Plugin {
 
 		//Custom EM icons
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'widget_editor_styles' ), 10 );
-
+				
 	}
 }
 
+include EM_DIR_PATH . 'widgets/forms/classes/register-user.php';
 
 
 // Instantiate Plugin Class
