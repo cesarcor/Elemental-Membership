@@ -5,9 +5,12 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
 use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
+use ElementalMembership\Widgets\Forms\Actions\Register_User;
 
 //For now...
 include plugin_dir_path( __DIR__ ) . 'classes/field-creation.php';
+// include plugin_dir_path( __DIR__ ) . 'classes/register-user.php';
+
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -22,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class Registration_Form extends Widget_Base{
 
     public function get_name(){
-        return 'registration-form';
+        return 'em-registration-form';
     }
 
     public function get_title(){
@@ -66,6 +69,12 @@ class Registration_Form extends Widget_Base{
                 '20' => '20%',
         ];
 
+        $em_field_role = [
+            'user_email' => __( 'User Email', 'elemental-memebership' ),
+            'user_password' => __( 'User Password', 'elemental-memebership' ),
+            'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
+        ];
+
         $control_exceptions = [
             'terms' => [
                 [
@@ -107,6 +116,16 @@ class Registration_Form extends Widget_Base{
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => 'text',
                 'options' => $em_field_types
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_role',
+            [
+                'label' => __('Field Role', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'text',
+                'options' => $em_field_role
             ]
         );
 
@@ -168,6 +187,13 @@ class Registration_Form extends Widget_Base{
                 'type' => \Elementor\Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
                 'default' => [
+                    [
+                        'em_field_type' => 'text',
+                        'em_field_label' => __('Username', 'elemental-membership'),
+                        'em_field_placeholder' => 'jondoe',
+                        'em_field_required' => 'true'
+                    ],
+
                     [
                         'em_field_type' => 'email',
                         'em_field_label' => __('Your Email', 'elemental-membership'),
@@ -236,7 +262,7 @@ class Registration_Form extends Widget_Base{
         $settings = $this -> get_settings_for_display();
     ?>
 
-        <form class="em-user-registration-form" method="post" >
+        <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
             <?php $field_creation = new Field_Creation(); ?>
 
             <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
@@ -268,6 +294,8 @@ class Registration_Form extends Widget_Base{
             </div>
 
             <?php endforeach; ?>
+
+            <input type="hidden" name="action" value="em_register_user" />
 
             <div class="em-user-registration-form__button">
                 <button type="submit">
