@@ -9,12 +9,37 @@ class Field_Creation{
         return "form_fields[{$item}]";
     }
 
-    function create_input_field($field_label, $field_type, $field_placeholder){
+    function create_input_field($field_label, $field_type, $field_placeholder, $field_role){
+
+        $roles = [ 'username', 'user_email', 'user_password' ];
 
         $field_label = strtolower(preg_replace('/\s+/', '-', $field_label));
-        $field_name = $this->em_get_attribute_name($field_label);
+        $field_name = "";
 
-        echo '<input type="'. $field_type .'"name="'. $field_name .'"  class="em-form-field em-'. $field_label .'-field" placeholder="'. $field_placeholder .'" />';
+
+        if(in_array($field_role, $roles)):
+
+            switch($field_role):
+                case "username":
+                    $field_name = $this->em_get_attribute_name("username");
+                break;
+                case "user_email":
+                    $field_name = $this->em_get_attribute_name("user_email");
+                break;
+                case "user_password":
+                    $field_name = $this->em_get_attribute_name("user_password");
+                break;
+
+            endswitch;
+        else:
+            $field_name = $this->em_get_attribute_name($field_label);
+        endif;
+
+        echo '<input type="'. $field_type .
+        '"name="'. $field_name .'"
+         class="em-form-field em-'. $field_label .'-field" 
+         placeholder="'. $field_placeholder .'" 
+         em_role="'. $field_role .'" />';
 
     }
 
