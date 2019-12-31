@@ -125,7 +125,7 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __('Field Role', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'text',
+                'default' => '',
                 'options' => $em_field_role
             ]
         );
@@ -283,7 +283,12 @@ class Registration_Form extends Widget_Base{
                     case "password":
                     case "tel":
                     case "date":
-                        $field_creation->create_input_field($item['em_field_label'], $item['em_field_type'], $item['em_field_placeholder']);
+                        $field_creation->create_input_field(
+                            $item['em_field_label'],
+                            $item['em_field_type'],
+                            $item['em_field_placeholder'],
+                            $item['em_field_role']
+                        );
                     break;
                     case "textarea":
                         $field_creation->create_textarea_field();
