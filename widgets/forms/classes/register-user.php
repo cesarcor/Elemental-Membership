@@ -24,11 +24,16 @@ class Register_User{
         $user_password = '';
 
         foreach($_POST['form_fields'] as $field => $value):
+
             if($field == "username"):
                 $user_login = $value;
-            elseif($field == "password"):
+            endif;
+
+            if($field == "user_password"):
                 $user_password = $value;
-            elseif($field == "your-email"):
+            endif;
+
+            if($field == "user_email"):
                 $user_email = $value;
             endif;
 
