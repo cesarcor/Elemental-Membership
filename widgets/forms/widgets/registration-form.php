@@ -74,6 +74,7 @@ class Registration_Form extends Widget_Base{
             'user_email' => __( 'User Email', 'elemental-memebership' ),
             'user_password' => __( 'User Password', 'elemental-memebership' ),
             'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
+            'custom_field' => __('Custom Field', 'elemental-membership'),
         ];
 
         $control_exceptions = [
@@ -125,7 +126,7 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __('Field Role', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => '',
+                'default' => 'custom_field',
                 'options' => $em_field_role
             ]
         );
