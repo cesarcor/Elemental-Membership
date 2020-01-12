@@ -1,5 +1,9 @@
 <?php
 namespace ElementalMembership\Widgets\Forms\Classes;
+// use ElementalMembership\Widgets\Forms\Classes\Form_Options_Manager;
+
+//For now...
+// include_once(plugin_dir_path( __DIR__ ) . 'classes/form-options-manager.php');
 
 class Register_User{
 
@@ -8,9 +12,22 @@ class Register_User{
         add_action('wp_ajax_nopriv_em_register_user', [$this, 'em_register_user']);
     }
 
+    /**
+	 * EM Validate Fields
+	 *
+	 * Register new user in Wordpress
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+
+     public function validate_fields(){
+
+     }
+
 
      /**
-	 * EM Register USer
+	 * EM Register User
 	 *
 	 * Register new user in Wordpress
 	 *
@@ -19,9 +36,13 @@ class Register_User{
 	 */
     public function em_register_user(){
 
+        // $form_opts = new Form_Options_Manager();
+
         $user_login = '';
         $user_email = '';
         $user_password = '';
+
+        // $user_role = $form_opts->get_form_options();
 
         foreach($_POST['form_fields'] as $field => $value):
 
@@ -46,6 +67,7 @@ class Register_User{
                 'user_login' => $user_login,
                 'user_pass' => $user_password,
                 'user_email' => $user_email,
+                'role' => 'subscriber',
             );
 
             wp_insert_user($userdata);
@@ -57,5 +79,3 @@ class Register_User{
     }
 
 }
-
-new Register_User();
