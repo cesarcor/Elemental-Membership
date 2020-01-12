@@ -1,6 +1,8 @@
 <?php
 namespace ElementalMembership;
 
+use ElementalMembership\Widgets\Forms\Classes;
+
 /**
  * Class Plugin
  *
@@ -67,8 +69,7 @@ class Plugin {
 	 * @since 1.2.0
 	 * @access public
 	 */
-	public function widget_editor_styles()
-	{
+	public function widget_editor_styles() {
 		wp_enqueue_style(
 			'em-icons',
 			EM_ASSETS . 'icons/elemental-membership-icons/css/elemental-membership-icons.css',
@@ -118,6 +119,43 @@ class Plugin {
 		);
 	
 	}
+
+	function autoload($classname){
+
+		if(false === strpos( $classname, 'ElementalMembership' )){
+			return;
+		}
+
+		$namespace = "";
+		$file_parts = explode('\\', $classname);
+		$file_name = "";
+
+		for($i = count($file_parts) - 1; $i > 0; $i--){
+			$current = strtolower($file_parts[$i]);
+			$current = str_ireplace('_', '-', $current);
+
+			if ( count( $file_parts ) - 1 === $i ) {
+
+				$file_name = "$current.php";
+
+			} else {
+				$namespace = '/' . $current . $namespace;
+			}
+
+		}
+
+		$filepath  = trailingslashit( dirname( dirname( __FILE__ ) ) . '/elemental-membership' . $namespace );
+		$filepath .= $file_name;
+
+		if ( file_exists( $filepath ) ) {
+			include_once( $filepath );
+		} else {
+			wp_die(
+				esc_html( "The file attempting to be loaded at $filepath does not exist." )
+			);
+		}
+
+	}
 	
 	/**
 	 *  Plugin class constructor
@@ -140,12 +178,12 @@ class Plugin {
 
 		//Custom EM icons
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'widget_editor_styles' ), 10 );
+
+		spl_autoload_register( array($this, 'autoload') );
+
+		new Classes\Register_User();
 				
 	}
 }
 
-include EM_DIR_PATH . 'widgets/forms/classes/register-user.php';
-
-
-// Instantiate Plugin Class
 Plugin::instance();
