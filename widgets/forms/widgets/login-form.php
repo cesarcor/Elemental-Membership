@@ -68,4 +68,57 @@ class Login_Form extends Widget_Base{
 
     }
 
+    protected function render(){
+        $settings = $this -> get_settings_for_display();
+    ?>
+
+        <form class="em-user-login-form">
+            
+            <div class="em-user-login-form__field">
+                <?php if($settings['em_login_show_labels']): ?>
+                    <label>Username</label>
+                <?php endif; ?>
+                
+                <input type="text" placeholder="Username"/>
+            </div>
+
+            <div class="em-user-login-form__field">
+                <?php if($settings['em_login_show_labels']): ?>
+                    <label>Password</label>
+                <?php endif; ?>
+
+                <input type="password" placeholder="password"/>
+            </div>
+
+            <div class="em-user-login-form__field">
+                <label>
+                    <input type="checkbox" placeholder="password"/>
+                    Remember Me
+                </label>
+            </div>
+
+            <div class="em-user-login-form__button">
+                <button type="submit">
+                  <?php echo $settings['em_login_button_text']; ?>
+                </button>
+            </div>
+
+            <div class="em-user-login-form__field">
+                <a href="#">Lost your password?</a>
+            </div>
+
+        </form>
+
+    <?php
+    }
+
+    protected function _content_template(){
+    ?>
+
+        <form class="em-user-login-form">
+        </form>
+
+    <?php
+    }
+
 }
