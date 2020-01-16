@@ -26,6 +26,12 @@ class Login_Form extends Widget_Base{
 
     protected function _register_controls(){
 
+        $em_login_identifiers = [
+            'username_email' => __('Username & Email', 'elemental-membership'),
+            'username_only' => __('Username Only', 'elemental-membership'),
+            'email_only' => __('Email Only', 'elemental-membership')
+        ];
+
         $this->start_controls_section(
             'em_login_fields_section',
             [
@@ -65,6 +71,28 @@ class Login_Form extends Widget_Base{
         );
 
         $this->end_controls_section();
+
+        $this->start_controls_section(
+            'em_login_options_section',
+            [
+                'label' => __( 'Login Options', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+        
+        $this->add_control(
+            'em_login_identifier_opt',
+            [
+                'label' => __('Login Identifier', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'username_email',
+                'options' => $em_login_identifiers
+            ]
+        );
+
+        $this->end_controls_section();
+
+
 
     }
 
