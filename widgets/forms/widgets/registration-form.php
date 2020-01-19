@@ -4,13 +4,10 @@ namespace ElementalMembership\Widgets\Forms;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
+use Elementor\Core\Schemes;
+use Elementor\Group_Control_Typography;
 use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
-use ElementalMembership\Widgets\Forms\Actions\Register_User;
-
-//For now...
-include plugin_dir_path( __DIR__ ) . 'classes/field-creation.php';
-// include plugin_dir_path( __DIR__ ) . 'classes/register-user.php';
-
+use ElementalMembership\Widgets\Forms\Classes\Form_Options_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -56,7 +53,7 @@ class Registration_Form extends Widget_Base{
         ];
 
         $em_field_widths = [
-                '' => __( 'Default', 'elementor-pro' ),
+                '' => __( 'Default', 'elemental-membership' ),
                 '100' => '100%',
                 '80' => '80%',
                 '75' => '75%',
@@ -101,6 +98,14 @@ class Registration_Form extends Widget_Base{
                     ]
                 ]
             ]
+        ];
+
+        $em_user_roles = [
+            'subscriber' => __('Subscriber', 'elemental-membership'),
+            'contributor' => __('Contributor', 'elemental-membership'),
+            'author' => __('Author', 'elemental-membership'),
+            'editor' => __('Editor', 'elemental-membership'),
+            'administrator' => __('Administrator', 'elemental-membership'),
         ];
 
         $this->start_controls_section(
@@ -230,6 +235,26 @@ class Registration_Form extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'em_registration_options_section',
+            [
+                'label' => __( 'Registration Options', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'em_user_role',
+            [
+                'label' => __('User Role', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'subscriber',
+                'options' => $em_user_roles
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'em_submit_button_section',
             [
                 'label' => __( 'Submit Button', 'elemental-membership' ),
@@ -249,7 +274,6 @@ class Registration_Form extends Widget_Base{
 
         $this->end_controls_section();
         
-
         $this->start_controls_section(
             'em_registration_form_style',
             [
@@ -258,7 +282,129 @@ class Registration_Form extends Widget_Base{
             ]
         );
 
+        $this->add_control(
+			'em_row_gap',
+			[
+				'label' => __( 'Rows Gap', 'elemental-membership' ),
+				'type' => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => 10,
+				],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 60,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .em-form-field-group' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
 
+        $this-> end_controls_section();
+
+        $this->start_controls_section(
+            'em_registration_form_field_style',
+            [
+                'label' => __( 'Fields', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+			'field_text_color',
+			[
+				'label' => __( 'Text Color', 'elementor-pro' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
+				],
+			]
+        );
+        
+        $this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'field_typography',
+				'selector' => '{{WRAPPER}} .em-form-field-group .em-form-field, {{WRAPPER}} .em-form-field-group label',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+			]
+		);
+
+        $this-> end_controls_section();
+
+        
+        $this->start_controls_section(
+            'em_registration_form_button_style',
+            [
+                'label' => __( 'Button', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->start_controls_tabs( 'tabs_button_style' );
+
+        $this->start_controls_tab(
+			'tab_button_normal',
+			[
+				'label' => __( 'Normal', 'elemental-membership' ),
+			]
+        );
+
+        $this->add_control(
+			'em_button_background_color',
+			[
+				'label' => __( 'Background Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .em-button' => 'background-color: {{VALUE}};',
+				],
+			]
+        );
+        
+        $this->add_control(
+			'em_button_text_color',
+			[
+				'label' => __( 'Text Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .em-button' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .em-button svg' => 'fill: {{VALUE}};',
+				],
+			]
+        );
+
+        $this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'em_button_typography',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_4,
+				'selector' => '{{WRAPPER}} .em-button',
+			]
+		);
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+			'tab_button_hover',
+			[
+				'label' => __( 'Hover', 'elemental-membership' ),
+			]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
 
         $this-> end_controls_section();
 
@@ -273,7 +419,7 @@ class Registration_Form extends Widget_Base{
 
             <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
 
-            <div class="em-user-registration-form__field">
+            <div class="em-user-registration-form__field em-form-field-group">
 
             <?php 
                 echo('<label>'. $item['em_field_label'] .'</label>');
@@ -307,9 +453,10 @@ class Registration_Form extends Widget_Base{
             <?php endforeach; ?>
 
             <input type="hidden" name="action" value="em_register_user" />
+            <?php wp_nonce_field( 'em_reg_nonce' ); ?>
 
             <div class="em-user-registration-form__button">
-                <button type="submit">
+                <button type="submit" class="em-button">
                   <?php echo $settings['em_submit_button_text']; ?>
                 </button>
             </div>
@@ -332,7 +479,7 @@ class Registration_Form extends Widget_Base{
                         _.each( settings.em_field_list, function( item, index ) {
                     #>
 
-                        <div class="em-user-registration-form__field">
+                        <div class="em-user-registration-form__field em-form-field-group">
 
                     <#
 
@@ -418,7 +565,7 @@ class Registration_Form extends Widget_Base{
                     #>
 
                 <div class="em-user-registration-form__button">
-                    <button type="submit">
+                    <button type="submit" class="em-button">
                         {{{ settings.em_submit_button_text }}}
                     </button>
                 </div>
