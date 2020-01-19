@@ -90,9 +90,18 @@ class Login_Form extends Widget_Base{
             ]
         );
 
+        $this->add_control(
+            'em_show_lost_pw_link',
+            [
+                'label' => __('Lost your Password?', 'elemental-membership'),
+                'type' => Controls_Manager::SWITCHER,
+                'return_value' => 'true',
+                'label_on' => __('Show', 'elemental-membership'),
+                'label_off' => __('Hide', 'elemental-membership')
+            ]
+        );
+
         $this->end_controls_section();
-
-
 
     }
 
@@ -120,7 +129,7 @@ class Login_Form extends Widget_Base{
 
             <div class="em-user-login-form__field">
                 <label>
-                    <input type="checkbox" placeholder="password"/>
+                    <input type="checkbox"/>
                     Remember Me
                 </label>
             </div>
@@ -144,6 +153,50 @@ class Login_Form extends Widget_Base{
     ?>
 
         <form class="em-user-login-form">
+
+            <div class="em-user-login-form__field">
+             <# 
+                var login_id = '';
+                
+                switch(settings.em_login_identifier_opt){
+                    case 'email_only':
+                        login_id = 'Email Address';
+                    break;
+                    case 'username_only':
+                        login_id = 'Username';
+                    break;
+                    default:
+                        login_id = 'Username or Email Address';
+                }
+             #>
+                <label for=""><# {{{ login_id }}} #></label> 
+                <input type="text" placeholder="{{{ login_id }}}" class="em-form-field em-user-login"/>
+            </div>
+
+            <div class="em-user-login-form__field">
+                <label for="">Password</label>
+                <input type="password" placeholder="password" class="em-form-field em-user-login-pw"/>
+            </div>
+
+            <div class="em-user-login-form__field">
+                <label for="">
+                    <input type="checkbox" />
+                    Remember Me
+                </label>
+            </div>
+
+            <div class="em-user-login-form__button">
+                <button type="submit">
+                    {{{ settings.em_login_button_text }}}
+                </button>
+            </div>
+
+            <# if(settings.em_show_lost_pw_link){ #>
+                <div class="em-user-login-form__field">
+                    <a href="#">Lost your password?</a>
+                </div>
+            <# } #>
+
         </form>
 
     <?php
