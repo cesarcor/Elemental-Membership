@@ -6,6 +6,7 @@ use Elementor\Controls_Manager;
 use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Border;
 use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
 use ElementalMembership\Widgets\Forms\Classes\Form_Options_Manager;
 
@@ -390,6 +391,25 @@ class Registration_Form extends Widget_Base{
 				'name' => 'em_button_typography',
 				'scheme' => Schemes\Typography::TYPOGRAPHY_4,
 				'selector' => '{{WRAPPER}} .em-button',
+			]
+        );
+        
+        $this->add_group_control(
+			Group_Control_Border::get_type(), [
+				'name' => 'button_border',
+				'selector' => '{{WRAPPER}} .em-button',
+			]
+        );
+        
+        $this->add_control(
+			'button_border_radius',
+			[
+				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .em-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
 			]
 		);
 
