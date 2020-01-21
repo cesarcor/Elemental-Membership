@@ -1,6 +1,7 @@
 <?php
 namespace ElementalMembership;
 
+use ElementalMembership\Admin;
 use ElementalMembership\Widgets\Forms\Classes;
 
 /**
@@ -184,6 +185,7 @@ class Plugin {
 		spl_autoload_register( array($this, 'autoload') );
 
 		new Classes\Register_User();
+		new Admin\Admin();
 				
 	}
 }
