@@ -402,6 +402,28 @@ class Registration_Form extends Widget_Base{
 			]
         );
 
+        $this->add_control(
+			'button_background_hover_color',
+			[
+				'label' => __( 'Background Color', 'elementor-pro' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-button:hover' => 'background-color: {{VALUE}};',
+				],
+			]
+        );
+        
+        $this->add_control(
+			'button_hover_color',
+			[
+				'label' => __( 'Text Color', 'elementor-pro' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-buttom:hover' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
         $this->end_controls_tab();
 
         $this->end_controls_tabs();
