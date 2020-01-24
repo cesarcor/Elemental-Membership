@@ -58,10 +58,22 @@ class Logout extends Widget_Base{
 
     public function render(){
 
+        $settings = $this->get_settings_for_display();
+
+    ?>
+
+        <a href="<?php echo wp_logout_url(); ?>"><?php echo $settings['em_logout_link_text']; ?></a>
+
+    <?php
+
     }
 
     public function _content_template(){
+    ?>
 
+        <a href="#">{{{ settings.em_logout_link_text }}}</a>
+
+    <?php
     }
 
 }
