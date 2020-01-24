@@ -24,6 +24,16 @@ class Logout extends Widget_Base{
 
     public function _register_controls(){
 
+        $logout_btn_types = [
+            'button' => __('Button', 'elemental-membership'),
+            'simple_link' => __('Simple Link', 'elemental-membership')
+        ];
+
+        $actions_logged_out = [
+            'show_login_link' => __('Show login link', 'elemental-membership'),
+            'display_nothing' => __('Display nothing', 'elemental-membership')
+        ];
+
         $this->start_controls_section(
             'em_logout_link_section',
             [
@@ -39,6 +49,45 @@ class Logout extends Widget_Base{
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 'Logout',
                 'placeholder' => ''
+            ]
+        );
+
+        $this->add_control(
+            'em_logout_btn_type',
+            [
+                'label' => __('Logout Link Type', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'button',
+                'options' => $logout_btn_types
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'em_logout_options_section',
+            [
+                'label' => __( 'Logout Options', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'em_logout_redirect_url',
+            [
+                'label' => __( 'Redirect to', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'placeholder' => 'https://your-link.com'
+            ]
+        );
+
+        $this->add_control(
+            'em_logout_after_display',
+            [
+                'label' => __('After Logout', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'show_login_link',
+                'options' => $actions_logged_out
             ]
         );
 
@@ -62,7 +111,9 @@ class Logout extends Widget_Base{
 
     ?>
 
-        <a href="<?php echo wp_logout_url(); ?>"><?php echo $settings['em_logout_link_text']; ?></a>
+        <a href="<?php echo wp_logout_url($settings['em_logout_redirect_url']); ?>" class="em-link-btn em-logout-btn">
+            <?php echo $settings['em_logout_link_text']; ?>
+        </a>
 
     <?php
 
@@ -71,7 +122,7 @@ class Logout extends Widget_Base{
     public function _content_template(){
     ?>
 
-        <a href="#">{{{ settings.em_logout_link_text }}}</a>
+        <a href="#" class="em-link-btn em-logout-btn">{{{ settings.em_logout_link_text }}}</a>
 
     <?php
     }
