@@ -451,7 +451,7 @@ class Registration_Form extends Widget_Base{
 				'label' => __( 'Text Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .em-buttom:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .em-button:hover' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -466,6 +466,8 @@ class Registration_Form extends Widget_Base{
 
     protected function render(){
         $settings = $this -> get_settings_for_display();
+        $form_options = new Form_Options_Manager();
+        $form_options->set_form_options($settings['em_user_role']);
     ?>
 
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
@@ -522,6 +524,7 @@ class Registration_Form extends Widget_Base{
     }
 
     protected function _content_template(){
+
         ?>
             <form class="em-user-registration-form">
 
