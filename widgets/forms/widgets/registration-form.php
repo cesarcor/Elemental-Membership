@@ -172,7 +172,7 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __('Field Width', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'text',
+                'default' => '100',
                 'options' => $em_field_widths,
                 'conditions' => $control_exceptions
             ]
@@ -473,9 +473,13 @@ class Registration_Form extends Widget_Base{
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
             <?php $field_creation = new Field_Creation(); ?>
 
+            <div class="elementor-form-fields-wrapper">
+
             <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
 
-            <div class="em-user-registration-form__field em-form-field-group">
+            <?php $fieldWidth = ( ( '' !== $item['em_field_width'] ) ? $item['em_field_width'] : '100' ); ?>
+
+            <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
 
             <?php 
                 echo('<label>'. $item['em_field_label'] .'</label>');
@@ -508,6 +512,8 @@ class Registration_Form extends Widget_Base{
 
             <?php endforeach; ?>
 
+            </div>
+
             <input type="hidden" name="action" value="em_register_user" />
             <?php wp_nonce_field( 'em_reg_nonce' ); ?>
 
@@ -533,10 +539,18 @@ class Registration_Form extends Widget_Base{
                     if(settings.em_field_list){
                         var count = 0;
 
-                        _.each( settings.em_field_list, function( item, index ) {
                     #>
 
-                        <div class="em-user-registration-form__field em-form-field-group">
+                    <div class="elementor-form-fields-wrapper">
+
+                    <#
+
+                        _.each( settings.em_field_list, function( item, index ) {
+
+                            var fieldWidth = ( ( '' !== item.em_field_width ) ? item.em_field_width : '100' );
+                    #>
+                        
+                        <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-{{{ fieldWidth }}}">
 
                     <#
 
@@ -613,10 +627,13 @@ class Registration_Form extends Widget_Base{
 
                             </div>
 
-
                             <#
 
-                        });
+                        }); #>
+
+                        </div>
+
+                    <#
                     }
                     
                     #>
