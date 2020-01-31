@@ -273,6 +273,16 @@ class Registration_Form extends Widget_Base{
             ]
         );
 
+        $this->add_responsive_control(
+            'em_button_width',
+            [
+                'label' => __('Column Width', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => '100',
+                'options' => $em_field_widths,
+            ]
+        );
+
         $this->end_controls_section();
         
         $this->start_controls_section(
@@ -489,6 +499,7 @@ class Registration_Form extends Widget_Base{
         $settings = $this -> get_settings_for_display();
         $form_options = new Form_Options_Manager();
         $form_options->set_form_options($settings['em_user_role']);
+        $buttonWidth = ( ( '' !== $settings['em_button_width'] ) ? $settings['em_button_width'] : '100' );
     ?>
 
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
@@ -498,7 +509,9 @@ class Registration_Form extends Widget_Base{
 
             <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
 
-            <?php $fieldWidth = ( ( '' !== $item['em_field_width'] ) ? $item['em_field_width'] : '100' ); ?>
+            <?php 
+                $fieldWidth = ( ( '' !== $item['em_field_width'] ) ? $item['em_field_width'] : '100' ); 
+            ?>
 
             <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
 
@@ -533,16 +546,16 @@ class Registration_Form extends Widget_Base{
 
             <?php endforeach; ?>
 
+                <div class="em-user-registration-form__button elementor-field-group elementor-column elementor-col-<?php echo $buttonWidth; ?>">
+                    <button type="submit" class="em-button">
+                    <span><?php echo $settings['em_submit_button_text']; ?></span>
+                    </button>
+                </div>
+
             </div>
 
             <input type="hidden" name="action" value="em_register_user" />
             <?php wp_nonce_field( 'em_reg_nonce' ); ?>
-
-            <div class="em-user-registration-form__button">
-                <button type="submit" class="em-button">
-                  <?php echo $settings['em_submit_button_text']; ?>
-                </button>
-            </div>
 
         </form>
 
@@ -559,6 +572,7 @@ class Registration_Form extends Widget_Base{
 
                     if(settings.em_field_list){
                         var count = 0;
+                        var buttonWidth = ( ( '' !== settings.em_button_width ) ? settings.em_button_width : '100' );
 
                     #>
 
@@ -652,18 +666,18 @@ class Registration_Form extends Widget_Base{
 
                         }); #>
 
+                        <div class="em-user-registration-form__button elementor-field-group elementor-column elementor-col-{{{buttonWidth}}}">
+                            <button type="submit" class="em-button">
+                                <span>{{{ settings.em_submit_button_text }}}</span>
+                            </button>
+                        </div>
+
                         </div>
 
                     <#
                     }
                     
                     #>
-
-                <div class="em-user-registration-form__button">
-                    <button type="submit" class="em-button">
-                        {{{ settings.em_submit_button_text }}}
-                    </button>
-                </div>
 
             </form>
 		<?php
