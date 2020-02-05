@@ -233,6 +233,20 @@ class Registration_Form extends Widget_Base{
             ]
         );
 
+
+        $this->add_control(
+			'show_labels',
+			[
+				'label' => __( 'Label', 'elementor-pro' ),
+				'type' => Controls_Manager::SWITCHER,
+				'label_on' => __( 'Show', 'elementor-pro' ),
+				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'return_value' => 'true',
+				'default' => 'true',
+				'separator' => 'before',
+			]
+		);
+
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -516,7 +530,9 @@ class Registration_Form extends Widget_Base{
             <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
 
             <?php 
-                echo('<label>'. $item['em_field_label'] .'</label>');
+                if($settings['show_labels']):
+                    echo('<label>'. $item['em_field_label'] .'</label>');
+                endif;
 
                 switch($item['em_field_type']):
                     case "text":
@@ -593,7 +609,7 @@ class Registration_Form extends Widget_Base{
                             #>
 
                             <#
-                            if(item.em_field_label){
+                            if(item.em_field_label && settings.show_labels){
                             #>
 
                                 <label for="em_field_{{{ count }}}"> {{{item.em_field_label}}} </label>
