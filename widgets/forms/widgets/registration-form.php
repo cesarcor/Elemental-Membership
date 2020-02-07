@@ -74,6 +74,7 @@ class Registration_Form extends Widget_Base{
             'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
             'first_name' => __('First Name', 'elemental-membership'),
             'last_name' => __('Last Name', 'elemental-membership'),
+            'description' => __('Description', 'elemental-membership'),
             'custom_field' => __('Custom Field', 'elemental-membership'),
         ];
 
@@ -530,6 +531,7 @@ class Registration_Form extends Widget_Base{
         $form_options = new Form_Options_Manager();
         $form_options->set_form_options($settings['em_user_role']);
         $buttonWidth = ( ( '' !== $settings['em_button_width'] ) ? $settings['em_button_width'] : '100' );
+        $input_type = '';
     ?>
 
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
@@ -550,20 +552,30 @@ class Registration_Form extends Widget_Base{
                     echo('<label>'. $item['em_field_label'] .'</label>');
                 endif;
 
-                switch($item['em_field_type']):
-                    case "text":
-                    case "email":
-                    case "password":
-                    case "tel":
-                    case "date":
+                switch($item['em_field_role']):
+                    case "username":
+                    case "first_name":
+                    case "last_name":
+                    case "user_password":
+                    case "user_password_confirm":
+                        $input_type = ($item['em_field_role'] == 'user_password' || $item['em_field_role'] == 'user_password_confirm') ? 'password' : 'text';
+
                         $field_creation->create_input_field(
                             $item['em_field_label'],
-                            $item['em_field_type'],
+                            $input_type,
                             $item['em_field_placeholder'],
                             $item['em_field_role']
                         );
                     break;
-                    case "textarea":
+                    case "user_email":
+                        $field_creation->create_input_field(
+                            $item['em_field_label'],
+                            "email",
+                            $item['em_field_placeholder'],
+                            $item['em_field_role']
+                        );
+                    break;
+                    case "description":
                         $field_creation->create_textarea_field();
                     break;
                     case "checkbox":
@@ -572,6 +584,7 @@ class Registration_Form extends Widget_Base{
                         $field_creation->create_select_field($item['em_field_label'], $item['em_field_options']);
                     break;
                 endswitch;
+
             ?>
 
             </div>
@@ -605,6 +618,7 @@ class Registration_Form extends Widget_Base{
                     if(settings.em_field_list){
                         var count = 0;
                         var buttonWidth = ( ( '' !== settings.em_button_width ) ? settings.em_button_width : '100' );
+                        var inputType = '';
 
                     #>
 
@@ -638,16 +652,25 @@ class Registration_Form extends Widget_Base{
 
                             if(item.em_field_type){
 
-                                switch(item.em_field_type){
-                                    case 'text':
-                                    case 'password':
-                                    case 'tel':
-                                    case 'email':
+                                switch(item.em_field_role){
+                                    case 'username':
+                                    case 'user_password':
+                                    case 'user_password_confirm':
+                                    case 'first_name':
+                                    case 'last_name':
+
+                                        inputType = (item.em_field_role == 'user_password' || item.em_field_role == 'user_password_confirm') ? 'password' : 'text';
                                 #>
-                                    <input type="{{{ item.em_field_type }}}" id="em_field_{{{ count }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
+                                    <input type="{{{ inputType }}}" id="em_field_{{{ count }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
                                 
                                 <# break;
-                                    case 'textarea': 
+
+                                    case 'user_email':
+                                #>
+                                     <input type="email" id="em_field_{{{ count }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
+                                <#
+                                    break;
+                                    case 'description': 
                                 #>
 
                                     <textarea class="em-form-field em-textarea-field" placeholder="{{{ item.em_field_placeholder }}}"></textarea>
