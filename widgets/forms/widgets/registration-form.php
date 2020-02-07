@@ -72,6 +72,8 @@ class Registration_Form extends Widget_Base{
             'user_email' => __( 'User Email', 'elemental-memebership' ),
             'user_password' => __( 'User Password', 'elemental-memebership' ),
             'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
+            'first_name' => __('First Name', 'elemental-membership'),
+            'last_name' => __('Last Name', 'elemental-membership'),
             'custom_field' => __('Custom Field', 'elemental-membership'),
         ];
 
@@ -195,6 +197,20 @@ class Registration_Form extends Widget_Base{
                 'type' => \Elementor\Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
                 'default' => [
+                    [
+                        'em_field_type' => 'text',
+                        'em_field_label' => __('First Name', 'elemental-membership'),
+                        'em_field_placeholder' => 'John',
+                        'em_field_required' => 'true',
+                        'em_field_role' => 'first_name'
+                    ],
+                    [
+                        'em_field_type' => 'text',
+                        'em_field_label' => __('Last Name', 'elemental-membership'),
+                        'em_field_placeholder' => 'Smith',
+                        'em_field_required' => 'true',
+                        'em_field_role' => 'last_name'
+                    ],
                     [
                         'em_field_type' => 'text',
                         'em_field_label' => __('Username', 'elemental-membership'),
