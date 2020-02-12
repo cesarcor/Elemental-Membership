@@ -397,6 +397,56 @@ class Registration_Form extends Widget_Base{
 				'selector' => '{{WRAPPER}} .em-form-field-group .em-form-field, {{WRAPPER}} .em-form-field-group label',
 				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
 			]
+        );
+        
+        $this->add_control(
+			'field_background_color',
+			[
+				'label' => __( 'Background Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#ffffff',
+				'selectors' => [
+					'{{WRAPPER}} .em-form-field' => 'background-color: {{VALUE}};',
+				],
+				'separator' => 'before',
+			]
+        );
+        
+        $this->add_control(
+			'field_border_color',
+			[
+				'label' => __( 'Border Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-color: {{VALUE}};',
+				],
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'field_border_width',
+			[
+				'label' => __( 'Border Width', 'elemental-membership' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'placeholder' => '1',
+				'size_units' => [ 'px' ],
+				'selectors' => [
+					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'field_border_radius',
+			[
+				'label' => __( 'Border Radius', 'elemental-membership' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
 		);
 
         $this-> end_controls_section();
