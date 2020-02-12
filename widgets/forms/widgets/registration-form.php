@@ -254,10 +254,10 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
 			'show_labels',
 			[
-				'label' => __( 'Label', 'elementor-pro' ),
+				'label' => __( 'Label', 'elemental-membership' ),
 				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-pro' ),
-				'label_off' => __( 'Hide', 'elementor-pro' ),
+				'label_on' => __( 'Show', 'elemental-membership' ),
+				'label_off' => __( 'Hide', 'elemental-membership' ),
 				'return_value' => 'true',
 				'default' => 'true',
 				'separator' => 'before',
@@ -327,7 +327,7 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
 			'column_gap',
 			[
-				'label' => __( 'Columns Gap', 'elementor-pro' ),
+				'label' => __( 'Columns Gap', 'elemental-membership' ),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => 10,
@@ -378,7 +378,7 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
 			'field_text_color',
 			[
-				'label' => __( 'Text Color', 'elementor-pro' ),
+				'label' => __( 'Text Color', 'elemental-membership' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'color: {{VALUE}};',
@@ -466,7 +466,7 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
 			'button_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => __( 'Border Radius', 'elemental-membership' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -478,7 +478,7 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
 			'button_text_padding',
 			[
-				'label' => __( 'Text Padding', 'elementor-pro' ),
+				'label' => __( 'Text Padding', 'elemental-membership' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors' => [
@@ -499,7 +499,7 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
 			'button_background_hover_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => __( 'Background Color', 'elemental-membership' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .em-button:hover' => 'background-color: {{VALUE}};',
@@ -510,7 +510,7 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
 			'button_hover_color',
 			[
-				'label' => __( 'Text Color', 'elementor-pro' ),
+				'label' => __( 'Text Color', 'elemental-membership' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .em-button:hover' => 'color: {{VALUE}};',
@@ -549,7 +549,7 @@ class Registration_Form extends Widget_Base{
 
             <?php 
                 if($settings['show_labels']):
-                    echo('<label>'. $item['em_field_label'] .'</label>');
+                    echo('<label for="'. $item['em_field_label'] .'">'. $item['em_field_label'] .'</label>');
                 endif;
 
                 switch($item['em_field_role']):
@@ -562,6 +562,7 @@ class Registration_Form extends Widget_Base{
 
                         $field_creation->create_input_field(
                             $item['em_field_label'],
+                            $item['em_field_label'],
                             $input_type,
                             $item['em_field_placeholder'],
                             $item['em_field_role']
@@ -569,6 +570,7 @@ class Registration_Form extends Widget_Base{
                     break;
                     case "user_email":
                         $field_creation->create_input_field(
+                            $item['em_field_label'],
                             $item['em_field_label'],
                             "email",
                             $item['em_field_placeholder'],
