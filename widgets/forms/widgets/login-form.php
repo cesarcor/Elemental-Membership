@@ -460,11 +460,11 @@ class Login_Form extends Widget_Base{
         $settings = $this -> get_settings_for_display();
     ?>
 
-        <form class="em-user-login-form">
+        <form class="em-user-login-form elementor-form">
 
             <div class="elementor-form-fields-wrapper">
             
-                <div class="elementor-field-group elementor-col-100">
+                <div class="elementor-field-group elementor-column elementor-col-100">
                     <?php if($settings['em_login_show_labels']): ?>
                         <label>Username</label>
                     <?php endif; ?>
@@ -472,7 +472,7 @@ class Login_Form extends Widget_Base{
                     <input type="text" placeholder="Username" class="elementor-field"/>
                 </div>
 
-                <div class="elementor-field-group elementor-col-100">
+                <div class="elementor-field-group elementor-column elementor-col-100">
                     <?php if($settings['em_login_show_labels']): ?>
                         <label>Password</label>
                     <?php endif; ?>
@@ -480,20 +480,20 @@ class Login_Form extends Widget_Base{
                     <input type="password" placeholder="password" class="elementor-field"/>
                 </div>
 
-                <div class="elementor-field-group elementor-col-100">
+                <div class="elementor-field-group elementor-column elementor-col-100">
                     <label>
                         <input type="checkbox"/>
                         Remember Me
                     </label>
                 </div>
 
-                <div class="elementor-field-group elementor-col-100">
+                <div class="elementor-field-group elementor-column elementor-col-100">
                     <button type="submit" class="em-button">
                     <?php echo $settings['em_login_button_text']; ?>
                     </button>
                 </div>
 
-                <div class="elementor-field-group elementor-col-100">
+                <div class="elementor-field-group elementor-column elementor-col-100">
                     <a href="#">Lost your password?</a>
                 </div>
 
@@ -507,13 +507,13 @@ class Login_Form extends Widget_Base{
     protected function _content_template(){
     ?>
 
-        <form class="em-user-login-form">
+        <form class="em-user-login-form elementor-form">
 
             <div class="elementor-form-fields-wrapper">
 
-            <div class="elementor-field-group">
+            <div class="elementor-field-group elementor-column elementor-col-100">
              <# 
-                var login_id = '';
+                var login_with = '';
                 
                     switch(settings.em_login_identifier_opt){
                         case 'email_only':
@@ -527,30 +527,35 @@ class Login_Form extends Widget_Base{
                     }
 
              #>
-                <label for=""><# {{{ login_id }}} #></label> 
+
+				<# if(settings.em_login_show_labels){#>
+               	 	<label for=""><# {{{ login_with }}} #></label> 
+				<# } #>
                 <input type="text" placeholder="{{{ login_id }}}" class="em-form-field em-user-login elementor-field"/>
             </div>
 
-            <div class="elementor-field-group elementor-col-100">
-                <label for="">Password</label>
+            <div class="elementor-field-group elementor-column elementor-col-100">
+				<# if(settings.em_login_show_labels){#>
+               	 	<label for="">Password</label> 
+				<# } #>
                 <input type="password" placeholder="password" class="em-form-field em-user-login-pw elementor-field"/>
             </div>
 
-            <div class="elementor-field-group elementor-col-100">
+            <div class="elementor-field-group elementor-column elementor-col-100">
                 <label for="">
                     <input type="checkbox" />
                     Remember Me
                 </label>
             </div>
 
-            <div class="elementor-field-group elementor-col-100">
+            <div class="elementor-field-group elementor-column elementor-col-100">
                 <button type="submit" class="em-button">
                     {{{ settings.em_login_button_text }}}
                 </button>
             </div>
 
             <# if(settings.em_show_lost_pw_link){ #>
-                <div class="elementor-field-group elementor-col-100">
+                <div class="elementor-field-group elementor-column elementor-col-100">
                     <a href="#">Lost your password?</a>
                 </div>
             <# } #>
