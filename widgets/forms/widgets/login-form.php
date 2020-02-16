@@ -3,6 +3,9 @@ namespace ElementalMembership\Widgets\Forms;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Core\Schemes;
+use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Border;
 use Elementor\Repeater;
 use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
 
@@ -46,7 +49,7 @@ class Login_Form extends Widget_Base{
                 'label' => __('Show Label', 'elemental-membership'),
                 'type' => Controls_Manager::SWITCHER,
                 'return_value' => 'true',
-                'default' => '',
+                'default' => 'true',
             ]
         );
 
@@ -103,6 +106,354 @@ class Login_Form extends Widget_Base{
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'em_login_form_style',
+            [
+                'label' => __( 'Form', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+			'row_gap',
+			[
+				'label' => __( 'Rows Gap', 'elemental-membership' ),
+				'type' => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => '10',
+				],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 60,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .elementor-form-fields-wrapper' => 'margin-bottom: -{{SIZE}}{{UNIT}};',
+				],
+			]
+        );
+        
+        $this->add_control(
+			'links_color',
+			[
+				'label' => __( 'Links Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group > a' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
+				],
+			]
+		);
+
+		$this->add_control(
+			'links_hover_color',
+			[
+				'label' => __( 'Links Hover Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group > a:hover' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_4,
+				],
+			]
+		);
+
+        $this->end_controls_section();
+
+		$this->start_controls_section(
+			'em_login_form_label_style',
+			[
+				'label' => __( 'Label', 'elemental-membership' ),
+				'tab' => Controls_Manager::TAB_STYLE,
+				'condition' => [
+					'em_login_show_labels!' => '',
+				],
+			]
+        );
+        
+        $this->add_control(
+			'label_spacing',
+			[
+				'label' => __( 'Spacing', 'elemental-membership' ),
+				'type' => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => '0',
+				],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 60,
+					],
+				],
+				'selectors' => [
+					'body {{WRAPPER}} .elementor-field-group > label' => 'padding-bottom: {{SIZE}}{{UNIT}};',
+					// for the label position = above option
+				],
+			]
+		);
+
+		$this->add_control(
+			'label_color',
+			[
+				'label' => __( 'Text Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .elementor-form-fields-wrapper label' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'label_typography',
+				'selector' => '{{WRAPPER}} .elementor-form-fields-wrapper label',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+			]
+		);
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'em_login_form_field_style',
+            [
+                'label' => __( 'Fields', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+			'field_text_color',
+			[
+				'label' => __( 'Text Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group .elementor-field' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'field_typography',
+				'selector' => '{{WRAPPER}} .elementor-field-group .elementor-field, {{WRAPPER}} .elementor-field-subgroup label',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+			]
+		);
+
+		$this->add_control(
+			'field_background_color',
+			[
+				'label' => __( 'Background Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#ffffff',
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group .elementor-field:not(.elementor-select-wrapper)' => 'background-color: {{VALUE}};',
+				],
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'field_border_color',
+			[
+				'label' => __( 'Border Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group .elementor-field:not(.elementor-select-wrapper)' => 'border-color: {{VALUE}};',
+				],
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'field_border_width',
+			[
+				'label' => __( 'Border Width', 'elemental-membership' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'placeholder' => '1',
+				'size_units' => [ 'px' ],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group .elementor-field:not(.elementor-select-wrapper)' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'field_border_radius',
+			[
+				'label' => __( 'Border Radius', 'elemental-membership' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group .elementor-field:not(.elementor-select-wrapper)' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+        $this->end_controls_section();
+
+
+        $this->start_controls_section(
+            'em_login_form_button_style',
+            [
+                'label' => __( 'Button', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->start_controls_tabs( 'tabs_button_style' );
+
+		$this->start_controls_tab(
+			'tab_button_normal',
+			[
+				'label' => __( 'Normal', 'elemental-membership' ),
+			]
+		);
+
+		$this->add_control(
+			'button_text_color',
+			[
+				'label' => __( 'Text Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} .em-button' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'button_typography',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_4,
+				'selector' => '{{WRAPPER}} .em-button',
+			]
+		);
+
+		$this->add_control(
+			'button_background_color',
+			[
+				'label' => __( 'Background Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_4,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .em-button' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(), [
+				'name' => 'button_border',
+				'selector' => '{{WRAPPER}} .em-button',
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'button_border_radius',
+			[
+				'label' => __( 'Border Radius', 'elemental-membership' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .em-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'button_text_padding',
+			[
+				'label' => __( 'Text Padding', 'elemental-membership' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .em-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'tab_button_hover',
+			[
+				'label' => __( 'Hover', 'elemental-membership' ),
+			]
+		);
+
+		$this->add_control(
+			'button_hover_color',
+			[
+				'label' => __( 'Text Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-button:hover' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'button_background_hover_color',
+			[
+				'label' => __( 'Background Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-button:hover' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'button_hover_border_color',
+			[
+				'label' => __( 'Border Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-button:hover' => 'border-color: {{VALUE}};',
+				],
+				'condition' => [
+					'button_border_border!' => '',
+				],
+			]
+		);
+
+		$this->add_control(
+			'button_hover_animation',
+			[
+				'label' => __( 'Animation', 'elemental-membership' ),
+				'type' => Controls_Manager::HOVER_ANIMATION,
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
+
+        $this->end_controls_section();
+
     }
 
     protected function render(){
@@ -110,38 +461,42 @@ class Login_Form extends Widget_Base{
     ?>
 
         <form class="em-user-login-form">
+
+            <div class="elementor-form-fields-wrapper">
             
-            <div class="em-user-login-form__field">
-                <?php if($settings['em_login_show_labels']): ?>
-                    <label>Username</label>
-                <?php endif; ?>
-                
-                <input type="text" placeholder="Username"/>
-            </div>
+                <div class="elementor-field-group elementor-col-100">
+                    <?php if($settings['em_login_show_labels']): ?>
+                        <label>Username</label>
+                    <?php endif; ?>
+                    
+                    <input type="text" placeholder="Username" class="elementor-field"/>
+                </div>
 
-            <div class="em-user-login-form__field">
-                <?php if($settings['em_login_show_labels']): ?>
-                    <label>Password</label>
-                <?php endif; ?>
+                <div class="elementor-field-group elementor-col-100">
+                    <?php if($settings['em_login_show_labels']): ?>
+                        <label>Password</label>
+                    <?php endif; ?>
 
-                <input type="password" placeholder="password"/>
-            </div>
+                    <input type="password" placeholder="password" class="elementor-field"/>
+                </div>
 
-            <div class="em-user-login-form__field">
-                <label>
-                    <input type="checkbox"/>
-                    Remember Me
-                </label>
-            </div>
+                <div class="elementor-field-group elementor-col-100">
+                    <label>
+                        <input type="checkbox"/>
+                        Remember Me
+                    </label>
+                </div>
 
-            <div class="em-user-login-form__button">
-                <button type="submit">
-                  <?php echo $settings['em_login_button_text']; ?>
-                </button>
-            </div>
+                <div class="elementor-field-group elementor-col-100">
+                    <button type="submit" class="em-button">
+                    <?php echo $settings['em_login_button_text']; ?>
+                    </button>
+                </div>
 
-            <div class="em-user-login-form__field">
-                <a href="#">Lost your password?</a>
+                <div class="elementor-field-group elementor-col-100">
+                    <a href="#">Lost your password?</a>
+                </div>
+
             </div>
 
         </form>
@@ -154,48 +509,53 @@ class Login_Form extends Widget_Base{
 
         <form class="em-user-login-form">
 
-            <div class="em-user-login-form__field">
+            <div class="elementor-form-fields-wrapper">
+
+            <div class="elementor-field-group">
              <# 
                 var login_id = '';
                 
-                switch(settings.em_login_identifier_opt){
-                    case 'email_only':
-                        login_id = 'Email Address';
-                    break;
-                    case 'username_only':
-                        login_id = 'Username';
-                    break;
-                    default:
-                        login_id = 'Username or Email Address';
-                }
+                    switch(settings.em_login_identifier_opt){
+                        case 'email_only':
+                            login_id = 'Email Address';
+                        break;
+                        case 'username_only':
+                            login_id = 'Username';
+                        break;
+                        default:
+                            login_id = 'Username or Email Address';
+                    }
+
              #>
                 <label for=""><# {{{ login_id }}} #></label> 
-                <input type="text" placeholder="{{{ login_id }}}" class="em-form-field em-user-login"/>
+                <input type="text" placeholder="{{{ login_id }}}" class="em-form-field em-user-login elementor-field"/>
             </div>
 
-            <div class="em-user-login-form__field">
+            <div class="elementor-field-group elementor-col-100">
                 <label for="">Password</label>
-                <input type="password" placeholder="password" class="em-form-field em-user-login-pw"/>
+                <input type="password" placeholder="password" class="em-form-field em-user-login-pw elementor-field"/>
             </div>
 
-            <div class="em-user-login-form__field">
+            <div class="elementor-field-group elementor-col-100">
                 <label for="">
                     <input type="checkbox" />
                     Remember Me
                 </label>
             </div>
 
-            <div class="em-user-login-form__button">
-                <button type="submit">
+            <div class="elementor-field-group elementor-col-100">
+                <button type="submit" class="em-button">
                     {{{ settings.em_login_button_text }}}
                 </button>
             </div>
 
             <# if(settings.em_show_lost_pw_link){ #>
-                <div class="em-user-login-form__field">
+                <div class="elementor-field-group elementor-col-100">
                     <a href="#">Lost your password?</a>
                 </div>
             <# } #>
+
+            </div>
 
         </form>
 
