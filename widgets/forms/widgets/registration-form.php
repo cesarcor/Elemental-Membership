@@ -587,7 +587,7 @@ class Registration_Form extends Widget_Base{
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
             <?php $field_creation = new Field_Creation(); ?>
 
-            <div class="elementor-form-fields-wrapper">
+            <div class="elementor-form-fields-wrapper elementor-labels-above">
 
             <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
 
@@ -674,7 +674,7 @@ class Registration_Form extends Widget_Base{
 
                     #>
 
-                    <div class="elementor-form-fields-wrapper">
+                    <div class="elementor-form-fields-wrapper elementor-labels-above">
 
                     <#
 

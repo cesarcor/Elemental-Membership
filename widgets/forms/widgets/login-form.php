@@ -462,7 +462,7 @@ class Login_Form extends Widget_Base{
 
         <form class="em-user-login-form elementor-form">
 
-            <div class="elementor-form-fields-wrapper">
+            <div class="elementor-form-fields-wrapper elementor-labels-above">
             
                 <div class="elementor-field-group elementor-column elementor-col-100">
                     <?php if($settings['em_login_show_labels']): ?>
@@ -509,7 +509,7 @@ class Login_Form extends Widget_Base{
 
         <form class="em-user-login-form elementor-form">
 
-            <div class="elementor-form-fields-wrapper">
+            <div class="elementor-form-fields-wrapper elementor-labels-above">
 
             <div class="elementor-field-group elementor-column elementor-col-100">
              <# 
