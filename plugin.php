@@ -91,6 +91,7 @@ class Plugin {
 		require_once( __DIR__ . '/widgets/forms/widgets/registration-form.php' );
 		require_once( __DIR__ . '/widgets/forms/widgets/login-form.php' );
 		require_once( __DIR__ . '/widgets/logout/logout.php' );
+		require_once( __DIR__ . '/widgets/profile-header/profile-header.php' );
 	}
 
 	/**
@@ -109,6 +110,7 @@ class Plugin {
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Registration_Form() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Login_Form() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Logout\Logout() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\ProfileHeader\Profile_Header() );
 	}
 
 	function add_elemental_membership_category($elements_manager){
@@ -172,6 +174,15 @@ class Plugin {
 
 		// Register widget scripts
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
+
+		add_action('elementor/editor/before_enqueue_scripts', function() {
+			wp_enqueue_style('em-frontend', EM_ASSETS . 'css/em-frontend.css');
+			wp_enqueue_script('em-frontend', EM_ASSETS . 'js/em-editor.js');
+		});
+
+		add_action('elementor/frontend/after_enqueue_styles', function() {
+			wp_enqueue_style('em-frontend', EM_ASSETS . 'css/em-frontend.css');
+		});
 
 		// Register widgets
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
