@@ -138,7 +138,8 @@ class Logout extends Widget_Base{
 			'field_text_color',
 			[
 				'label' => __( 'Text Color', 'elementor-pro' ),
-				'type' => Controls_Manager::COLOR,
+                'type' => Controls_Manager::COLOR,
+                'default' => ['#FFFFFF'],
 				'selectors' => [
 					'{{WRAPPER}} .em-logout-btn' => 'color: {{VALUE}};',
 				],
@@ -177,7 +178,7 @@ class Logout extends Widget_Base{
 			'button_hover_color',
 			[
 				'label' => __( 'Text Color', 'elementor-pro' ),
-				'type' => Controls_Manager::COLOR,
+                'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .em-logout-btn:hover' => 'color: {{VALUE}};',
 				],
@@ -235,10 +236,10 @@ class Logout extends Widget_Base{
 				'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', 'em', '%' ],
                 'default' => [
-                    'top' => 5,
-                    'right' => 10,
-                    'bottom' => 5,
-                    'left' => 10
+                    'top' => 12,
+                    'right' => 24,
+                    'bottom' => 12,
+                    'left' => 24
                 ],
 				'selectors' => [
 					'{{WRAPPER}} .em-logout-btn' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
