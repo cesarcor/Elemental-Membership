@@ -3,3 +3,49 @@
     -ms-flex-preferred-size: 100%;
     flex-basis: 100%; 
 }
+
+.em-list li{
+  list-style-type: none;
+}
+
+
+/* TBC*/
+
+.em-profile-banner > *{
+  width: 100%;
+}
+
+
+/* Profile Header */
+.em-profile-header h1,
+.em-profile-header h2,
+.em-profile-header h3,
+.em-profile-header h4,
+.em-profile-header h5,
+.em-profile-header h6
+{
+  margin: 0;
+}
+
+.em-profile-header ul li{
+  display: inline-block;
+}
+
+.em-profile-header-nav{
+flex-grow: 1;
+}
+
+.em-profile-header .em-logout-btn{
+  float: right;
+}
+
+
+/* Layout */
+.em-row{
+  position: relative;
+}
+
+.em-user-avatar .avatar{
+  position: relative;
+  top: -70px;
+}
