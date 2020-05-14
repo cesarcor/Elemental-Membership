@@ -176,12 +176,12 @@ class Plugin {
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
 
 		add_action('elementor/editor/before_enqueue_scripts', function() {
-			wp_enqueue_style('em-frontend', EM_ASSETS . 'css/em-frontend.css');
-			wp_enqueue_script('em-frontend', EM_ASSETS . 'js/em-editor.js');
+			wp_enqueue_style('em-frontend', EM_ASSETS . 'css/em-frontend.css', array(), NULL);
+			wp_enqueue_script('em-frontend', EM_ASSETS . 'js/em-editor.js', array(), NULL);
 		});
 
 		add_action('elementor/frontend/after_enqueue_styles', function() {
-			wp_enqueue_style('em-frontend', EM_ASSETS . 'css/em-frontend.css');
+			wp_enqueue_style('em-frontend', EM_ASSETS . 'css/em-frontend.css', array(), NULL);
 		});
 
 		// Register widgets
@@ -195,7 +195,7 @@ class Plugin {
 
 		spl_autoload_register( array($this, 'autoload') );
 
-		new Classes\Register_User();
+		new Classes\Register_User('contributor');
 		new Admin\Admin();
 				
 	}
