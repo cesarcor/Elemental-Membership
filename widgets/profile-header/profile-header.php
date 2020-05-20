@@ -34,14 +34,16 @@ class Profile_Header extends Widget_Base{
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
-        
-        $this->add_group_control(
-			Group_Control_Typography::get_type(),
+
+		$this->add_control(
+			'show_profile_action_menu',
 			[
-                'name' => 'profile_header_typography',
-                'label' => __('Typography', 'elemental-membership'),
-				'selector' => '{{WRAPPER}} .em-profile-identifier',
-				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+				'label' => __( 'Show Action Menu', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __( 'Show', 'elemental-membership' ),
+				'label_off' => __( 'Hide', 'elemental-membership' ),
+				'return_value' => 'yes',
+				'default' => 'yes',
 			]
 		);
 
@@ -129,24 +131,129 @@ class Profile_Header extends Widget_Base{
 				],
 			]
         );
-        
+
         $this->add_control(
 			'profile_user_image_radius',
 			[
-				'label' => __( 'Image Radius', 'elemental-membership' ),
-				'type' => Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%' ],
-                'default' => [
+				'label' => __( 'Profile Image Radius', 'elemental-membership' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%' ],
+				'range' => [
+					'px' => [
+						'min' => 80,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 15,
+						'max' => 100,
+					],
+				],
+				'default' => [
 					'unit' => 'px',
 					'size' => 150,
 				],
 				'selectors' => [
-					'{{WRAPPER}} .em-user-avatar img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .em-user-avatar img' => 'border-radius: {{SIZE}}{{UNIT}};',
+				],
+			]
+        );
+        
+        $this->add_control(
+			'profile_user_image_padding',
+			[
+				'label' => __( 'Image Padding', 'elemental-membership' ),
+				'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'default' => [
+                    'unit' => 'px',
+                    'top' => '0',
+                    'right' => '20',
+                    'bottom' => '0',
+                    'left' => '20'
+				],
+				'selectors' => [
+					'{{WRAPPER}} .em-user-avatar' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
 
-        $this->end_controls_section();
+		$this->end_controls_section();
+		
+		$this->start_controls_section(
+            'em_profile_header_text_style',
+            [
+                'label' => __( 'Header Text', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+                'name' => 'profile_header_name_typography',
+                'label' => __('Profile Name Typography', 'elemental-membership'),
+				'selector' => '{{WRAPPER}} .em-profile-identifier',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+			]
+        );
+        
+        $this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+                'name' => 'profile_header_actions_typography',
+                'label' => __('Profile Actions Typography', 'elemental-membership'),
+				'selector' => '{{WRAPPER}} .em-header-actions li a',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+			]
+		);
+		
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+            'em_profile_header_image_style',
+            [
+                'label' => __( 'Profile Image', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+            'em_profile_header_logout_style',
+            [
+                'label' => __( 'Logout Link', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+                'name' => 'profile_header_logout_typography',
+                'label' => __('Logout Link Typography', 'elemental-membership'),
+				'selector' => '{{WRAPPER}} .em-logout-btn',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+			]
+		);
+		
+		$this->add_control(
+			'profile_header_logout_color',
+			[
+				'label' => __( 'Logout Link Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-logout-btn' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
+				],
+			]
+        );
+
+		$this->end_controls_section();
 
     }
 
@@ -177,7 +284,7 @@ class Profile_Header extends Widget_Base{
                                 <?php printf(esc_html($current_user->user_firstname . " " . $current_user->user_lastname)); ?>
                             </h2>
 
-                            <ul class="em-list">
+                            <ul class="em-list em-header-actions">
                                 <li><a href="#">Edit Profile</a></li>
                                 <li><a href="#">Settings</a></li>
                             </ul>
