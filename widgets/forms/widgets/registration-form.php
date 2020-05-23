@@ -200,20 +200,6 @@ class Registration_Form extends Widget_Base{
                 'default' => [
                     [
                         'em_field_type' => 'text',
-                        'em_field_label' => __('First Name', 'elemental-membership'),
-                        'em_field_placeholder' => 'John',
-                        'em_field_required' => 'true',
-                        'em_field_role' => 'first_name'
-                    ],
-                    [
-                        'em_field_type' => 'text',
-                        'em_field_label' => __('Last Name', 'elemental-membership'),
-                        'em_field_placeholder' => 'Smith',
-                        'em_field_required' => 'true',
-                        'em_field_role' => 'last_name'
-                    ],
-                    [
-                        'em_field_type' => 'text',
                         'em_field_label' => __('Username', 'elemental-membership'),
                         'em_field_placeholder' => 'jondoe',
                         'em_field_required' => 'true',
