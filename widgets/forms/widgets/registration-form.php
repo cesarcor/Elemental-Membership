@@ -284,6 +284,18 @@ class Registration_Form extends Widget_Base{
             ]
         );
 
+        $this->add_control(
+			'user_requires_approval',
+			[
+				'label' => __( 'User Requires Approval', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __( 'Yes', 'elemental-membership' ),
+				'label_off' => __( 'No', 'elemental-membership' ),
+				'return_value' => 'yes',
+				'default' => 'yes',
+			]
+		);
+
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -313,6 +325,34 @@ class Registration_Form extends Widget_Base{
                 'options' => $em_field_widths,
             ]
         );
+
+        $this->add_responsive_control(
+			'em_button_align',
+			[
+				'label' => __( 'Alignment', 'elemental-membership' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'start' => [
+						'title' => __( 'Left', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => __( 'Center', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-center',
+					],
+					'end' => [
+						'title' => __( 'Right', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-right',
+					],
+					'stretch' => [
+						'title' => __( 'Justified', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-justify',
+					],
+				],
+				'default' => 'stretch',
+				'prefix_class' => 'elementor%s-button-align-',
+			]
+		);
 
         $this->end_controls_section();
         
@@ -578,8 +618,6 @@ class Registration_Form extends Widget_Base{
 
     protected function render(){
         $settings = $this -> get_settings_for_display();
-        $form_options = new Form_Options_Manager();
-        $form_options->set_form_options($settings['em_user_role']);
         $buttonWidth = ( ( '' !== $settings['em_button_width'] ) ? $settings['em_button_width'] : '100' );
         $input_type = '';
     ?>
@@ -643,8 +681,8 @@ class Registration_Form extends Widget_Base{
 
             <?php endforeach; ?>
 
-                <div class="em-user-registration-form__button elementor-field-group elementor-column elementor-col-<?php echo $buttonWidth; ?>">
-                    <button type="submit" class="em-button">
+                <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo $buttonWidth; ?>">
+                    <button type="submit" class="em-button elementor-button">
                     <span><?php echo $settings['em_submit_button_text']; ?></span>
                     </button>
                 </div>
@@ -773,7 +811,7 @@ class Registration_Form extends Widget_Base{
 
                         }); #>
 
-                        <div class="em-user-registration-form__button elementor-field-group elementor-column elementor-col-{{{buttonWidth}}}">
+                        <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-{{{buttonWidth}}}">
                             <button type="submit" class="em-button">
                                 <span>{{{ settings.em_submit_button_text }}}</span>
                             </button>
