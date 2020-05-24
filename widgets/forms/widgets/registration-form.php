@@ -42,17 +42,6 @@ class Registration_Form extends Widget_Base{
     {
         $repeater = new Repeater();
 
-        $em_field_types = [
-            'email' => __('Email', 'elemental-membership'),
-            'password' => __('Password', 'elemental-membership'),
-            'text' => __('Text', 'elemental-membership'),
-            'textarea' => __('Textarea', 'elemental-membership'),
-            'date' => __('Date', 'elemental-membership'),
-            'tel' => __('Telephone', 'elemental-membership'),
-            'checkbox' => __('Checkbox', 'elemental-membership'),
-            'select' => __('Select', 'elemental-membership')
-        ];
-
         $em_field_widths = [
                 '' => __( 'Default', 'elemental-membership' ),
                 '100' => '100%',
@@ -67,7 +56,7 @@ class Registration_Form extends Widget_Base{
                 '20' => '20%',
         ];
 
-        $em_field_role = [
+        $em_field_type = [
             'username' => __( 'Username', 'elemental-memebership' ),
             'user_email' => __( 'User Email', 'elemental-memebership' ),
             'user_password' => __( 'User Password', 'elemental-memebership' ),
@@ -76,32 +65,6 @@ class Registration_Form extends Widget_Base{
             'last_name' => __('Last Name', 'elemental-membership'),
             'description' => __('Description', 'elemental-membership'),
             'custom_field' => __('Custom Field', 'elemental-membership'),
-        ];
-
-        $control_exceptions = [
-            'terms' => [
-                [
-                    'name' => 'em_field_type',
-                    'operator' => '!in',
-                    'value' => [
-                        'checkbox',
-                        'select'
-                    ]
-                ]
-            ]
-        ];
-
-        $fields_with_options = [
-            'terms' => [
-                [
-                    'name' => 'em_field_type',
-                    'operator' => 'in',
-                    'value' => [
-                        'checkbox',
-                        'select'
-                    ]
-                ]
-            ]
         ];
 
         $em_user_roles = [
@@ -125,18 +88,8 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __('Field Type', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'text',
-                'options' => $em_field_types
-            ]
-        );
-
-        $repeater->add_control(
-            'em_field_role',
-            [
-                'label' => __('Field Role', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => 'custom_field',
-                'options' => $em_field_role
+                'options' => $em_field_type
             ]
         );
 
@@ -154,8 +107,7 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __( 'Field Placeholder', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => '',
-                'conditions' => $control_exceptions
+                'default' => ''
             ]
         );
 
@@ -165,8 +117,7 @@ class Registration_Form extends Widget_Base{
                 'label' => __('Required', 'elemental-membership'),
                 'type' => Controls_Manager::SWITCHER,
                 'return_value' => 'true',
-                'default' => '',
-                'conditions' => $control_exceptions
+                'default' => ''
             ]
         );
 
@@ -176,8 +127,7 @@ class Registration_Form extends Widget_Base{
                 'label' => __('Field Width', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => '100',
-                'options' => $em_field_widths,
-                'conditions' => $control_exceptions
+                'options' => $em_field_widths
             ]
         );
 
@@ -186,8 +136,7 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __('Options', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXTAREA,
-                'default' => '',
-                'conditions' => $fields_with_options
+                'default' => ''
             ]
         );
 
@@ -199,35 +148,31 @@ class Registration_Form extends Widget_Base{
                 'fields' => $repeater->get_controls(),
                 'default' => [
                     [
-                        'em_field_type' => 'text',
                         'em_field_label' => __('Username', 'elemental-membership'),
                         'em_field_placeholder' => 'jondoe',
                         'em_field_required' => 'true',
-                        'em_field_role' => 'username'
+                        'em_field_type' => 'username'
                     ],
 
                     [
-                        'em_field_type' => 'email',
                         'em_field_label' => __('Your Email', 'elemental-membership'),
                         'em_field_placeholder' => 'jondoe@mail.com',
                         'em_field_required' => 'true',
-                        'em_field_role' => 'user_email'
+                        'em_field_type' => 'user_email'
                     ],
 
                     [
-                        'em_field_type' => 'password',
                         'em_field_label' => __('Password', 'elemental-membership'),
                         'em_field_placeholder' => __('Type password', 'elemental-membership'),
                         'em_field_required' => 'true',
-                        'em_field_role' => 'user_password'
+                        'em_field_type' => 'user_password'
                     ],
 
                     [
-                        'em_field_type' => 'password',
                         'em_field_label' => __('Confirm Password', 'elemental-membership'),
                         'em_field_placeholder' => __('Type password again', 'elemental-membership'),
                         'em_field_required' => 'true',
-                        'em_field_role' => 'user_password_confirm'
+                        'em_field_type' => 'user_password_confirm'
                     ]
 
                     ],
@@ -626,20 +571,20 @@ class Registration_Form extends Widget_Base{
                     echo('<label for="'. $item['em_field_label'] .'">'. $item['em_field_label'] .'</label>');
                 endif;
 
-                switch($item['em_field_role']):
+                switch($item['em_field_type']):
                     case "username":
                     case "first_name":
                     case "last_name":
                     case "user_password":
                     case "user_password_confirm":
-                        $input_type = ($item['em_field_role'] == 'user_password' || $item['em_field_role'] == 'user_password_confirm') ? 'password' : 'text';
+                        $input_type = ($item['em_field_type'] == 'user_password' || $item['em_field_type'] == 'user_password_confirm') ? 'password' : 'text';
 
                         $field_creation->create_input_field(
                             $item['em_field_label'],
                             $item['em_field_label'],
                             $input_type,
                             $item['em_field_placeholder'],
-                            $item['em_field_role'],
+                            $item['em_field_type'],
                             $item['em_field_required']
                         );
                     break;
@@ -649,7 +594,7 @@ class Registration_Form extends Widget_Base{
                             $item['em_field_label'],
                             "email",
                             $item['em_field_placeholder'],
-                            $item['em_field_role'],
+                            $item['em_field_type'],
                             $item['em_field_required']
                         );
                     break;
@@ -730,14 +675,14 @@ class Registration_Form extends Widget_Base{
 
                             if(item.em_field_type){
 
-                                switch(item.em_field_role){
+                                switch(item.em_field_type){
                                     case 'username':
                                     case 'user_password':
                                     case 'user_password_confirm':
                                     case 'first_name':
                                     case 'last_name':
 
-                                        inputType = (item.em_field_role == 'user_password' || item.em_field_role == 'user_password_confirm') ? 'password' : 'text';
+                                        inputType = (item.em_field_type == 'user_password' || item.em_field_type == 'user_password_confirm') ? 'password' : 'text';
                                 #>
                                     <input type="{{{ inputType }}}" id="em_field_{{{ count }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
                                 
