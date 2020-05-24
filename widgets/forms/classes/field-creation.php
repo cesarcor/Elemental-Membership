@@ -9,13 +9,12 @@ class Field_Creation{
         return "form_fields[{$item}]";
     }
 
-    function create_input_field($field_label, $field_type, $field_placeholder, $field_role){
+    function create_input_field($field_label, $field_id, $field_type, $field_placeholder, $field_role, $is_required){
 
-        $roles = [ 'username', 'user_email', 'user_password' ];
-
-        $field_label = strtolower(preg_replace('/\s+/', '-', $field_label));
         $field_name = "";
-
+        $roles = [ 'username', 'user_email', 'user_password' ];
+        $field_label = strtolower(preg_replace('/\s+/', '-', $field_label));
+        $field_required = $is_required ? "required" : "";
 
         if(in_array($field_role, $roles)):
 
@@ -37,10 +36,11 @@ class Field_Creation{
 
         echo '<input type="'. $field_type .
         '"name="'. $field_name .'"
+         id="'.$field_id.'"
          class="em-form-field em-'. $field_label .'-field" 
          placeholder="'. $field_placeholder .'" 
-         em_role="'. $field_role .'" />';
-
+         em_role="'. $field_role .'"' .
+         $field_required . ' />';
     }
 
     function create_textarea_field(){

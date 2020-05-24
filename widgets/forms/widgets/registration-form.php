@@ -639,7 +639,8 @@ class Registration_Form extends Widget_Base{
                             $item['em_field_label'],
                             $input_type,
                             $item['em_field_placeholder'],
-                            $item['em_field_role']
+                            $item['em_field_role'],
+                            $item['em_field_required']
                         );
                     break;
                     case "user_email":
@@ -648,7 +649,8 @@ class Registration_Form extends Widget_Base{
                             $item['em_field_label'],
                             "email",
                             $item['em_field_placeholder'],
-                            $item['em_field_role']
+                            $item['em_field_role'],
+                            $item['em_field_required']
                         );
                     break;
                     case "description":
