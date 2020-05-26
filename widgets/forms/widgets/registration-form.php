@@ -12,14 +12,6 @@ use ElementalMembership\Widgets\Forms\Classes\Form_Options_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-/**
- * Registration Form
- *
- * Elemental Membership widget for user registration
- *
- * @since 0.0.1
- */
-
 class Registration_Form extends Widget_Base{
 
     public function get_name(){
@@ -128,15 +120,6 @@ class Registration_Form extends Widget_Base{
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => '100',
                 'options' => $em_field_widths
-            ]
-        );
-
-        $repeater->add_control(
-            'em_field_options',
-            [
-                'label' => __('Options', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::TEXTAREA,
-                'default' => ''
             ]
         );
 
