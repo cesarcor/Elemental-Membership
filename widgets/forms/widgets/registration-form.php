@@ -317,6 +317,64 @@ class Registration_Form extends Widget_Base{
 					'{{WRAPPER}} .em-form-field-group' => 'margin-bottom: {{SIZE}}{{UNIT}};',
 				],
 			]
+        );
+        
+        $this->add_control(
+			'heading_label',
+			[
+				'label' => __( 'Label', 'elemental-membership' ),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+        );
+
+        $this->add_control(
+			'label_spacing',
+			[
+				'label' => __( 'Spacing', 'elemental-membership' ),
+				'type' => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => 0,
+				],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 60,
+					],
+				],
+				'selectors' => [
+					'body.rtl {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-left: {{SIZE}}{{UNIT}};',
+					// for the label position = inline option
+					'body:not(.rtl) {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-right: {{SIZE}}{{UNIT}};',
+					// for the label position = inline option
+					'body {{WRAPPER}} .elementor-labels-above .elementor-field-group > label' => 'padding-bottom: {{SIZE}}{{UNIT}};',
+					// for the label position = above option
+				],
+			]
+		);
+
+		$this->add_control(
+			'label_color',
+			[
+				'label' => __( 'Text Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .elementor-field-group > label, {{WRAPPER}} .elementor-field-subgroup label' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
+				],
+			]
+        );
+        
+        $this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'label_typography',
+				'selector' => '{{WRAPPER}} .elementor-field-group > label',
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+			]
 		);
 
         $this-> end_controls_section();
