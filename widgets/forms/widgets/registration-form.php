@@ -208,6 +208,29 @@ class Registration_Form extends Widget_Base{
 				'return_value' => 'yes',
 				'default' => 'yes',
 			]
+        );
+        
+        $this->add_control(
+            'registration_form_view',
+            [
+                'label' => __('View As', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [  
+                    'not_registered_view' => 'User not registered',
+                    'is_registered_view' => 'Already Registered'
+                ],
+                'default' => 'not_registered_view',
+            ]
+        );
+        
+        $this->add_control(
+			'already_registered_message',
+			[
+				'label' => __( 'Already Registered Text', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::TEXTAREA,
+				'rows' => 5,
+				'default' => __( 'You are already registered', 'elemental-membership' )
+			]
 		);
 
         $this->end_controls_section();
@@ -594,6 +617,18 @@ class Registration_Form extends Widget_Base{
         $input_type = '';
     ?>
 
+    <?php if((is_user_logged_in() &&
+             !\Elementor\Plugin::$instance->editor->is_edit_mode()) ||
+             (is_user_logged_in() &&
+             $settings['registration_form_view'] == 'is_registered_view')
+             ): ?>
+
+            <div class="em-user-registered-msg">
+                <?php echo $settings['already_registered_message']; ?>
+            </div>
+
+    <?php else: ?>
+
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
             <?php $field_creation = new Field_Creation(); ?>
 
@@ -668,6 +703,8 @@ class Registration_Form extends Widget_Base{
 
         </form>
 
+    <?php endif; ?>
+
     <?php
 
     }
@@ -675,6 +712,9 @@ class Registration_Form extends Widget_Base{
     protected function _content_template(){
 
         ?>
+
+         <# if(settings.registration_form_view == 'not_registered_view'){ #>
+
             <form class="em-user-registration-form">
 
                     <#
@@ -799,6 +839,14 @@ class Registration_Form extends Widget_Base{
                     #>
 
             </form>
+
+            <# } else{ #> 
+
+                <div class="em-user-registered-msg">
+                  {{{ settings.already_registered_message }}}
+                </div>
+
+            <# } #>
 		<?php
     }
 
