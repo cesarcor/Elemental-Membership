@@ -1,6 +1,5 @@
 <?php
 namespace ElementalMembership\Widgets\Forms\Classes;
-// use ElementalMembership\Widgets\Forms\Classes;
 
 class Register_User{
 
@@ -9,17 +8,10 @@ class Register_User{
         add_action('wp_ajax_nopriv_em_register_user', [$this, 'em_register_user']);
     }
 
-    /**
-	 * EM Validate Fields
-	 *
-	 * Register new user in Wordpress
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 */
-
-     protected function validate_fields($fields){}
-
+    public function em_validate_fields() {
+        $validation = new Form_Validation();
+        return $validation->validate_fields($_POST, 'registration');
+    }
 
      /**
 	 * EM Register User
@@ -31,48 +23,27 @@ class Register_User{
 	 */
     public function em_register_user(){
 
+        $validation_results = $this->em_validate_fields();
+
         if (!check_ajax_referer( 'em_reg_nonce' )):
             wp_die();
         endif;
 
-        $user_login = '';
-        $user_email = '';
-        $user_password = '';
-        $first_name = '';
-        $last_name = '';
-        $user_role = 'author';
+        if(is_wp_error($validation_results)):
+            
+            error_log($validation_results->get_error_message());
 
-        foreach($_POST['form_fields'] as $field => $value):
+        else:
 
-            switch($field):
-                case "username":
-                    $user_login = htmlspecialchars(stripslashes(trim($value)));
-                break;
-                case "user_password":
-                    $user_password = htmlspecialchars(stripslashes(trim($value)));
-                break;
-                case "user_email":
-                    $user_email = htmlspecialchars(stripslashes(trim($value)));
-                break;
-                case "first-name":
-                    $first_name = htmlspecialchars(stripslashes(trim($value)));
-                break;
-                case "last-name":
-                    $last_name = htmlspecialchars(stripslashes(trim($value)));
-            endswitch;
-
-        endforeach;
-
-
-        if (isset($user_login) && isset($user_password) && isset($user_email)):
+            error_log('No Errors to report');
 
             $userdata = array(
-                'user_login' => $user_login,
-                'user_pass' => $user_password,
-                'user_email' => $user_email,
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'role' => $user_role,
+                'user_login' => $validation_results['user_login'],
+                'user_pass' => $validation_results['user_password'],
+                'user_email' => $validation_results['user_email']
+                // 'first_name' => $first_name,
+                // 'last_name' => $last_name,
+                // 'role' => $user_role,
             );
 
             wp_insert_user($userdata);
