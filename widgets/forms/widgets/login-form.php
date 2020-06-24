@@ -469,7 +469,7 @@ class Login_Form extends Widget_Base{
                         <label>Username</label>
                     <?php endif; ?>
                     
-                    <input type="text" placeholder="Username" class="elementor-field"/>
+                    <input type="text" name="login_fields[user_login]" placeholder="Username" class="elementor-field"/>
                 </div>
 
                 <div class="elementor-field-group elementor-column elementor-col-100">
@@ -477,7 +477,7 @@ class Login_Form extends Widget_Base{
                         <label>Password</label>
                     <?php endif; ?>
 
-                    <input type="password" placeholder="password" class="elementor-field"/>
+                    <input type="password" name="login_fields[user_login_pwd]" placeholder="password" class="elementor-field"/>
                 </div>
 
                 <div class="elementor-field-group elementor-column elementor-col-100">
@@ -496,6 +496,9 @@ class Login_Form extends Widget_Base{
                 <div class="elementor-field-group elementor-column elementor-col-100">
                     <a href="#">Lost your password?</a>
                 </div>
+
+				<input type="hidden" name="action" value="em_login_user" />
+                <?php wp_nonce_field( 'em_login_nonce' ); ?>
 
             </div>
 
