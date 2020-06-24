@@ -195,7 +195,7 @@ class Plugin {
 
 		spl_autoload_register( array($this, 'autoload') );
 
-		new Classes\Register_User('contributor');
+		new Classes\Register_User();
 		new Admin\Admin();
 				
 	}
