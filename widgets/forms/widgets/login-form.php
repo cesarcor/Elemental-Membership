@@ -102,7 +102,30 @@ class Login_Form extends Widget_Base{
                 'label_on' => __('Show', 'elemental-membership'),
                 'label_off' => __('Hide', 'elemental-membership')
             ]
-        );
+		);
+		
+		$this->add_control(
+            'login_form_view',
+            [
+                'label' => __('View As', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [  
+                    'not_loggedin_view' => 'User not logged in',
+                    'is_loggedin_view' => 'User logged in'
+                ],
+                'default' => 'not_loggedin_view',
+            ]
+		);
+		
+		$this->add_control(
+			'already_loggedin_message',
+			[
+				'label' => __( 'Already Logged in Text', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::TEXTAREA,
+				'rows' => 2,
+				'default' => __( 'You are already logged in', 'elemental-membership' )
+			]
+		);
 
         $this->end_controls_section();
 
@@ -460,6 +483,13 @@ class Login_Form extends Widget_Base{
         $settings = $this -> get_settings_for_display();
     ?>
 
+	<?php
+		if(!is_user_logged_in() && !\Elementor\Plugin::$instance->editor->is_edit_mode()
+		|| (is_user_logged_in() &&
+		$settings['login_form_view'] == 'not_loggedin_view')
+		):
+	?>
+
         <form class="em-user-login-form elementor-form">
 
             <div class="elementor-form-fields-wrapper elementor-labels-above">
@@ -504,11 +534,25 @@ class Login_Form extends Widget_Base{
 
         </form>
 
+	<?php 
+		else:
+	?>
+
+		<div class="em-user-loggedin-msg">
+	   		<?php echo $settings['already_loggedin_message']; ?>
+		</div>
+
+	<?php
+		endif;
+	?>
+
     <?php
     }
 
     protected function _content_template(){
     ?>
+
+	<# if(settings.login_form_view == 'not_loggedin_view'){ #>
 
         <form class="em-user-login-form elementor-form">
 
@@ -566,6 +610,14 @@ class Login_Form extends Widget_Base{
             </div>
 
         </form>
+
+	<# } else{ #>
+
+		<div class="em-user-loggedin-msg">
+         {{{ settings.already_loggedin_message }}}
+        </div>
+
+	<# } #>
 
     <?php
     }
