@@ -8,7 +8,6 @@ use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
-use ElementalMembership\Widgets\Forms\Classes\Form_Options_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -55,8 +54,7 @@ class Registration_Form extends Widget_Base{
             'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
             'first_name' => __('First Name', 'elemental-membership'),
             'last_name' => __('Last Name', 'elemental-membership'),
-            'description' => __('Description', 'elemental-membership'),
-            'custom_field' => __('Custom Field', 'elemental-membership'),
+            'description' => __('Description', 'elemental-membership')
         ];
 
         $em_user_roles = [
@@ -80,7 +78,7 @@ class Registration_Form extends Widget_Base{
             [
                 'label' => __('Field Type', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'custom_field',
+                'default' => 'first_name',
                 'options' => $em_field_type
             ]
         );
@@ -629,6 +627,10 @@ class Registration_Form extends Widget_Base{
 
     <?php else: ?>
 
+        <?php 
+            
+        ?>
+    
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
             <?php $field_creation = new Field_Creation(); ?>
 
