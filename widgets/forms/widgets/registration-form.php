@@ -54,7 +54,7 @@ class Registration_Form extends Widget_Base{
             'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
             'first_name' => __('First Name', 'elemental-membership'),
             'last_name' => __('Last Name', 'elemental-membership'),
-            'description' => __('Description', 'elemental-membership')
+            'biographical_info' => __('Biographical Info', 'elemental-membership')
         ];
 
         $em_user_roles = [
@@ -676,7 +676,7 @@ class Registration_Form extends Widget_Base{
                             $item['em_field_required']
                         );
                     break;
-                    case "description":
+                    case "biographical_info":
                         $field_creation->create_textarea_field();
                     break;
                     case "checkbox":
@@ -776,7 +776,7 @@ class Registration_Form extends Widget_Base{
                                      <input type="email" id="em_field_{{{ count }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
                                 <#
                                     break;
-                                    case 'description': 
+                                    case 'biographical_info': 
                                 #>
 
                                     <textarea class="em-form-field em-textarea-field" placeholder="{{{ item.em_field_placeholder }}}"></textarea>
