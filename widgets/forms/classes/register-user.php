@@ -1,6 +1,8 @@
 <?php
 namespace ElementalMembership\Widgets\Forms\Classes;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class Register_User{
 
     public function __construct(){
@@ -30,12 +32,12 @@ class Register_User{
         endif;
 
         if(is_wp_error($validation_results)):
+
+            $form_message = new Form_Message();
             
-            error_log($validation_results->get_error_message());
+            $form_message->set_form_message($validation_results->get_error_message());
 
         else:
-
-            error_log('No Errors to report');
 
             $userdata = array(
                 'user_login' => $validation_results['user_login'],
