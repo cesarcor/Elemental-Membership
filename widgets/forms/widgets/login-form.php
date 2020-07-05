@@ -44,14 +44,71 @@ class Login_Form extends Widget_Base{
         );
 
         $this->add_control(
-            'em_login_show_labels',
+            'show_labels',
             [
                 'label' => __('Show Label', 'elemental-membership'),
                 'type' => Controls_Manager::SWITCHER,
-                'return_value' => 'true',
-                'default' => 'true',
+                'default' => 'yes'
             ]
-        );
+		);
+		
+		$this->add_control(
+			'custom_labels',
+			[
+				'label' => __( 'Custom Label', 'elemental-membership' ),
+				'type' => Controls_Manager::SWITCHER,
+			]
+		);
+
+		$this->add_control(
+			'user_label',
+			[
+				'label' => __( 'Username Label', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Username or Email Address', 'elemental-membership' ),
+				'condition' => [
+					'show_labels' => 'yes',
+					'custom_labels' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'user_placeholder',
+			[
+				'label' => __( 'Username Placeholder', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Username or Email Address', 'elemental-membership' ),
+				'condition' => [
+					'custom_labels' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'password_label',
+			[
+				'label' => __( 'Password Label', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Password', 'elemental-membership' ),
+				'condition' => [
+					'show_labels' => 'yes',
+					'custom_labels' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'password_placeholder',
+			[
+				'label' => __( 'Password Placeholder', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Password', 'elemental-membership' ),
+				'condition' => [
+					'custom_labels' => 'yes',
+				],
+			]
+		);
 
         $this->end_controls_section();
 
@@ -71,7 +128,51 @@ class Login_Form extends Widget_Base{
                 'default' => 'Login',
                 'placeholder' => ''
             ]
-        );
+		);
+
+		$this->add_control(
+			'button_size',
+			[
+				'label' => __( 'Size', 'elemental-membership' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'xs' => __( 'Extra Small', 'elemental-membership' ),
+					'sm' => __( 'Small', 'elemental-membership' ),
+					'md' => __( 'Medium', 'elemental-membership' ),
+					'lg' => __( 'Large', 'elemental-membership' ),
+					'xl' => __( 'Extra Large', 'elemental-membership' ),
+				],
+				'default' => 'sm',
+			]
+		);
+
+		$this->add_responsive_control(
+			'align',
+			[
+				'label' => __( 'Alignment', 'elemental-membership' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'start' => [
+						'title' => __( 'Left', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => __( 'Center', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-center',
+					],
+					'end' => [
+						'title' => __( 'Right', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-right',
+					],
+					'stretch' => [
+						'title' => __( 'Justified', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-justify',
+					],
+				],
+				'prefix_class' => 'elementor%s-button-align-',
+				'default' => '',
+			]
+		);
 
         $this->end_controls_section();
 
@@ -196,7 +297,7 @@ class Login_Form extends Widget_Base{
 				'label' => __( 'Label', 'elemental-membership' ),
 				'tab' => Controls_Manager::TAB_STYLE,
 				'condition' => [
-					'em_login_show_labels!' => '',
+					'show_labels!' => '',
 				],
 			]
         );
@@ -477,7 +578,96 @@ class Login_Form extends Widget_Base{
 
         $this->end_controls_section();
 
-    }
+	}
+	
+	private function form_fields_render_attributes() {
+		$settings = $this->get_settings();
+
+		if ( ! empty( $settings['button_size'] ) ) {
+			$this->add_render_attribute( 'button', 'class', 'elementor-size-' . $settings['button_size'] );
+		}
+
+		if ( $settings['button_hover_animation'] ) {
+			$this->add_render_attribute( 'button', 'class', 'elementor-animation-' . $settings['button_hover_animation'] );
+		}
+
+		$this->add_render_attribute(
+			[
+				'wrapper' => [
+					'class' => [
+						'elementor-form-fields-wrapper',
+					],
+				],
+				'field-group' => [
+					'class' => [
+						'elementor-field-type-text',
+						'elementor-field-group',
+						'elementor-column',
+						'elementor-col-100',
+					],
+				],
+				'submit-group' => [
+					'class' => [
+						'elementor-field-group',
+						'elementor-column',
+						'elementor-field-type-submit',
+						'elementor-col-100',
+					],
+				],
+
+				'button' => [
+					'class' => [
+						'elementor-button',
+					],
+					'name' => 'wp-submit',
+				],
+				'user_label' => [
+					'for' => 'user',
+				],
+				'user_input' => [
+					'type' => 'text',
+					'name' => 'log',
+					'id' => 'user',
+					'placeholder' => $settings['user_placeholder'],
+					'class' => [
+						'elementor-field',
+						'elementor-field-textual',
+						// 'elementor-size-' . $settings['input_size'],
+					],
+				],
+				'password_input' => [
+					'type' => 'password',
+					'name' => 'pwd',
+					'id' => 'password',
+					'placeholder' => $settings['password_placeholder'],
+					'class' => [
+						'elementor-field',
+						'elementor-field-textual',
+						// 'elementor-size-' . $settings['input_size'],
+					],
+				],
+				//TODO: add unique ID
+				'label_user' => [
+					'for' => 'user',
+					'class' => 'elementor-field-label',
+				],
+
+				'label_password' => [
+					'for' => 'password',
+					'class' => 'elementor-field-label',
+				],
+			]
+		);
+
+		if ( ! $settings['show_labels'] ) {
+			$this->add_render_attribute( 'label', 'class', 'elementor-screen-only' );
+		}
+
+		$this->add_render_attribute( 'field-group', 'class', 'elementor-field-required' )
+			 ->add_render_attribute( 'input', 'required', true )
+			 ->add_render_attribute( 'input', 'aria-required', 'true' );
+
+	}
 
     protected function render(){
         $settings = $this -> get_settings_for_display();
@@ -496,50 +686,61 @@ class Login_Form extends Widget_Base{
 
 	<?php 
 		else:
+
+		$this->form_fields_render_attributes();
 	?>
 
 		<form class="em-user-login-form elementor-form">
+		<div class="elementor-login elementor-form">
 
-		<div class="elementor-form-fields-wrapper elementor-labels-above">
+			<div class="elementor-form-fields-wrapper elementor-labels-above">
 
-			<div class="elementor-field-group elementor-column elementor-col-100">
-				<?php if($settings['em_login_show_labels']): ?>
-					<label>Username</label>
-				<?php endif; ?>
-				
-				<input type="text" name="login_fields[user_login]" placeholder="Username" class="elementor-field"/>
+				<div class="elementor-field-group elementor-column elementor-col-100">
+
+					<?php
+						if($settings['show_labels'] == 'yes'):
+					?>
+
+						<label>
+							<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_label'] : $settings['em_login_identifier_opt']; ?>
+						</label>
+					
+					<?php endif; ?>
+
+					<input type="text" name="login_fields[user_login]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_placeholder'] : $settings['em_login_identifier_opt']; ?>" class="elementor-field"/>
+
+				</div>
+
+				<div class="elementor-field-group elementor-column elementor-col-100">
+					
+					<?php if($settings['show_labels'] == 'yes'): ?>
+						<label><?php echo $settings['custom_labels'] == 'yes' ? $settings['password_label'] : __('Password', 'elemental-membership'); ?></label>
+					<?php endif; ?>
+
+					<input type="password" name="login_fields[user_login_pwd]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['password_placeholder'] : __('Password', 'elemental-membership'); ?>" class="elementor-field"/>
+				</div>
+
+				<div class="elementor-field-group elementor-column elementor-col-100">
+					<label>
+						<input type="checkbox"/>
+						Remember Me
+					</label>
+				</div>
+
+				<div <?php echo $this->get_render_attribute_string( 'submit-group' ); ?>>
+					<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>">
+						<?php echo $settings['em_login_button_text']; ?>
+					</button>
+				</div>
+
+				<div class="elementor-field-group elementor-column elementor-col-100">
+					<a href="#">Lost your password?</a>
+				</div>
+
+				<input type="hidden" name="action" value="em_login_user" />
+				<?php wp_nonce_field( 'em_login_nonce' ); ?>
+
 			</div>
-
-			<div class="elementor-field-group elementor-column elementor-col-100">
-				<?php if($settings['em_login_show_labels']): ?>
-					<label>Password</label>
-				<?php endif; ?>
-
-				<input type="password" name="login_fields[user_login_pwd]" placeholder="password" class="elementor-field"/>
-			</div>
-
-			<div class="elementor-field-group elementor-column elementor-col-100">
-				<label>
-					<input type="checkbox"/>
-					Remember Me
-				</label>
-			</div>
-
-			<div class="elementor-field-group elementor-column elementor-col-100">
-				<button type="submit" class="em-button">
-				<?php echo $settings['em_login_button_text']; ?>
-				</button>
-			</div>
-
-			<div class="elementor-field-group elementor-column elementor-col-100">
-				<a href="#">Lost your password?</a>
-			</div>
-
-			<input type="hidden" name="action" value="em_login_user" />
-			<?php wp_nonce_field( 'em_login_nonce' ); ?>
-
-		</div>
-
 		</form>
 
 
@@ -555,62 +756,67 @@ class Login_Form extends Widget_Base{
 
 	<# if(settings.login_form_view == 'not_loggedin_view'){ #>
 
-        <form class="em-user-login-form elementor-form">
+		<div class="em-user-login-form elementor-login elementor-form">
 
             <div class="elementor-form-fields-wrapper elementor-labels-above">
 
-            <div class="elementor-field-group elementor-column elementor-col-100">
-             <# 
-                var login_with = '';
-                
-                    switch(settings.em_login_identifier_opt){
-                        case 'email_only':
-                            login_id = 'Email Address';
-                        break;
-                        case 'username_only':
-                            login_id = 'Username';
-                        break;
-                        default:
-                            login_id = 'Username or Email Address';
-                    }
+				<div class="elementor-field-group elementor-column elementor-col-100">
+				<# 
+					var login_with = 'Username or Email Address';
+					
+						switch(settings.em_login_identifier_opt){
+							case 'email_only':
+								login_with = 'Email Address';
+							break;
+							case 'username_only':
+								login_with = 'Username';
+							break;
+						}
 
-             #>
+				#>
 
-				<# if(settings.em_login_show_labels){#>
-               	 	<label for=""><# {{{ login_with }}} #></label> 
+				<# if(settings.show_labels == 'yes'){#>
+					<label>
+						<# 
+						 if(settings.custom_labels == 'yes'){
+						 	{{{ settings.user_label }}}
+						 }else{
+							 {{{ login_with }}}
+						 } #>
+					</label> 
 				<# } #>
-                <input type="text" placeholder="{{{ login_id }}}" class="em-form-field em-user-login elementor-field"/>
-            </div>
+					<input type="text" placeholder="{{{ settings.custom_labels == 'yes' ? settings.user_placeholder : login_with }}}" class="em-form-field em-user-login elementor-field"/>
+				</div>
 
-            <div class="elementor-field-group elementor-column elementor-col-100">
-				<# if(settings.em_login_show_labels){#>
-               	 	<label for="">Password</label> 
+				<div class="elementor-field-group elementor-column elementor-col-100">
+				<# if(settings.show_labels == 'yes'){#>
+					<label for="">{{{ settings.password_label }}}</label>
 				<# } #>
-                <input type="password" placeholder="password" class="em-form-field em-user-login-pw elementor-field"/>
+					<input type="password" placeholder="{{{ settings.password_placeholder }}}" class="em-form-field em-user-login-pw elementor-field"/>
+				</div>
+
+				<div class="elementor-field-group elementor-column elementor-col-100">
+					<label for="">
+						<input type="checkbox" />
+						Remember Me
+					</label>
+				</div>
+
+				<div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100">
+					<button type="submit" class="em-button elementor-button elementor-size-{{ settings.button_size }}">
+						{{{ settings.em_login_button_text }}}
+					</button>
+				</div>
+
+				<# if(settings.em_show_lost_pw_link){ #>
+					<div class="elementor-field-group elementor-column elementor-col-100">
+						<a href="#">Lost your password?</a>
+					</div>
+				<# } #>
+
             </div>
 
-            <div class="elementor-field-group elementor-column elementor-col-100">
-                <label for="">
-                    <input type="checkbox" />
-                    Remember Me
-                </label>
-            </div>
-
-            <div class="elementor-field-group elementor-column elementor-col-100">
-                <button type="submit" class="em-button">
-                    {{{ settings.em_login_button_text }}}
-                </button>
-            </div>
-
-            <# if(settings.em_show_lost_pw_link){ #>
-                <div class="elementor-field-group elementor-column elementor-col-100">
-                    <a href="#">Lost your password?</a>
-                </div>
-            <# } #>
-
-            </div>
-
-        </form>
+        </div>
 
 	<# } else{ #>
 
