@@ -484,63 +484,64 @@ class Login_Form extends Widget_Base{
     ?>
 
 	<?php
-		if(!is_user_logged_in() && !\Elementor\Plugin::$instance->editor->is_edit_mode()
+		if((is_user_logged_in() && !\Elementor\Plugin::$instance->editor->is_edit_mode())
 		|| (is_user_logged_in() &&
-		$settings['login_form_view'] == 'not_loggedin_view')
+		$settings['login_form_view'] == 'is_loggedin_view')
 		):
-	?>
-
-        <form class="em-user-login-form elementor-form">
-
-            <div class="elementor-form-fields-wrapper elementor-labels-above">
-            
-                <div class="elementor-field-group elementor-column elementor-col-100">
-                    <?php if($settings['em_login_show_labels']): ?>
-                        <label>Username</label>
-                    <?php endif; ?>
-                    
-                    <input type="text" name="login_fields[user_login]" placeholder="Username" class="elementor-field"/>
-                </div>
-
-                <div class="elementor-field-group elementor-column elementor-col-100">
-                    <?php if($settings['em_login_show_labels']): ?>
-                        <label>Password</label>
-                    <?php endif; ?>
-
-                    <input type="password" name="login_fields[user_login_pwd]" placeholder="password" class="elementor-field"/>
-                </div>
-
-                <div class="elementor-field-group elementor-column elementor-col-100">
-                    <label>
-                        <input type="checkbox"/>
-                        Remember Me
-                    </label>
-                </div>
-
-                <div class="elementor-field-group elementor-column elementor-col-100">
-                    <button type="submit" class="em-button">
-                    <?php echo $settings['em_login_button_text']; ?>
-                    </button>
-                </div>
-
-                <div class="elementor-field-group elementor-column elementor-col-100">
-                    <a href="#">Lost your password?</a>
-                </div>
-
-				<input type="hidden" name="action" value="em_login_user" />
-                <?php wp_nonce_field( 'em_login_nonce' ); ?>
-
-            </div>
-
-        </form>
-
-	<?php 
-		else:
 	?>
 
 		<div class="em-user-loggedin-msg">
 	   		<?php echo $settings['already_loggedin_message']; ?>
 		</div>
+
+	<?php 
+		else:
+	?>
+
+		<form class="em-user-login-form elementor-form">
+
+		<div class="elementor-form-fields-wrapper elementor-labels-above">
+
+			<div class="elementor-field-group elementor-column elementor-col-100">
+				<?php if($settings['em_login_show_labels']): ?>
+					<label>Username</label>
+				<?php endif; ?>
+				
+				<input type="text" name="login_fields[user_login]" placeholder="Username" class="elementor-field"/>
+			</div>
+
+			<div class="elementor-field-group elementor-column elementor-col-100">
+				<?php if($settings['em_login_show_labels']): ?>
+					<label>Password</label>
+				<?php endif; ?>
+
+				<input type="password" name="login_fields[user_login_pwd]" placeholder="password" class="elementor-field"/>
+			</div>
+
+			<div class="elementor-field-group elementor-column elementor-col-100">
+				<label>
+					<input type="checkbox"/>
+					Remember Me
+				</label>
+			</div>
+
+			<div class="elementor-field-group elementor-column elementor-col-100">
+				<button type="submit" class="em-button">
+				<?php echo $settings['em_login_button_text']; ?>
+				</button>
+			</div>
+
+			<div class="elementor-field-group elementor-column elementor-col-100">
+				<a href="#">Lost your password?</a>
+			</div>
+
+			<input type="hidden" name="action" value="em_login_user" />
+			<?php wp_nonce_field( 'em_login_nonce' ); ?>
+
+		</div>
+
+		</form>
+
 
 	<?php
 		endif;
