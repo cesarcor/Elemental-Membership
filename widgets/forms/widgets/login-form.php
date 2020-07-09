@@ -722,7 +722,7 @@ class Login_Form extends Widget_Base{
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					<label>
-						<input type="checkbox"/>
+						<input type="checkbox" name="login_fields[user_remember_me]" value="yes"/>
 						Remember Me
 					</label>
 				</div>

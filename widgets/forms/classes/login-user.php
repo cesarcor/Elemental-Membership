@@ -14,6 +14,7 @@ class Login_User{
 
         $user_login;
         $user_password;
+        $remember_me;
 
         foreach($_POST['login_fields'] as $field => $value):
 
@@ -23,19 +24,26 @@ class Login_User{
                 break;
                 case "user_login_pwd":
                     $user_password = $value;
+                case "user_remember_me":
+                    $remember_me = $value == 'yes' ? true : false;
                 break;
             endswitch;
-
-            wp_signon(
-                array(
-                    'user_login' => $user_login,
-                    'user_password' => $user_password,
-                    'remember' => false
-                ),
-                false
-            );
             
         endforeach;
+
+        $user_login = wp_signon(
+            array(
+                'user_login' => $user_login,
+                'user_password' => $user_password,
+                'remember' => $remember_me
+            ),
+            false
+        );
+
+        if(!is_wp_error($user_login)):
+            wp_redirect(home_url());
+            exit();
+        endif;
 
     }
 }
