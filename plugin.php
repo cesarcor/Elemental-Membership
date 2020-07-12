@@ -8,7 +8,7 @@ use ElementalMembership\Widgets\Forms\Classes;
  * Class Plugin
  *
  * Main Plugin class
- * @since 1.2.0
+ * @since 1.0.0
  */
 
 class Plugin {
@@ -16,7 +16,7 @@ class Plugin {
 	/**
 	 * Instance
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @access private
 	 * @static
 	 *
@@ -29,7 +29,7 @@ class Plugin {
 	 *
 	 * Ensures only one instance of the class is loaded or can be loaded.
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @access public
 	 *
 	 * @return Plugin An instance of the class.
@@ -46,7 +46,7 @@ class Plugin {
 	 *
 	 * Load required plugin core files.
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @access public
 	 */
 	public function widget_scripts() {
@@ -67,7 +67,7 @@ class Plugin {
 	 *
 	 * Load required plugin editor styles.
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @access public
 	 */
 	public function widget_editor_styles() {
@@ -84,7 +84,7 @@ class Plugin {
 	 *
 	 * Load widgets files
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @access private
 	 */
 	private function include_widgets_files() {
@@ -99,7 +99,7 @@ class Plugin {
 	 *
 	 * Register new Elementor widgets.
 	 *
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 * @access public
 	 */
 	public function register_widgets() {
@@ -167,7 +167,7 @@ class Plugin {
 	 *
 	 * Register plugin action hooks and filters
 	 *
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @access public
 	 */
 	public function __construct() {
@@ -196,6 +196,7 @@ class Plugin {
 		spl_autoload_register( array($this, 'autoload') );
 
 		new Classes\Register_User();
+		new Classes\Login_User();
 		new Admin\Admin();
 				
 	}
