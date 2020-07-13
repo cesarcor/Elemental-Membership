@@ -698,22 +698,40 @@ class Login_Form extends Widget_Base{
 				<div class="elementor-field-group elementor-column elementor-col-100">
 
 					<?php
-						if($settings['show_labels'] == 'yes'):
+					
+						$login_with = "";
+
+						switch($settings['em_login_identifier_opt']):
+							case "username_only":
+								$login_with = __("Username", "elemental-membership");
+							break;
+							case "username_email":
+								$login_with = __("Username or Email", "elemental-membership");
+							break;
+							case "email_only":
+								$login_with = __("Email", "elemental-membership");
+							break;
+						endswitch;
+					
+					?>
+
+					<?php
+						if('yes' === $settings['show_labels']):
 					?>
 
 						<label>
-							<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_label'] : $settings['em_login_identifier_opt']; ?>
+							<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_label'] : $login_with; ?>
 						</label>
 					
 					<?php endif; ?>
 
-					<input type="text" name="login_fields[user_login]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_placeholder'] : $settings['em_login_identifier_opt']; ?>" class="elementor-field"/>
+					<input type="text" name="login_fields[user_login]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_placeholder'] : $login_with; ?>" class="elementor-field"/>
 
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					
-					<?php if($settings['show_labels'] == 'yes'): ?>
+					<?php if('yes' === $settings['show_labels']): ?>
 						<label><?php echo $settings['custom_labels'] == 'yes' ? $settings['password_label'] : __('Password', 'elemental-membership'); ?></label>
 					<?php endif; ?>
 
@@ -775,24 +793,25 @@ class Login_Form extends Widget_Base{
 
 				#>
 
-				<# if(settings.show_labels == 'yes'){#>
-					<label>
+				<# if('yes' === settings.show_labels){ #>
+					<label for="user-login">
 						<# 
-						 if(settings.custom_labels == 'yes'){
+						 if('yes' === settings.custom_labels){
 						 	{{{ settings.user_label }}}
 						 }else{
 							 {{{ login_with }}}
-						 } #>
-					</label> 
+						 } 
+						 #>
+					</label>
 				<# } #>
-					<input type="text" placeholder="{{{ settings.custom_labels == 'yes' ? settings.user_placeholder : login_with }}}" class="em-form-field em-user-login elementor-field"/>
+					<input type="text" id="user-login" placeholder="{{{ settings.custom_labels == 'yes' ? settings.user_placeholder : login_with }}}" class="em-form-field em-user-login elementor-field"/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
-				<# if(settings.show_labels == 'yes'){#>
-					<label for="">{{{ settings.password_label }}}</label>
+				<# if('yes' === settings.show_labels){#>
+					<label for="login-password">{{{ settings.password_label }}}</label>
 				<# } #>
-					<input type="password" placeholder="{{{ settings.password_placeholder }}}" class="em-form-field em-user-login-pw elementor-field"/>
+					<input type="password" id="login-password" placeholder="{{{ settings.password_placeholder }}}" class="em-form-field em-user-login-pw elementor-field"/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
