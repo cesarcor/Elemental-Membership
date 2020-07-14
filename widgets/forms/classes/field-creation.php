@@ -16,23 +16,24 @@ class Field_Creation{
         $field_label = strtolower(preg_replace('/\s+/', '-', $field_label));
         $field_required = $is_required ? "required" : "";
 
-        if(in_array($field_role, $roles)):
+        switch($field_role):
 
-            switch($field_role):
-                case "username":
-                    $field_name = $this->em_get_attribute_name("username");
-                break;
-                case "user_email":
-                    $field_name = $this->em_get_attribute_name("user_email");
-                break;
-                case "user_password":
-                    $field_name = $this->em_get_attribute_name("user_password");
-                break;
+            case "username":
+                $field_name = $this->em_get_attribute_name("username");
+            break;
+            case "user_email":
+                $field_name = $this->em_get_attribute_name("user_email");
+            break;
+            case "user_password":
+                $field_name = $this->em_get_attribute_name("user_password");
+            case "first_name":
+                $field_name = $this->em_get_attribute_name("first_name");
+            break;
+            case "last_name":
+                $field_name = $this->em_get_attribute_name("last_name");
+            break;
 
-            endswitch;
-        else:
-            $field_name = $this->em_get_attribute_name($field_label);
-        endif;
+        endswitch;
 
         echo '<input type="'. $field_type .
         '"name="'. $field_name .'"
