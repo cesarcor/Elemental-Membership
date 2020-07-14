@@ -10,39 +10,35 @@ class Login_User{
         add_action('wp_ajax_nopriv_em_login_user', [$this, 'em_login_user']);
     }
 
-    public function em_login_user(){   
+    private function validated_fields(){
+        $validation = new Form_Validation();
+        return $validation->validate_fields($_POST['login_fields'], 'login');
+    }
 
-        $user_login;
-        $user_password;
-        $remember_me;
+    public function em_login_user(){
 
-        foreach($_POST['login_fields'] as $field => $value):
+        if (!check_ajax_referer( 'em_login_nonce' )):
+            wp_die();
+        endif;
 
-            switch($field):
-                case "user_login":
-                    $user_login = $value;
-                break;
-                case "user_login_pwd":
-                    $user_password = $value;
-                case "user_remember_me":
-                    $remember_me = $value == 'yes' ? true : false;
-                break;
-            endswitch;
-            
-        endforeach;
+        $validation_results = $this->validated_fields();
 
-        $user_login = wp_signon(
-            array(
-                'user_login' => $user_login,
-                'user_password' => $user_password,
-                'remember' => $remember_me
-            ),
-            false
-        );
+        if(is_wp_error($validation_results)):
+            error_log($validation_results->get_error_message());
+        else:
 
-        if(!is_wp_error($user_login)):
+            $user_login = wp_signon(
+                array(
+                    'user_login' => $validation_results['user_login'],
+                    'user_password' => $validation_results['user_password'],
+                    'remember' => false
+                ),
+                false
+            );
+    
             wp_redirect(home_url());
             exit();
+
         endif;
 
     }

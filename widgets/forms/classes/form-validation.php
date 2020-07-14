@@ -16,45 +16,75 @@ class Form_Validation {
 
         $errors = new \WP_Error();
 
-        $user_login = '';
-        $user_email = '';
-        $user_password = '';
-        $user_password_confirm = '';
+        $user_login;
+        $user_email;
+        $user_password;
+        $user_password_confirm;
+        $first_name;
+        $last_name;
+        $biographical_info;
         $user_role = 'subscriber';
+
+        $remember_me;
 
         $validated_fields = [];
 
-        foreach($_POST['form_fields'] as $field => $value):
+        //Login form validation
+        if($form_type == 'login'):
 
-            switch($field):
-                case "username":
-                    $user_login = santitize_user($value);
-                break;
-                case "user_password":
-                    $user_password = $value;
-                break;
-                case "user_email":
-                    $user_email = sanitize_email($value);
-                break;
-                case "confirm-password":
-                    $user_password_confirm = $value;
-            endswitch;
+            foreach($fields as $field => $value):
 
-        endforeach;
+                switch($field):
+                    case "user_login":
+                        $user_login = $value;
+                    break;
+                    case "user_login_pwd":
+                        $user_password = $value;
+                    case "user_remember_me":
+                        $remember_me = $value == 'yes' ? true : false;
+                    break;
+                endswitch;
+                
+            endforeach;
 
-        // validate default fields
-        if (isset($user_login) && isset($user_password) && isset($user_email)):
+        endif;
 
-            if(!validate_username($user_login)):
-                $errors->add('invalid_username', __('The username is invalid', 'elemental-membership'));
+        //Registration form validation
+        if($form_type == 'registration'):
+
+            foreach($fields as $field => $value):
+
+                switch($field):
+                    case "username":
+                        $user_login = $value;
+                    break;
+                    case "user_password":
+                        $user_password = $value;
+                    break;
+                    case "user_email":
+                        $user_email = $value;
+                    break;
+                    case "confirm-password":
+                        $user_password_confirm = $value;
+                endswitch;
+
+            endforeach;
+
+            if($user_password !== $user_password_confirm):
+                $errors->add('password_match', __('Passwords do not match', 'elemental-membership'));           
             endif;
 
             if(!is_email($user_email)):
                 $errors->add('not_email', __('Entered an invalid email', 'elemental-membership'));
             endif;
 
-            if($user_password !== $user_password_confirm):
-                $errors->add('password_match', __('Passwords do not match', 'elemental-membership'));           
+        endif;
+
+        //General validation
+        if (isset($user_login)):
+
+            if(!validate_username($user_login)):
+                $errors->add('invalid_username', __('The username is invalid', 'elemental-membership'));
             endif;
 
         endif;
