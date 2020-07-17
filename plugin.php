@@ -90,6 +90,7 @@ class Plugin {
 	private function include_widgets_files() {
 		require_once( __DIR__ . '/widgets/forms/widgets/registration-form.php' );
 		require_once( __DIR__ . '/widgets/forms/widgets/login-form.php' );
+		require_once( __DIR__ . '/widgets/forms/widgets/forgot-password-form.php' );
 		require_once( __DIR__ . '/widgets/logout/logout.php' );
 		require_once( __DIR__ . '/widgets/profile-header/profile-header.php' );
 	}
@@ -109,6 +110,7 @@ class Plugin {
 		// Register Widgets
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Registration_Form() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Login_Form() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Forms\Forgot_Password_Form() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Logout\Logout() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\ProfileHeader\Profile_Header() );
 	}
