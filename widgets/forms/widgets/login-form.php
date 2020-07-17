@@ -752,7 +752,7 @@ class Login_Form extends Widget_Base{
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
-					<a href="#">Lost your password?</a>
+					<a href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a>
 				</div>
 
 				<input type="hidden" name="action" value="em_login_user" />
