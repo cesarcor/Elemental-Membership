@@ -30,7 +30,7 @@ class Forgot_Password_Form extends Widget_Base{
         <form class="elementor-form">
             <div class="elementor-form-fields-wrapper">
                 <div class="elementor-field-group elementor-column elementor-col-100">
-                    <label for="forgot-pw-email"></label>
+                    <label for="forgot-pw-email">Your Email</label>
                     <input type="email" id="forgot-pw-email" placeholder="Email"/>
                 </div>
 
@@ -39,7 +39,7 @@ class Forgot_Password_Form extends Widget_Base{
                         Submit
                     </button>
                 </div>
-                <div>
+            <div>
                     
                 </div>
             </div>
@@ -49,6 +49,28 @@ class Forgot_Password_Form extends Widget_Base{
 
     }
 
-	protected function _content_template() {}
+	protected function _content_template() {
+    ?>
+
+        <div class="elementor-form">
+
+            <div class="elementor-form-fields-wrapper">
+                <div class="elementor-field-group elementor-column elementor-col-100">
+                    <label for="forgot-pw-email">Your Email</label>
+                    <input type="email" id="forgot-pw-email" placeholder="Email"/>
+                </div>
+                
+                <div>
+                    <button type="submit" class="em-button elementor-button">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        
+        </div>
+
+        
+    <?php
+    }
 
 }
