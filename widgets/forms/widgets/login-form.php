@@ -6,8 +6,6 @@ use Elementor\Controls_Manager;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
-use Elementor\Repeater;
-use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
 
 class Login_Form extends Widget_Base{
 
@@ -691,7 +689,6 @@ class Login_Form extends Widget_Base{
 	?>
 
 		<form class="em-user-login-form elementor-form">
-			<div class="elementor-login elementor-form">
 
 			<div class="elementor-form-fields-wrapper elementor-labels-above">
 
@@ -758,7 +755,6 @@ class Login_Form extends Widget_Base{
 				<input type="hidden" name="action" value="em_login_user" />
 				<?php wp_nonce_field( 'em_login_nonce' ); ?>
 
-				</div>
 			</div>
 		</form>
 
