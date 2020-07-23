@@ -144,6 +144,34 @@ class Forgot_Password_Form extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'links_section',
+            [
+                'label' => __( 'Links', 'elemental-membership' ),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'register_link_text',
+			[
+				'label' => __( 'Register Link Text', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Register', 'elemental-membership' )
+			]
+        );
+        
+        $this->add_control(
+			'login_link_text',
+			[
+				'label' => __( 'Login Link Text', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Login', 'elemental-membership' )
+			]
+		);
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'em_form_style',
             [
                 'label' => __( 'Form', 'elemental-membership' ),
@@ -513,6 +541,11 @@ class Forgot_Password_Form extends Widget_Base{
                     </button>
                 </div>
 
+                <div class="elementor-field-group elementor-column elementor-col-100">
+                    <div><a href="#"><?php echo $settings['register_link_text']; ?></a></div>
+                    <div><a href="#"><?php echo $settings['login_link_text']; ?></a></div>
+                </div>
+
                 <input type="hidden" name="action" value="em_forgot_pwd" />
                 <?php wp_nonce_field( 'em_forgot_pwd_nonce' ); ?>
 
@@ -548,6 +581,11 @@ class Forgot_Password_Form extends Widget_Base{
                     <button type="submit" class="em-button elementor-button elementor-size-{{ settings.button_size }}">
                         {{{ settings.button_text }}}
                     </button>
+                </div>
+
+                <div class="elementor-field-group elementor-column elementor-col-100">
+                    <div class="em-form-footer-link"><a href="#">{{{ settings.login_link_text }}}</a></div>
+                    <div class="em-form-footer-link"><a href="#">{{{ settings.register_link_text }}}</a></div>
                 </div>
                         
         </div>
