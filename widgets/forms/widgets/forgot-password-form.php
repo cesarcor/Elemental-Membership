@@ -147,7 +147,6 @@ class Forgot_Password_Form extends Widget_Base{
     ?>
 
         <form class="em-forgot-password-form elementor-form">
-            <div class="elementor-form-fields-wrapper">
                 <div class="elementor-field-group elementor-column elementor-col-100">
                     <?php if('yes' === $settings['show_labels']): ?>
                       <label for="forgot-pw-email">
@@ -162,7 +161,9 @@ class Forgot_Password_Form extends Widget_Base{
                         <?php echo $settings['button_text']; ?>
                     </button>
                 </div>
-            <div>
+
+                <input type="hidden" name="action" value="em_forgot_pwd" />
+                <?php wp_nonce_field( 'em_forgot_pwd_nonce' ); ?>
         </form>
 
     <?php
@@ -174,7 +175,6 @@ class Forgot_Password_Form extends Widget_Base{
 
         <div class="elementor-form">
 
-            <div class="elementor-form-fields-wrapper">
                 <div class="elementor-field-group elementor-column elementor-col-100">
                     <# if('yes' === settings.show_labels){ #>
                         <label for="forgot-pw-email">
@@ -197,8 +197,7 @@ class Forgot_Password_Form extends Widget_Base{
                         {{{ settings.button_text }}}
                     </button>
                 </div>
-            </div>
-        
+                        
         </div>
 
         
