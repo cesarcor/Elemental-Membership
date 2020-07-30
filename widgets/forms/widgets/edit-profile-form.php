@@ -140,6 +140,18 @@ class Edit_Profile_Form extends Widget_Base{
 			]
 		);
 
+		$this->add_control(
+			'bio_placeholder',
+			[
+				'label' => __( 'Bio Placeholder', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Bio', 'elemental-membership' ),
+				'condition' => [
+					'custom_labels' => 'yes',
+				],
+			]
+		);
+
         $this->end_controls_section();
 
 	}
@@ -151,23 +163,31 @@ class Edit_Profile_Form extends Widget_Base{
 		<form class="em-form">
 
 			<div class="elementor-field-group">
-				<label><?php echo $settings['first_name_label']; ?></label>
-				<input type="text" placeholder="<?php echo $settings['first_name_placeholder']; ?>"/>
+				<?php if('yes' === $settings['show_labels']): ?>
+					<label for="edit-first-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['first_name_label'] : __('First Name', 'elemental-membership'); ?></label>
+				<?php endif; ?>
+				<input type="text" id="edit-first-name" placeholder="<?php echo $settings['first_name_placeholder']; ?>"/>
 			</div>
 
 			<div class="elementor-field-group">
-				<label><?php echo $settings['last_name_label']; ?></label>
-				<input type="text" placeholder="<?php echo $settings['last_name_placeholder']; ?>"/>
+				<?php if('yes' === $settings['show_labels']): ?>
+					<label for="edit-last-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['last_name_label'] : __('Last Name', 'elemental-membership'); ?></label>
+				<?php endif; ?>
+				<input type="text" id="edit-last-name" placeholder="<?php echo $settings['last_name_placeholder']; ?>"/>
 			</div>
 
 			<div class="elementor-field-group">
-				<label><?php echo $settings['email_label']; ?></label>
-				<input type="email" placeholder="<?php echo $settings['email_placeholder']; ?>"/>
+				<?php if('yes' === $settings['show_labels']): ?>
+					<label for="edit-email"><?php echo 'yes' === $settings['custom_labels'] ? $settings['email_label'] : __('Email', 'elemental-membership'); ?></label>
+				<?php endif; ?>
+				<input type="email" id="edit-email" placeholder="<?php echo $settings['email_placeholder']; ?>"/>
 			</div>
 
 			<div class="elementor-field-group">
-				<label><?php echo $settings['bio_label']; ?></label>
-				<textarea rows="3" placeholder="<?php echo $settings['bio_placeholder']; ?>"></textarea>
+				<?php if('yes' === $settings['show_labels']): ?>
+					<label for="edit-textarea"><?php echo 'yes' === $settings['custom_labels'] ? $settings['bio_label'] : __('Bio', 'elemental-membership'); ?></label>
+				<?php endif; ?>
+				<textarea rows="3" id="edit-textarea" placeholder="<?php echo $settings['bio_placeholder']; ?>"></textarea>
 			</div>
 
 			<div class="elementor-field-group">
@@ -187,22 +207,78 @@ class Edit_Profile_Form extends Widget_Base{
 		<div class="em-form">
 
 			<div class="elementor-field-group">
-				<label>{{{ settings.first_name_label }}}</label>
+				<# if('yes' === settings.show_labels){ #>
+
+					<#
+						if('yes' === settings.custom_labels){
+					#>
+						<label>{{{ settings.first_name_label }}}</label>
+					<#	
+					}else{
+					#>
+						<label><?php echo __('First Name', 'elemental-membership'); ?></label>
+					<#
+					} 
+					#>
+
+				<# } #>
 				<input type="text" placeholder="{{{ settings.first_name_placeholder }}}"/>
 			</div>
 
 			<div class="elementor-field-group">
-				<label>{{{ settings.last_name_label }}}</label>
+				<# if('yes' === settings.show_labels){ #>
+
+					<#
+						if('yes' === settings.custom_labels){
+					#>
+						<label>{{{ settings.last_name_label }}}</label>
+					<#
+					}else{
+					#>
+						<label><?php echo __('Last Name', 'elemental-membership'); ?></label>
+					<#
+					} 
+					#>
+
+				<# } #>
 				<input type="text" placeholder="{{{ settings.last_name_placeholder }}}"/>
 			</div>
 
 			<div class="elementor-field-group">
-				<label>{{{ settings.email_label }}}</label>
+				<# if('yes' === settings.show_labels){ #>
+
+					<#
+						if('yes' === settings.custom_labels){
+					#>
+						<label>{{{ settings.email_label }}}</label>
+					<#
+					}else{
+					#>
+						<label><?php echo __('Email', 'elemental-membership'); ?></label>
+					<#
+					} 
+					#>
+
+				<# } #>
 				<input type="email" placeholder="{{{ settings.email_placeholder }}}"/>
 			</div>
 
 			<div class="elementor-field-group">
-				<label>{{{ settings.bio_label }}}</label>
+				<# if('yes' === settings.show_labels){ #>
+
+					<#
+						if('yes' === settings.custom_labels){
+					#>
+						<label>{{{ settings.bio_label }}}</label>
+					<#
+					}else{
+					#>
+						<label><?php echo __('Bio', 'elemental-membership'); ?></label>
+					<#
+					} 
+					#>
+
+				<# } #>
 				<textarea rows="3" placeholder="{{{ settings.bio_placeholder }}}"></textarea>
 			</div>
 
