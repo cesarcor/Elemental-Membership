@@ -282,7 +282,7 @@ class Forgot_Password_Form extends Widget_Base{
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'label_typography',
-				'selector' => '{{WRAPPER}} .elementor-field_group label',
+				'selector' => '{{WRAPPER}} .elementor-field-group label',
 				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
 			]
 		);
