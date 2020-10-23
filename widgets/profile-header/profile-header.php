@@ -39,10 +39,9 @@ class Profile_Header extends Widget_Base{
             'show_profile_action_menu',
             [
                 'label' => __('Show Action Menu', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'type' => Controls_Manager::SWITCHER,
                 'label_on' => __('Show', 'elemental-membership'),
                 'label_off' => __('Hide', 'elemental-membership'),
-                'return_value' => 'yes',
                 'default' => 'yes',
             ]
         );
@@ -51,10 +50,9 @@ class Profile_Header extends Widget_Base{
             'show_logout_link',
             [
                 'label' => __('Logout Link', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'type' => Controls_Manager::SWITCHER,
                 'label_on' => __('Show', 'elemental-membership'),
                 'label_off' => __('Hide', 'elemental-membership'),
-                'return_value' => 'yes',
                 'default' => 'yes',
             ]
         );
@@ -296,10 +294,10 @@ class Profile_Header extends Widget_Base{
                                 <?php printf(esc_html($current_user->user_firstname . " " . $current_user->user_lastname));?>
                             </h2>
 
-						<?php if ($settings['show_profile_action_menu']): ?>
+						<?php if ('yes' === $settings['show_profile_action_menu']): ?>
                             <ul class="em-list em-header-actions">
-                                <li><a href="#"><?php __("Edit Profile", "elemental-membership"); ?></a></li>
-                                <li><a href="#"><?php __("Settings", "elemental-membership"); ?></a></li>
+                                <li><a href="#"><?php echo __("Edit Profile", "elemental-membership"); ?></a></li>
+                                <li><a href="#"><?php echo __("Settings", "elemental-membership"); ?></a></li>
                             </ul>
 						<?php endif;?>
 
@@ -330,6 +328,62 @@ class Profile_Header extends Widget_Base{
 }
 
     protected function _content_template(){
+
+    ?>
+
+        <div class="em-profile-header">
+
+        <div class="em-profile-banner">
+            <div class="em-profile-banner__bg" style="background-image: url({{ settings.profile_banner_image.url }});"></div>
+        </div>
+
+        <div class="em-profile-header-wrapper">
+
+            <div class="em-profile-header-user">
+
+                <div class="elementor-row em-row">
+
+                    <div class="em-user-avatar">
+                        <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
+                    </div>
+
+                    <div class="em-profile-modifier-actions">
+
+                        <h2 class="em-profile-identifier">
+                            John Doe
+                        </h2>
+
+                    <# if ('yes' === settings.show_profile_action_menu){ #>
+                        <ul class="em-list em-header-actions">
+                            <li><a href="#">Edit Profile</a></li>
+                            <li><a href="#">Settings</a></li>
+                        </ul>
+                    <# } #>
+
+                    </div>
+
+                    <div class="em-profile-header-nav">
+                        <ul class="em-list">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Posts</a></li>
+                        </ul>
+
+                        <# if ('yes' === settings.show_logout_link){ #>
+                            <a href="#" class="em-link-btn em-logout-btn">
+                                <?php echo __("Logout", "elemental-membership"); ?>
+                            </a>
+                        <# } #>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <?php
 
     }
 
