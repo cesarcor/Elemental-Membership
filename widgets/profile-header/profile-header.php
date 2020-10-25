@@ -282,7 +282,7 @@ class Profile_Header extends Widget_Base{
 
                 <div class="em-profile-header-user">
 
-                    <div class="elementor-row em-row">
+                    <div class="em-row">
 
                         <div class="em-user-avatar">
                             <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
@@ -309,9 +309,9 @@ class Profile_Header extends Widget_Base{
                                 <li><a href="#">Posts</a></li>
                             </ul>
 
-							<?php if ($settings['show_logout_link']): ?>
+							<?php if ('yes' === $settings['show_logout_link']): ?>
 								<a href="<?php echo wp_logout_url(); ?>" class="em-link-btn em-logout-btn">
-									<?php __("Logout", "elemental-membership"); ?>
+									<?php echo __("Logout", "elemental-membership"); ?>
 								</a>
 							<?php endif;?>
                         </div>
@@ -341,7 +341,7 @@ class Profile_Header extends Widget_Base{
 
             <div class="em-profile-header-user">
 
-                <div class="elementor-row em-row">
+                <div class="em-row">
 
                     <div class="em-user-avatar">
                         <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>

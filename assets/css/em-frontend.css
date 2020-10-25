@@ -1,18 +1,18 @@
-.em-list{
+.em-list {
+  margin: 0;
+  padding: 0;
+}
+
+.em-list li {
+  list-style-type: none;
   margin: 0;
 }
 
-.em-list li{
-  list-style-type: none;
-}
-
-
 /* TBC*/
 
-.em-profile-banner > *{
+.em-profile-banner > * {
   width: 100%;
 }
-
 
 /* Profile Header */
 .em-profile-header h1,
@@ -20,30 +20,49 @@
 .em-profile-header h3,
 .em-profile-header h4,
 .em-profile-header h5,
-.em-profile-header h6
-{
+.em-profile-header h6 {
   margin: 0;
 }
 
-.em-profile-header ul li{
+.em-profile-header-user .em-row {
+  display: flex;
+}
+
+.em-profile-header ul li {
   display: inline-block;
 }
 
-.em-profile-header-nav{
-flex-grow: 1;
+.em-profile-header-nav {
+  flex-grow: 1;
 }
 
-.em-profile-header .em-logout-btn{
+.em-profile-header .em-logout-btn {
   float: right;
 }
 
+@media (max-width: 767px) {
+  .em-profile-header-user .em-row {
+    flex-direction: column;
+  }
+
+  .em-user-avatar,
+  .em-profile-identifier {
+    text-align: center;
+  }
+
+  .em-profile-identifier{
+    position: relative;
+    top: -55px;
+  }
+
+}
 
 /* Layout */
-.em-row{
+.em-row {
   position: relative;
 }
 
-.em-user-avatar .avatar{
+.em-user-avatar .avatar {
   position: relative;
   top: -70px;
 }
