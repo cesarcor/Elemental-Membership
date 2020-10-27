@@ -36,6 +36,10 @@
   flex-grow: 1;
 }
 
+.em-header-actions li a{
+  font-size: 11px;
+}
+
 .em-profile-header .em-logout-btn {
   float: right;
 }

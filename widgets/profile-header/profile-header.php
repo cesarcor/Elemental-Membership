@@ -150,7 +150,7 @@ class Profile_Header extends Widget_Base{
                 'size_units' => ['px', '%'],
                 'range' => [
                     'px' => [
-                        'min' => 80,
+                        'min' => 0,
                         'max' => 1000,
                         'step' => 5,
                     ],
@@ -207,6 +207,21 @@ class Profile_Header extends Widget_Base{
                 'scheme' => Schemes\Typography::TYPOGRAPHY_3,
             ]
         );
+
+        $this->add_control(
+			'profile_header_name_color',
+			[
+				'label' => __( 'Profile Name Color', 'elemental-membership' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .em-profile-identifier' => 'color: {{VALUE}};',
+				],
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
+				],
+			]
+		);
 
         $this->add_group_control(
             Group_Control_Typography::get_type(),
