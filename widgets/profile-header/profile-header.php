@@ -137,7 +137,7 @@ class Profile_Header extends Widget_Base{
                     'size' => 150,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .em-user-avatar img' => 'width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .em-user-avatar' => 'width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -170,20 +170,20 @@ class Profile_Header extends Widget_Base{
         );
 
         $this->add_control(
-            'profile_user_image_padding',
+            'profile_image_margin',
             [
-                'label' => __('Image Padding', 'elemental-membership'),
+                'label' => __('Profile Photo Margin', 'elemental-membership'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%'],
                 'default' => [
                     'unit' => 'px',
                     'top' => '0',
                     'right' => '20',
-                    'bottom' => '0',
+                    'bottom' => '80',
                     'left' => '20',
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .em-user-avatar' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .em-user-avatar' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -299,11 +299,11 @@ class Profile_Header extends Widget_Base{
 
                     <div class="em-row">
 
-                        <div class="em-user-avatar">
+                        <div class="em-col em-user-avatar">
                             <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
                         </div>
 
-                        <div class="em-profile-modifier-actions">
+                        <div class="em-col em-profile-modifier-actions">
 
                             <h2 class="em-profile-identifier">
                                 <?php printf(esc_html($current_user->user_firstname . " " . $current_user->user_lastname));?>
@@ -318,7 +318,7 @@ class Profile_Header extends Widget_Base{
 
                         </div>
 
-                        <div class="em-profile-header-nav">
+                        <div class="em-col em-profile-header-nav">
                             <ul class="em-list">
                                 <li><a href="#">Profile</a></li>
                                 <li><a href="#">Posts</a></li>
@@ -358,11 +358,11 @@ class Profile_Header extends Widget_Base{
 
                 <div class="em-row">
 
-                    <div class="em-user-avatar">
+                    <div class="em-col em-user-avatar">
                         <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
                     </div>
 
-                    <div class="em-profile-modifier-actions">
+                    <div class="em-col em-profile-modifier-actions">
 
                         <h2 class="em-profile-identifier">
                             John Doe
@@ -377,7 +377,7 @@ class Profile_Header extends Widget_Base{
 
                     </div>
 
-                    <div class="em-profile-header-nav">
+                    <div class="em-col em-profile-header-nav">
                         <ul class="em-list">
                             <li><a href="#">Profile</a></li>
                             <li><a href="#">Posts</a></li>
