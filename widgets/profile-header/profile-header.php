@@ -246,6 +246,81 @@ class Profile_Header extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'profile_header_buttons',
+            [
+                'label' => __('Header Buttons', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'change_image_btn_color',
+            [
+                'label' => __('Change Photo Button', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#444444',
+                'selectors' => [
+                    '{{WRAPPER}} .em-user-avatar__change .em-profile-btn' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'change_banner_btn_color',
+            [
+                'label' => __('Banner Button Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#444444',
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-banner__change .em-profile-btn' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'change_image_btn_bg_color',
+            [
+                'label' => __('Change Photo Button Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#e5e5e5',
+                'selectors' => [
+                    '{{WRAPPER}} .em-user-avatar__change .em-profile-btn' => 'background: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'change_banner_btn_bg_color',
+            [
+                'label' => __('Banner Btn Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#e5e5e5',
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-banner__change .em-profile-btn' => 'background: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'em_profile_header_logout_style',
             [
                 'label' => __('Logout Link', 'elemental-membership'),
@@ -291,6 +366,14 @@ class Profile_Header extends Widget_Base{
 
             <div class="em-profile-banner">
                 <div class="em-profile-banner__bg" style="background-image: url(<?php echo $settings['profile_banner_image']['url']; ?>)"></div>
+                <div class="em-profile-banner__change">
+                <?php if(is_user_logged_in()): ?>
+                    <div class="em-profile-btn">
+                        <span class="dashicons dashicons-format-image"></span>
+                        Change Image
+                    </div>
+                <?php endif; ?>
+                </div>
             </div>
 
             <div class="em-profile-header-wrapper">
@@ -301,6 +384,13 @@ class Profile_Header extends Widget_Base{
 
                         <div class="em-col em-user-avatar">
                             <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
+                            <?php if(is_user_logged_in()): ?>
+                                <div class="em-user-avatar__change">
+                                    <div class="em-profile-btn">
+                                        <span class="dashicons dashicons-camera"></span>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="em-col em-profile-modifier-actions">
