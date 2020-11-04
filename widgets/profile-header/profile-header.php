@@ -332,16 +332,25 @@ class Profile_Header extends Widget_Base{
             Group_Control_Typography::get_type(),
             [
                 'name' => 'profile_header_logout_typography',
-                'label' => __('Logout Link Typography', 'elemental-membership'),
+                'label' => __('Link Typography', 'elemental-membership'),
                 'selector' => '{{WRAPPER}} .em-logout-btn',
                 'scheme' => Schemes\Typography::TYPOGRAPHY_3,
             ]
         );
 
+        $this->start_controls_tabs( 'logout_link_style' );
+
+        $this->start_controls_tab(
+			'logout_link_normal',
+			[
+				'label' => __( 'Normal', 'elemental-membership' ),
+			]
+        );
+
         $this->add_control(
             'profile_header_logout_color',
             [
-                'label' => __('Logout Link Color', 'elemental-membership'),
+                'label' => __('Link Color', 'elemental-membership'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .em-logout-btn' => 'color: {{VALUE}};',
@@ -352,6 +361,79 @@ class Profile_Header extends Widget_Base{
                 ],
             ]
         );
+
+        $this->add_control(
+            'profile_header_logout_bg',
+            [
+                'label' => __('Link Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-logout-btn' => 'background-color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+                'default' => 'rgba(255, 255, 255, 0)'
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+			'logout_link_hover',
+			[
+				'label' => __( 'Hover', 'elemental-membership' ),
+			]
+        );
+
+        $this->add_control(
+            'profile_header_logout_hover_color',
+            [
+                'label' => __('Link Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-logout-btn:hover' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'profile_header_logout_hover_bg',
+            [
+                'label' => __('Link Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-logout-btn:hover' => 'background-color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+                'default' => 'rgba(255, 255, 255, 0)'
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->add_control(
+			'profile_header_logout_padding',
+			[
+				'label' => __( 'Padding', 'elemental-membership' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'separator' => 'before',
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors' => [
+					'{{WRAPPER}} .em-logout-btn' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
 
         $this->end_controls_section();
 
