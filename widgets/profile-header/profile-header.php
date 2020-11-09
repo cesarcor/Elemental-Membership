@@ -153,6 +153,33 @@ class Profile_Header extends Widget_Base{
             ]
         );
 
+        $this->add_control(
+            'profile_banner_radius',
+            [
+                'label' => __('Profile Banner Radius', 'elemental-membership'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 5,
+                    ],
+                    '%' => [
+                        'min' => 15,
+                        'max' => 100,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 5,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-banner__bg' => 'border-radius: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
         $this->start_controls_section(
