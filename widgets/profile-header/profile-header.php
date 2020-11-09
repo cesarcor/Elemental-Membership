@@ -3,6 +3,7 @@
 namespace ElementalMembership\Widgets\ProfileHeader;
 
 use Elementor\Controls_Manager;
+use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
@@ -26,6 +27,8 @@ class Profile_Header extends Widget_Base{
     }
 
     protected function _register_controls(){
+
+        $repeater = new Repeater();
 
         $this->start_controls_section(
             'em_profile_header_section',
@@ -54,6 +57,51 @@ class Profile_Header extends Widget_Base{
                 'label_on' => __('Show', 'elemental-membership'),
                 'label_off' => __('Hide', 'elemental-membership'),
                 'default' => 'yes',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'em_profile_menu_section',
+            [
+                'label' => __('Profile Menu', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $repeater->add_control(
+            'menu_item_text',
+            [
+                'label' => __('Link Text', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+            ]
+        );
+
+        $repeater->add_control(
+            'menu_item_url',
+            [
+                'label' => __('URL', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::URL
+            ]
+        );
+
+        $this->add_control(
+            'profile_menu_list',
+            [
+                'label' => __('Profile Menu', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'default' => [
+                    [
+                        'menu_item_text' => __('Menu Item One', 'elemental-membership')
+                    ],
+
+                    [
+                        'menu_item_text' => __('Menu Item Two', 'elemental-membership')
+                    ]
+                ],
+                'title_field' => '{{{ menu_item_text }}}',
             ]
         );
 
@@ -492,8 +540,15 @@ class Profile_Header extends Widget_Base{
 
                         <div class="em-col em-profile-header-nav">
                             <ul class="em-list">
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Posts</a></li>
+                                <?php 
+                                    if($settings['profile_menu_list']): 
+                                        foreach($settings['profile_menu_list'] as $item):
+                                            $target = $item['menu_item_url']['is_external'] ? ' target="_blank"' : '';
+                                            $nofollow = $item['menu_item_url']['nofollow'] ? ' rel="nofollow"' : '';
+                                            echo '<li><a href="' . $item['menu_item_url']['url'] . '"' . $target . $nofollow . '>' . $item['menu_item_text'] . '</a></li>';
+                                        endforeach;
+                                    endif; 
+                                 ?>
                             </ul>
 
 							<?php if ('yes' === $settings['show_logout_link']): ?>
@@ -551,8 +606,10 @@ class Profile_Header extends Widget_Base{
 
                     <div class="em-col em-profile-header-nav">
                         <ul class="em-list">
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Posts</a></li>
+                            <# if( settings.profile_menu_list.length ){ #>
+                                <# _.each( settings.profile_menu_list, function(item){  #> 
+                                    <li><a href="#">{{{ item.menu_item_text }}}</a></li>
+                            <# }); } #>
                         </ul>
 
                         <# if ('yes' === settings.show_logout_link){ #>
