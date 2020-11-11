@@ -75,6 +75,7 @@ class Profile_Header extends Widget_Base{
             [
                 'label' => __('Link Text', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => 'Item'
             ]
         );
 
