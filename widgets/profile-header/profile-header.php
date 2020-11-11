@@ -322,6 +322,78 @@ class Profile_Header extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'profile_menu_styles',
+            [
+                'label' => __('Menu', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'profile_menu_typography',
+                'label' => __('Typography', 'elemental-membership'),
+                'selector' => '{{WRAPPER}} .em-profile-menu-list li a',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->start_controls_tabs( 'menu_item_color' );
+
+        $this->start_controls_tab(
+			'menu_item_color_normal',
+			[
+				'label' => __( 'Normal', 'elemental-membership' ),
+			]
+        );
+
+        $this->add_control(
+            'profile_menu_color',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-menu-list li a' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+			'menu_item_color_hover',
+			[
+				'label' => __( 'Hover', 'elemental-membership' ),
+			]
+        );
+
+        $this->add_control(
+            'profile_menu_color_hover',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-menu-list li a:hover' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'profile_header_buttons',
             [
                 'label' => __('Header Buttons', 'elemental-membership'),
@@ -567,7 +639,7 @@ class Profile_Header extends Widget_Base{
                         </div>
 
                         <div class="em-col em-profile-header-nav">
-                            <ul class="em-list">
+                            <ul class="em-list em-profile-menu-list">
                                 <?php 
                                     if($settings['profile_menu_list']): 
                                         foreach($settings['profile_menu_list'] as $item):
@@ -633,7 +705,7 @@ class Profile_Header extends Widget_Base{
                     </div>
 
                     <div class="em-col em-profile-header-nav">
-                        <ul class="em-list">
+                        <ul class="em-list em-profile-menu-list">
                             <# if( settings.profile_menu_list.length ){ #>
                                 <# _.each( settings.profile_menu_list, function(item){  #> 
                                     <li><a href="#">{{{ item.menu_item_text }}}</a></li>
