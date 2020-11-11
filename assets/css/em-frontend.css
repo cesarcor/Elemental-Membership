@@ -70,6 +70,10 @@
   flex-grow: 1;
 }
 
+.em-profile-header-nav li a{
+  padding: 6px 12px;
+}
+
 .em-user-avatar {
   position: relative;
   height: auto;
@@ -120,6 +124,10 @@
 
   .em-user-avatar .avatar {
     left: 0;
+  }
+
+  .em-profile-header-nav ul li{
+    display: block;
   }
 
   .em-profile-banner__change {
