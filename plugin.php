@@ -95,6 +95,7 @@ class Plugin {
 		require_once( __DIR__ . '/widgets/logout/logout.php' );
 		require_once( __DIR__ . '/widgets/profile-header/profile-header.php' );
 		require_once( __DIR__ . '/widgets/profile-header/widgets/profile-picture.php' );
+		require_once( __DIR__ . '/widgets/profile-header/widgets/profile-menu.php' );
 		require_once( __DIR__ . '/widgets/profile-content/profile-content.php' );
 	}
 
@@ -119,6 +120,7 @@ class Plugin {
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Logout\Logout() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\ProfileHeader\Profile_Header() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\ProfileHeader\Profile_Picture() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\ProfileHeader\Profile_Menu() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\ProfileContent\Profile_Content() );
 	}
 
