@@ -3,6 +3,7 @@
 namespace ElementalMembership\Widgets\ProfileHeader;
 
 use Elementor\Controls_Manager;
+use Elementor\Core\Schemes;
 use Elementor\Widget_Base;
 
 class Profile_Picture extends Widget_Base{
@@ -59,6 +60,59 @@ class Profile_Picture extends Widget_Base{
                 ],
             ]
         );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'change_picture_button',
+            [
+                'label' => __('Change Picture Button', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'change_picture_button_color',
+            [
+                'label' => __('Change Picture Button', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#444444',
+                'selectors' => [
+                    '{{WRAPPER}} .em-user-picture__change .em-profile-btn' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'change_picture_button_bg_color',
+            [
+                'label' => __('Picture Button Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#e5e5e5',
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-picture .em-profile-btn' => 'background: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'border',
+				'label' => __( 'Border', 'elemental-membership' ),
+                'selector' => '{{WRAPPER}} .em-profile-picture img',
+                'separator' => 'before'
+			]
+		);
 
         $this->end_controls_section();
 

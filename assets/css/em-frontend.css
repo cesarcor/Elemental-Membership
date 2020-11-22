@@ -82,16 +82,31 @@
 .em-user-avatar .avatar {
   position: absolute;
   top: -70px;
+}
+
+.em-profile-picture .avatar,
+.em-user-avatar .avatar{
   width: 100%;
 }
 
-.em-user-avatar__change {
+.em-profile-picture .em-profile-btn{
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+}
+
+.em-user-avatar__change,
+.em-profile-picture .em-profile-btn{
   left: 0;
   right: 0;
+}
+
+.em-user-avatar__change {
   bottom: -65px;
 }
 
-.em-user-avatar__change .em-profile-btn {
+.em-user-avatar__change .em-profile-btn,
+.em-user-picture__change .em-profile-btn {
   margin: 0 auto;
   width: 30px;
   border-radius: 50px;
@@ -118,7 +133,6 @@
   }
 
   .em-profile-identifier {
-    position: relative;
     top: -55px;
   }
 
