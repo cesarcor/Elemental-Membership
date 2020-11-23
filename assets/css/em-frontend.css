@@ -62,7 +62,8 @@
   margin: 5px;
 }
 
-.em-profile-header ul li {
+.em-profile-header ul li,
+.em-profile-menu-container ul li {
   display: inline-block;
 }
 
