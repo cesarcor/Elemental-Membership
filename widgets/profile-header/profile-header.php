@@ -19,7 +19,7 @@ class Profile_Header extends Widget_Base{
     }
 
     public function get_icon(){
-        return 'fa fa-form';
+        return 'em-profile-header';
     }
 
     public function get_categories(){
@@ -401,14 +401,39 @@ class Profile_Header extends Widget_Base{
             ]
         );
 
+        $this->start_controls_tabs( 'header_buttons' );
+
+        $this->start_controls_tab(
+			'header_buttons_normal',
+			[
+				'label' => __( 'Normal', 'elemental-membership' ),
+			]
+        );
+
         $this->add_control(
             'change_image_btn_color',
             [
-                'label' => __('Change Photo Button', 'elemental-membership'),
+                'label' => __('Image Button Color', 'elemental-membership'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#444444',
                 'selectors' => [
                     '{{WRAPPER}} .em-user-avatar__change .em-profile-btn' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'change_image_btn_bg_color',
+            [
+                'label' => __('Image Button Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#e5e5e5',
+                'selectors' => [
+                    '{{WRAPPER}} .em-user-avatar__change .em-profile-btn' => 'background: {{VALUE}};',
                 ],
                 'scheme' => [
                     'type' => Schemes\Color::get_type(),
@@ -430,34 +455,18 @@ class Profile_Header extends Widget_Base{
                     'type' => Schemes\Color::get_type(),
                     'value' => Schemes\Color::COLOR_3,
                 ],
-            ]
-        );
-
-        $this->add_control(
-            'change_image_btn_bg_color',
-            [
-                'label' => __('Change Photo Button Background', 'elemental-membership'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#e5e5e5',
-                'selectors' => [
-                    '{{WRAPPER}} .em-user-avatar__change .em-profile-btn' => 'background: {{VALUE}};',
-                ],
-                'scheme' => [
-                    'type' => Schemes\Color::get_type(),
-                    'value' => Schemes\Color::COLOR_3,
-                ],
-                'separator' => 'before',
+                'separator' => 'before'
             ]
         );
 
         $this->add_control(
             'change_banner_btn_bg_color',
             [
-                'label' => __('Banner Btn Background', 'elemental-membership'),
+                'label' => __('Banner Button Background', 'elemental-membership'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#e5e5e5',
                 'selectors' => [
-                    '{{WRAPPER}} .em-profile-banner__change .em-profile-btn' => 'background: {{VALUE}};',
+                    '{{WRAPPER}} .em-profile-banner__change .em-profile-btn' => 'background-color: {{VALUE}};',
                 ],
                 'scheme' => [
                     'type' => Schemes\Color::get_type(),
@@ -465,6 +474,84 @@ class Profile_Header extends Widget_Base{
                 ],
             ]
         );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+			'header_buttons_hover',
+			[
+				'label' => __( 'Hover', 'elemental-membership' ),
+			]
+        );
+
+        $this->add_control(
+            'change_image_btn_color_hover',
+            [
+                'label' => __('Image Button Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#444444',
+                'selectors' => [
+                    '{{WRAPPER}} .em-user-avatar__change .em-profile-btn:hover' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'change_image_btn_bg_color_hover',
+            [
+                'label' => __('Image Button Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#e5e5e5',
+                'selectors' => [
+                    '{{WRAPPER}} .em-user-avatar__change .em-profile-btn:hover' => 'background: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'change_banner_btn_color_hover',
+            [
+                'label' => __('Banner Button Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#444444',
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-banner__change .em-profile-btn' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+                'separator' => 'before'
+            ]
+        );
+
+        $this->add_control(
+            'change_banner_btn_bg_color_hover',
+            [
+                'label' => __('Banner Button Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#e5e5e5',
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-banner__change .em-profile-btn:hover' => 'background-color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
 
         $this->end_controls_section();
 
@@ -629,18 +716,19 @@ class Profile_Header extends Widget_Base{
                                 <?php printf(esc_html($current_user->user_firstname . " " . $current_user->user_lastname));?>
                             </h2>
 
-						<?php if ('yes' === $settings['show_profile_action_menu']): ?>
-                            <ul class="em-list em-header-actions">
-                                <li><a href="#"><?php echo __("Edit Profile", "elemental-membership"); ?></a></li>
-                                <li><a href="#"><?php echo __("Settings", "elemental-membership"); ?></a></li>
-                            </ul>
-						<?php endif;?>
+                            <?php if ('yes' === $settings['show_profile_action_menu']): ?>
+                                <ul class="em-list em-header-actions">
+                                    <li><a href="#"><?php echo __("Edit Profile", "elemental-membership"); ?></a></li>
+                                    <li><a href="#"><?php echo __("Settings", "elemental-membership"); ?></a></li>
+                                </ul>
+                            <?php endif;?>
 
                         </div>
 
                         <div class="em-col em-profile-header-nav">
                             <ul class="em-list em-profile-menu-list">
                                 <?php 
+                                    //elementor-hidden-tablet elementor-hidden-phone elementor-hidden-desktop
                                     if($settings['profile_menu_list']): 
                                         foreach($settings['profile_menu_list'] as $item):
                                             $target = $item['menu_item_url']['is_external'] ? ' target="_blank"' : '';
