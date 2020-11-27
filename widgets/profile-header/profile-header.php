@@ -267,6 +267,41 @@ class Profile_Header extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'header_buttons',
+            [
+                'label' => __('Buttons', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'banner_button_icon',
+			[
+				'label' => __( 'Banner Button Icon', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::ICONS,
+				'default' => [
+					'value' => 'fas fa-image',
+					'library' => 'solid',
+                ],
+                'separator' => 'after'
+			]
+        );
+        
+        $this->add_control(
+			'image_button_icon',
+			[
+				'label' => __( 'Image Button Icon', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::ICONS,
+				'default' => [
+					'value' => 'fas fa-camera',
+					'library' => 'solid',
+                ],
+			]
+		);
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'em_profile_header_text_style',
             [
                 'label' => __('Header Text', 'elemental-membership'),
@@ -394,17 +429,17 @@ class Profile_Header extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
-            'profile_header_buttons',
+            'profile_header_buttons_styles',
             [
                 'label' => __('Header Buttons', 'elemental-membership'),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
 
-        $this->start_controls_tabs( 'header_buttons' );
+        $this->start_controls_tabs( 'header_button_styles' );
 
         $this->start_controls_tab(
-			'header_buttons_normal',
+			'header_buttons_styles_normal',
 			[
 				'label' => __( 'Normal', 'elemental-membership' ),
 			]
@@ -478,7 +513,7 @@ class Profile_Header extends Widget_Base{
         $this->end_controls_tab();
 
         $this->start_controls_tab(
-			'header_buttons_hover',
+			'header_buttons_styles_hover',
 			[
 				'label' => __( 'Hover', 'elemental-membership' ),
 			]
@@ -686,8 +721,8 @@ class Profile_Header extends Widget_Base{
                 <div class="em-profile-banner__change">
                 <?php if(is_user_logged_in()): ?>
                     <div class="em-profile-btn">
-                        <span class="dashicons dashicons-format-image"></span>
-                        Change Image
+                         <?php \Elementor\Icons_Manager::render_icon( $settings['banner_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
+                         <?php echo __('Change Image', 'elemental-membership'); ?>
                     </div>
                 <?php endif; ?>
                 </div>
@@ -704,7 +739,7 @@ class Profile_Header extends Widget_Base{
                             <?php if(is_user_logged_in()): ?>
                                 <div class="em-user-avatar__change">
                                     <div class="em-profile-btn">
-                                        <span class="dashicons dashicons-camera"></span>
+                                        <?php \Elementor\Icons_Manager::render_icon( $settings['image_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
                                     </div>
                                 </div>
                             <?php endif; ?>

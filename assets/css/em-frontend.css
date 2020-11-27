@@ -96,6 +96,11 @@
   text-align: center;
 }
 
+.em-user-avatar__change .em-profile-btn,
+.em-profile-picture .em-profile-btn{
+  text-align: center;
+}
+
 .em-user-avatar__change,
 .em-profile-picture .em-profile-btn{
   left: 0;
