@@ -64,6 +64,28 @@ class Profile_Picture extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'picture_change_button',
+            [
+                'label' => __('Button', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'picture_button_icon',
+			[
+				'label' => __( 'Icon', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::ICONS,
+				'default' => [
+					'value' => 'fas fa-camera',
+					'library' => 'solid',
+                ],
+			]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'change_picture_button',
             [
                 'label' => __('Change Picture Button', 'elemental-membership'),
@@ -127,7 +149,7 @@ class Profile_Picture extends Widget_Base{
             <?php if(is_user_logged_in()): ?>
                 <div class="em-user-picture__change">
                     <div class="em-profile-btn">
-                        <span class="dashicons dashicons-camera"></span>
+                        <?php \Elementor\Icons_Manager::render_icon( $settings['picture_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
                     </div>
                 </div>
             <?php endif; ?>
