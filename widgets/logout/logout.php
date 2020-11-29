@@ -67,6 +67,34 @@ class Logout extends Widget_Base{
             ]
         );
 
+        $this->add_responsive_control(
+			'align',
+			[
+				'label' => __( 'Alignment', 'elemental-membership' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'left'    => [
+						'title' => __( 'Left', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => __( 'Center', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => __( 'Right', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-right',
+					],
+					'justify' => [
+						'title' => __( 'Justified', 'elemental-membership' ),
+						'icon' => 'eicon-text-align-justify',
+					],
+				],
+				'prefix_class' => 'elementor%s-align-',
+				'default' => '',
+			]
+		);
+
         $this->end_controls_section();
 
         $this->start_controls_section(
