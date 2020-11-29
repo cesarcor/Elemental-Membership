@@ -128,24 +128,23 @@ class Logout extends Widget_Base{
         $this->start_controls_tabs( 'tabs_button_style' );
 
         $this->start_controls_tab(
-			'tab_button_normal',
+			'logout_button_normal',
 			[
 				'label' => __( 'Normal', 'elemental-membership' ),
 			]
         );
 
         $this->add_control(
-			'field_text_color',
+			'logout_button_text_color',
 			[
-				'label' => __( 'Text Color', 'elementor-pro' ),
+				'label' => __( 'Text Color', 'elemental-membership' ),
                 'type' => Controls_Manager::COLOR,
-                'default' => ['#FFFFFF'],
-				'selectors' => [
-					'{{WRAPPER}} .em-logout-btn' => 'color: {{VALUE}};',
-				],
 				'scheme' => [
 					'type' => Schemes\Color::get_type(),
 					'value' => Schemes\Color::COLOR_3,
+                ],
+                'selectors' => [
+					'{{WRAPPER}} .em-logout-btn' => 'color: {{VALUE}};',
 				],
 			]
         );
@@ -168,7 +167,7 @@ class Logout extends Widget_Base{
         $this->end_controls_tab();
 
         $this->start_controls_tab(
-			'tab_button_hover',
+			'logout_button_hover',
 			[
 				'label' => __( 'Hover', 'elemental-membership' ),
 			]
@@ -177,7 +176,7 @@ class Logout extends Widget_Base{
         $this->add_control(
 			'button_hover_color',
 			[
-				'label' => __( 'Text Color', 'elementor-pro' ),
+				'label' => __( 'Text Color', 'elemental-membership' ),
                 'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .em-logout-btn:hover' => 'color: {{VALUE}};',
@@ -188,7 +187,7 @@ class Logout extends Widget_Base{
         $this->add_control(
 			'button_background_hover_color',
 			[
-				'label' => __( 'Background Color', 'elementor-pro' ),
+				'label' => __( 'Background Color', 'elemental-membership' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .em-logout-btn:hover' => 'background-color: {{VALUE}};',
@@ -211,7 +210,7 @@ class Logout extends Widget_Base{
         $this->add_control(
 			'link_border_radius',
 			[
-				'label' => __( 'Border Radius', 'elementor-pro' ),
+				'label' => __( 'Border Radius', 'elemental-membership' ),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%' ],
 				'selectors' => [
@@ -232,7 +231,7 @@ class Logout extends Widget_Base{
         $this->add_control(
 			'link_text_padding',
 			[
-				'label' => __( 'Text Padding', 'elementor-pro' ),
+				'label' => __( 'Text Padding', 'elemental-membership' ),
 				'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', 'em', '%' ],
                 'default' => [
@@ -258,7 +257,7 @@ class Logout extends Widget_Base{
 
     ?>
 
-        <a href="<?php echo wp_logout_url($settings['em_logout_redirect_url']); ?>" class="em-link-btn em-logout-btn">
+        <a href="<?php echo wp_logout_url($settings['em_logout_redirect_url']); ?>" class="em-link-btn em-logout-btn elementor-button">
             <?php echo $settings['em_logout_link_text']; ?>
         </a>
 
@@ -269,7 +268,7 @@ class Logout extends Widget_Base{
     public function _content_template(){
     ?>
 
-        <a href="#" class="em-link-btn em-logout-btn">{{{ settings.em_logout_link_text }}}</a>
+        <a href="#" class="em-link-btn em-logout-btn elementor-button">{{{ settings.em_logout_link_text }}}</a>
 
     <?php
     }
