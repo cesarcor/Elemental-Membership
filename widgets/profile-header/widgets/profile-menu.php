@@ -55,6 +55,21 @@ class Profile_Menu extends Widget_Base{
             ]
         );
 
+        $repeater->add_control(
+			'item_visible_to',
+			[
+				'label' => __( 'Visible To', 'elemental-membership' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'everyone' => __( 'Everyone', 'elemental-membership' ),
+                    'logged_in_only' => __( 'Logged in user only', 'elemental-membership' ),
+                    'profile_owner_only' => __( 'Profile owner only', 'elemental-membership' ),
+				],
+                'default' => 'everyone',
+                'separator' => 'before',
+			]
+        );
+
         $this->add_control(
             'profile_menu_list',
             [
@@ -115,6 +130,30 @@ class Profile_Menu extends Widget_Base{
 				'prefix_class' => 'elementor-nav-menu__align-',
 			]
 		);
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'em_profile_menu_options',
+            [
+                'label' => __('Options', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'visible_to',
+			[
+				'label' => __( 'Visible To', 'elemental-membership' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'everyone' => __( 'Everyone', 'elemental-membership' ),
+                    'logged_in_only' => __( 'Logged in user only', 'elemental-membership' ),
+                    'profile_owner_only' => __( 'Profile owner only', 'elemental-membership' ),
+				],
+                'default' => 'everyone',
+			]
+        );
 
         $this->end_controls_section();
 
@@ -193,7 +232,10 @@ class Profile_Menu extends Widget_Base{
 
     protected function render(){
         $settings = $this->get_settings_for_display();
+        $logged_in_var = ('logged_in_only' === $settings['visible_to']) ? is_user_logged_in() : true;
     ?>
+
+        <?php if($logged_in_var): ?>
 
         <nav class="em-profile-menu-container elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-<?php echo 'vertical' === $settings['layout'] ? 'vertical' : 'horizontal'; ?>">
             <ul class="em-list em-profile-menu-list elementor-nav-menu <?php echo 'vertical' === $settings['layout'] ? 'sm-vertical' : ''; ?>">
@@ -202,12 +244,18 @@ class Profile_Menu extends Widget_Base{
                         foreach($settings['profile_menu_list'] as $item):
                             $target = $item['menu_item_url']['is_external'] ? ' target="_blank"' : '';
                             $nofollow = $item['menu_item_url']['nofollow'] ? ' rel="nofollow"' : '';
-                            echo '<li><a href="' . $item['menu_item_url']['url'] . '"' . $target . $nofollow . '>' . $item['menu_item_text'] . '</a></li>';
+                            $item_logged_in_var = ('logged_in_only' === $item['item_visible_to']) ? is_user_logged_in() : true;
+
+                            if($item_logged_in_var):
+                                echo '<li><a href="' . $item['menu_item_url']['url'] . '"' . $target . $nofollow . '>' . $item['menu_item_text'] . '</a></li>';
+                            endif;
                         endforeach;
                     endif; 
                 ?>
             </ul>
         </nav>
+
+        <?php endif; ?>
 
     <?php
     }
