@@ -74,6 +74,48 @@ class Profile_Menu extends Widget_Base{
             ]
         );
 
+        $this->add_control(
+			'layout',
+			[
+				'label' => __( 'Layout', 'elemental-membership' ),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'horizontal',
+				'options' => [
+					'horizontal' => __( 'Horizontal', 'elemental-membership' ),
+					'vertical' => __( 'Vertical', 'elemental-membership' )
+				],
+                'frontend_available' => true,
+                'separator' => 'before',
+			]
+        );
+        
+        $this->add_control(
+			'align_items',
+			[
+				'label' => __( 'Align', 'elemental-membership' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => __( 'Left', 'elemental-membership' ),
+						'icon' => 'eicon-h-align-left',
+					],
+					'center' => [
+						'title' => __( 'Center', 'elemental-membership' ),
+						'icon' => 'eicon-h-align-center',
+					],
+					'right' => [
+						'title' => __( 'Right', 'elemental-membership' ),
+						'icon' => 'eicon-h-align-right',
+					],
+					'justify' => [
+						'title' => __( 'Stretch', 'elemental-membership' ),
+						'icon' => 'eicon-h-align-stretch',
+					],
+				],
+				'prefix_class' => 'elementor-nav-menu__align-',
+			]
+		);
+
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -153,8 +195,8 @@ class Profile_Menu extends Widget_Base{
         $settings = $this->get_settings_for_display();
     ?>
 
-        <nav class="em-profile-menu-container">
-            <ul class="em-list em-profile-menu-list">
+        <nav class="em-profile-menu-container elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-<?php echo 'vertical' === $settings['layout'] ? 'vertical' : 'horizontal'; ?>">
+            <ul class="em-list em-profile-menu-list elementor-nav-menu <?php echo 'vertical' === $settings['layout'] ? 'sm-vertical' : ''; ?>">
                 <?php 
                     if($settings['profile_menu_list']): 
                         foreach($settings['profile_menu_list'] as $item):
@@ -173,8 +215,8 @@ class Profile_Menu extends Widget_Base{
     protected function _content_template(){
     ?>
 
-        <nav class="em-profile-menu-container">
-            <ul class="em-list em-profile-menu-list">
+        <nav class="em-profile-menu-container elementor-nav-menu--main elementor-nav-menu__container">
+            <ul class="em-list em-profile-menu-list elementor-nav-menu">
                 <# if( settings.profile_menu_list.length ){ #>
                     <# _.each( settings.profile_menu_list, function(item){  #> 
                         <li><a href="#">{{{ item.menu_item_text }}}</a></li>
