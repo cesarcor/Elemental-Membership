@@ -32,22 +32,22 @@ class Change_Password_Form extends Widget_Base {
 
         <form class="em-form">
             <div class="elementor-field-group">
-                <label for="old-pwd">Old Passsword</label>
+                <label for="old-pwd"><?php echo __('Old Passsword', 'elemental-membership'); ?></label>
                 <input type="password" id="old-pwd"/>
             </div>
 
             <div class="elementor-field-group">
-                <label for="old-pwd">New Password</label>
-                <input type="password" id="old-pwd"/>
+                <label for="new-pwd"><?php echo __('New Password', 'elemental-membership'); ?></label>
+                <input type="password" id="new-pwd"/>
             </div>
 
             <div class="elementor-field-group">
-                <label for="old-pwd">Confirm New Password</label>
-                <input type="password" id="old-pwd"/>
+                <label for="new-pwd-confirm"><?php echo __('Confirm New Password', 'elemental-membership'); ?></label>
+                <input type="password" id="new-pwd-confirm"/>
             </div>
 
             <div class="elementor-field-group">
-                <button type="submit">Update</button>
+                <button type="submit"><?php echo __('Update', 'elemental-membership'); ?></button>
             </div>
 
         </form>
@@ -60,22 +60,22 @@ class Change_Password_Form extends Widget_Base {
         
         <div class="em-form">
             <div class="elementor-field-group">
-                <label for="old-pwd">Old Passsword</label>
+                <label for="old-pwd"><?php echo __('Old Passsword', 'elemental-membership'); ?></label>
                 <input type="password" id="old-pwd"/>
             </div>
 
             <div class="elementor-field-group">
-                <label for="old-pwd">New Password</label>
-                <input type="password" id="old-pwd"/>
+                <label for="new-pwd"><?php echo __('New Password', 'elemental-membership'); ?></label>
+                <input type="password" id="new-pwd"/>
             </div>
 
             <div class="elementor-field-group">
-                <label for="old-pwd">Confirm New Password</label>
-                <input type="password" id="old-pwd"/>
+                <label for="new-pwd-confirm"><?php echo __('Confirm New Password', 'elemental-membership'); ?></label>
+                <input type="password" id="new-pwd-confirm"/>
             </div>
 
             <div class="elementor-field-group">
-                <button type="submit">Update</button>
+                <button type="submit"><?php echo __('Update', 'elemental-membership'); ?></button>
             </div>
 
         </div>
