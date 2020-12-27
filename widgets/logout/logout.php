@@ -201,6 +201,7 @@ class Logout extends Widget_Base{
                 'selectors' => [
 					'{{WRAPPER}} .em-logout-btn' => 'color: {{VALUE}};',
 				],
+				'default' => '#FFFFFF',
 			]
         );
 
@@ -216,6 +217,7 @@ class Logout extends Widget_Base{
 				'selectors' => [
 					'{{WRAPPER}} .em-logout-btn' => 'background-color: {{VALUE}};',
 				],
+				'default' => '#ff3232',
 			]
         );
 
