@@ -93,6 +93,48 @@ class Logout extends Widget_Base{
 				'prefix_class' => 'elementor%s-align-',
 				'default' => '',
 			]
+        );
+        
+        $this->add_control(
+			'selected_icon',
+			[
+				'label' => __( 'Icon', 'elemental-membership' ),
+				'type' => Controls_Manager::ICONS,
+				'fa4compatibility' => 'icon',
+			]
+		);
+
+		$this->add_control(
+			'icon_align',
+			[
+				'label' => __( 'Icon Position', 'elemental-membership' ),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'left',
+				'options' => [
+					'left' => __( 'Before', 'elemental-membership' ),
+					'right' => __( 'After', 'elemental-membership' ),
+				],
+				'condition' => [
+					'selected_icon[value]!' => '',
+				],
+			]
+		);
+
+		$this->add_control(
+			'icon_indent',
+			[
+				'label' => __( 'Icon Spacing', 'elemental-membership' ),
+				'type' => Controls_Manager::SLIDER,
+				'range' => [
+					'px' => [
+						'max' => 50,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-button .elementor-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .elementor-button .elementor-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
+				],
+			]
 		);
 
         $this->end_controls_section();
@@ -281,24 +323,78 @@ class Logout extends Widget_Base{
 
     public function render(){
 
-        $settings = $this->get_settings_for_display();
+		$settings = $this->get_settings_for_display();
+		
+		$this->add_render_attribute( 'wrapper', 'class', 'elementor-button-wrapper' );
 
-    ?>
+		$this->add_render_attribute( 'button', 'class', 'elementor-button em-link-btn em-logout-btn elementor-button-link' );
+		$this->add_render_attribute( 'button', 'role', 'button' );
 
-        <a href="<?php echo wp_logout_url($settings['em_logout_redirect_url']); ?>" class="em-link-btn em-logout-btn elementor-button">
-            <?php echo $settings['em_logout_link_text']; ?>
-        </a>
+		?>
 
-    <?php
+		<div <?php echo $this->get_render_attribute_string( 'wrapper' ); ?>>
+			<a href="<?php echo wp_logout_url($settings['em_logout_redirect_url']); ?>" <?php echo $this->get_render_attribute_string( 'button' ); ?>>
+				<?php $this->render_logout_text(); ?>
+			</a>
+		</div>
+
+    	<?php
 
     }
 
     public function _content_template(){
     ?>
 
-        <a href="#" class="em-link-btn em-logout-btn elementor-button">{{{ settings.em_logout_link_text }}}</a>
+	<# 
+	view.addRenderAttribute( 'text', 'class', 'elementor-button-text' );
+	var iconHTML = elementor.helpers.renderIcon( view, settings.selected_icon, { 'aria-hidden': true }, 'i' , 'object' ); 
+	#>
+
+        <div class="elementor-button-wrapper">
+			<a href="#" class="em-link-btn em-logout-btn elementor-button">
+				<span class="elementor-button-content-wrapper">
+						<# if ( settings.selected_icon ) { #>
+							<span class="elementor-button-icon elementor-align-icon-{{ settings.icon_align }}">
+									{{{ iconHTML.value }}}
+							</span>
+						<# } #>
+						<span {{{ view.getRenderAttributeString( 'text' ) }}}>{{{ settings.em_logout_link_text }}}</span>
+				</span>
+			</a>
+        </div>
 
     <?php
+    }
+
+    public function render_logout_text(){
+        $settings = $this->get_settings_for_display();
+
+		$this->add_render_attribute( [
+			'content-wrapper' => [
+				'class' => 'elementor-button-content-wrapper',
+			],
+			'icon-align' => [
+				'class' => [
+					'elementor-button-icon',
+					'elementor-align-icon-' . $settings['icon_align'],
+				],
+			],
+			'text' => [
+				'class' => 'elementor-button-text',
+			],
+		] );
+
+		$this->add_inline_editing_attributes( 'text', 'none' );
+		?>
+		<span <?php echo $this->get_render_attribute_string( 'content-wrapper' ); ?>>
+			<?php if (! empty( $settings['selected_icon']['value'] ) ) : ?>
+			<span <?php echo $this->get_render_attribute_string( 'icon-align' ); ?>>
+				<i class="<?php echo esc_attr( $settings['selected_icon']['value'] ); ?>" aria-hidden="true"></i>
+			</span>
+			<?php endif; ?>
+			<span <?php echo $this->get_render_attribute_string( 'text' ); ?>><?php echo $settings['em_logout_link_text']; ?></span>
+		</span>
+		<?php
     }
 
 }
