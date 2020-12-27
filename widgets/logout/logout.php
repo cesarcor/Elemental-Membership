@@ -29,11 +29,6 @@ class Logout extends Widget_Base{
 
     public function _register_controls(){
 
-        $logout_btn_types = [
-            'button' => __('Button', 'elemental-membership'),
-            'simple_link' => __('Simple Link', 'elemental-membership')
-        ];
-
         $actions_logged_out = [
             'show_login_link' => __('Show login link', 'elemental-membership'),
             'display_nothing' => __('Display nothing', 'elemental-membership')
@@ -54,16 +49,6 @@ class Logout extends Widget_Base{
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 'Logout',
                 'placeholder' => ''
-            ]
-        );
-
-        $this->add_control(
-            'em_logout_btn_type',
-            [
-                'label' => __('Logout Link Type', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'button',
-                'options' => $logout_btn_types
             ]
         );
 
