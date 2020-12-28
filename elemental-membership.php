@@ -63,6 +63,10 @@ final class Elemental_Membership {
 	 */
 	public function __construct() {
 
+		//------> IMPROVE <----
+		require_once plugin_dir_path( __FILE__ ) . 'includes/classes/em-activator.php';
+		register_activation_hook( __FILE__, array( 'EM_Activator', 'activate' ) );
+
 		// Load translation
 		add_action( 'init', array( $this, 'i18n' ) );
 
