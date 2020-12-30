@@ -275,6 +275,21 @@ class Profile_Header extends Widget_Base{
         );
 
         $this->add_control(
+			'banner_button_link',
+			[
+				'label' => __( 'Banner Button Link', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::URL,
+				'placeholder' => __( 'Choose Popup', 'elemental-membership' ),
+                'dynamic' => [
+                    'active' => true,
+				],
+				'default' => [
+					'url' => '#',
+				],
+			]
+		);
+
+        $this->add_control(
 			'banner_button_icon',
 			[
 				'label' => __( 'Banner Button Icon', 'elemental-membership' ),
@@ -286,6 +301,22 @@ class Profile_Header extends Widget_Base{
                 'separator' => 'after'
 			]
         );
+
+        $this->add_control(
+			'image_button_link',
+			[
+				'label' => __( 'Image Button Link', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::URL,
+				'placeholder' => __( 'Choose Popup', 'elemental-membership' ),
+                'dynamic' => [
+                    'active' => true,
+				],
+				'default' => [
+					'url' => '#',
+				],
+			]
+		);
+
         
         $this->add_control(
 			'image_button_icon',
@@ -712,7 +743,13 @@ class Profile_Header extends Widget_Base{
     protected function render(){
         $settings = $this->get_settings_for_display();
         $current_user = wp_get_current_user();
-        ?>
+
+        if ( ! empty( $settings['banner_button_link']['url'] ) ):
+			$this->add_link_attributes( 'banner_button', $settings['banner_button_link'] );
+			$this->add_render_attribute( 'banner_button', 'class', 'elementor-button-link' );
+        endif;
+        
+    ?>
 
         <div class="em-profile-header">
 
@@ -721,8 +758,10 @@ class Profile_Header extends Widget_Base{
                 <div class="em-profile-banner__change">
                 <?php if(is_user_logged_in()): ?>
                     <div class="em-profile-btn">
-                         <?php \Elementor\Icons_Manager::render_icon( $settings['banner_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
-                         <?php echo __('Change Image', 'elemental-membership'); ?>
+                        <a <?php echo $this->get_render_attribute_string( 'banner_button' ); ?>>
+                            <?php \Elementor\Icons_Manager::render_icon( $settings['banner_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
+                            <?php echo __('Change Image', 'elemental-membership'); ?>
+                        </a>
                     </div>
                 <?php endif; ?>
                 </div>
@@ -793,13 +832,24 @@ class Profile_Header extends Widget_Base{
 }
 
     protected function _content_template(){
-
     ?>
+
+        <# 
+            var banner_btn_icon = elementor.helpers.renderIcon( view, settings.banner_button_icon, { 'aria-hidden': true }, 'i' , 'object' );  
+            var image_btn_icon = elementor.helpers.renderIcon( view, settings.image_button_icon, { 'aria-hidden': true }, 'i' , 'object' );  
+        #>
 
         <div class="em-profile-header">
 
         <div class="em-profile-banner">
             <div class="em-profile-banner__bg" style="background-image: url({{ settings.profile_banner_image.url }});"></div>
+            <div class="em-profile-banner__change">
+            <div class="em-profile-btn">
+                <a <?php echo $this->get_render_attribute_string( 'banner_button' ); ?>>
+                    {{{ banner_btn_icon.value }}}
+                    <?php echo __('Change Image', 'elemental-membership'); ?>
+                </a>
+            </div>
         </div>
 
         <div class="em-profile-header-wrapper">
@@ -810,6 +860,11 @@ class Profile_Header extends Widget_Base{
 
                     <div class="em-col em-user-avatar">
                         <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
+                        <div class="em-user-avatar__change">
+                            <div class="em-profile-btn">
+                                {{{ image_btn_icon.value }}}
+                            </div>
+                        </div>
                     </div>
 
                     <div class="em-col em-profile-modifier-actions">
