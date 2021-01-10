@@ -13,16 +13,22 @@ namespace ElementalMembership\Includes\Classes;
 class Profile {
 
     /**
-     * Get user's id based on username in URI
+     * Get user's id
      *
      * @since 1.0.0
      */
     public function get_user() {
-        $uri = rtrim($_SERVER['REQUEST_URI'], '/');
-        $user_uri = explode('/', $uri);
-        $user_login = end($user_uri);
-        $user = get_user_by('login', $user_login);
-        $user_id = $user->ID;
+        $user_id;
+
+        if(\Elementor\Plugin::$instance->editor->is_edit_mode()):
+            $user_id = get_current_user_id();
+        else:
+            $uri = rtrim($_SERVER['REQUEST_URI'], '/');
+            $user_uri = explode('/', $uri);
+            $user_login = end($user_uri);
+            $user = get_user_by('login', $user_login);
+            $user_id = $user->ID;    
+        endif;
 
         return $user_id;
     }
