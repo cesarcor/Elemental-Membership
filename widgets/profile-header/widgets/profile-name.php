@@ -2,9 +2,15 @@
 
 namespace ElementalMembership\Widgets\ProfileHeader;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
+use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
+use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use ElementalMembership\Includes\Classes\Profile;
 
 class Profile_Name extends Widget_Base {
@@ -53,18 +59,75 @@ class Profile_Name extends Widget_Base {
             ]
         );
 
+        $this->add_control(
+            'name_tag',
+            [
+                'label' => __('HTML Tag', 'elemental-membership'),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'h1' => 'H1',
+                    'h2' => 'H2',
+                    'h3' => 'H3',
+                    'h4' => 'H4',
+                    'h5' => 'H5',
+                    'h6' => 'H6',
+                    'div' => 'div',
+                    'span' => 'span',
+                    'p' => 'p',
+                ],
+                'default' => 'h2',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'section_profile_name_style',
+            [
+                'label' => __('Profile Name', 'elemental-membership'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'title_color',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'global' => [
+                    'default' => Global_Colors::COLOR_PRIMARY,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-name' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'typography',
+                'global' => [
+                    'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
+                ],
+                'selector' => '{{WRAPPER}} .em-profile-name',
+            ]
+        );
+
         $this->end_controls_section();
     }
 
     protected function render() {
         $profile = new Profile();
-        $settings = $this->get_settings_for_display(); ?>
+        $settings = $this->get_settings_for_display();
 
-        <h2 <?php echo $this->get_render_attribute_string('name'); ?>>
-                <?php echo $profile->get_user_full_name(); ?>
-        </h2>
+        $this->add_render_attribute('name', 'class', 'em-profile-name elementor-heading-title');
 
-    <?php
+        $profile_name = $profile->get_user_full_name();
+
+        $profile_name_html = sprintf('<%1$s %2$s>%3$s</%1$s>', $settings['name_tag'], $this->get_render_attribute_string('name'), $profile_name);
+
+        echo $profile_name_html;
     }
 
     protected function _content_template() {
