@@ -4,6 +4,9 @@ namespace ElementalMembership;
 
 use ElementalMembership\Admin;
 use ElementalMembership\Widgets\Forms\Classes;
+use ElementalMembership\Widgets\Forms\Traits\Register_User;
+
+require_once __DIR__ . '/widgets/forms/traits/register-user.php';
 
 /**
  * Class Plugin
@@ -11,8 +14,10 @@ use ElementalMembership\Widgets\Forms\Classes;
  * Main Plugin class
  * @since 1.0.0
  */
-
 class Plugin {
+
+    use Register_User;
+
     /**
      * Instance
      *
@@ -150,38 +155,38 @@ class Plugin {
      * Autoload classes based on namespace
      *
      * @since 1.0.0
-     * @access private
+     * @access public
      */
     public function autoload($classname) {
-        if (false === strpos($classname, 'ElementalMembership')) {
+        if (false === strpos($classname, 'ElementalMembership')):
             return;
-        }
+        endif;
 
         $namespace = '';
         $file_parts = explode('\\', $classname);
         $file_name = '';
 
-        for ($i = count($file_parts) - 1; $i > 0; $i--) {
+        for ($i = count($file_parts) - 1; $i > 0; $i--):
             $current = strtolower($file_parts[$i]);
             $current = str_ireplace('_', '-', $current);
 
-            if (count($file_parts) - 1 === $i) {
+            if (count($file_parts) - 1 === $i):
                 $file_name = "$current.php";
-            } else {
+            else:
                 $namespace = '/' . $current . $namespace;
-            }
-        }
+            endif;
+        endfor;
 
         $filepath = trailingslashit(dirname(dirname(__FILE__)) . '/elemental-membership' . $namespace);
         $filepath .= $file_name;
 
-        if (file_exists($filepath)) {
+        if (file_exists($filepath)):
             include_once $filepath;
-        } else {
+        else:
             wp_die(
                 esc_html("The file attempting to be loaded at $filepath does not exist.")
             );
-        }
+        endif;
     }
 
     /**
@@ -228,6 +233,8 @@ class Plugin {
          * Required plugin hooks
          */
         add_action('init', [new Includes\Classes\Profile, 'profile_url_rewrite']);
+
+        add_action('init', [$this, 'ajax_register_user']);
 
         spl_autoload_register([$this, 'autoload']);
 
