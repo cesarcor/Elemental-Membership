@@ -1,7 +1,10 @@
 <?php
 namespace ElementalMembership\Widgets\Forms\Classes;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// Exit if accessed directlys
+if ( ! defined( 'ABSPATH' ) ):
+    exit; 
+endif;
 
 class Field_Creation{
 
@@ -12,7 +15,6 @@ class Field_Creation{
     function create_input_field($field_label, $field_id, $field_type, $field_placeholder, $field_role, $is_required){
 
         $field_name = "";
-        $roles = [ 'username', 'user_email', 'user_password' ];
         $field_label = strtolower(preg_replace('/\s+/', '-', $field_label));
         $field_required = $is_required ? "required" : "";
 
@@ -26,11 +28,21 @@ class Field_Creation{
             break;
             case "user_password":
                 $field_name = $this->em_get_attribute_name("user_password");
+            break;
+            case "user_password_confirm":
+                $field_name = $this->em_get_attribute_name("user_password_confirm");
+            break;
             case "first_name":
                 $field_name = $this->em_get_attribute_name("first_name");
             break;
             case "last_name":
                 $field_name = $this->em_get_attribute_name("last_name");
+            break;
+            case "biographical_info":
+                $field_name = $this->em_get_attribute_name("biographical_info");
+            break;
+            default:
+                $field_name = $this->em_get_attribute_name("custom");
             break;
 
         endswitch;

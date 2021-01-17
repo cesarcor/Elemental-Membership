@@ -7,11 +7,18 @@ use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
+use Elementor\Plugin;
 use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
+use ElementalMembership\Widgets\Forms\Classes\Form_Message;
+use ElementalMembership\Widgets\Forms\Traits\Register_User;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class Registration_Form extends Widget_Base{
+
+    use Register_User;
+
+    protected $page_id;
 
     public function get_name(){
         return 'em-registration-form';
@@ -610,9 +617,14 @@ class Registration_Form extends Widget_Base{
     }
 
     protected function render(){
+        
         $settings = $this -> get_settings_for_display();
         $buttonWidth = ( ( '' !== $settings['em_button_width'] ) ? $settings['em_button_width'] : '100' );
         $input_type = '';
+
+        if ( Plugin::$instance->documents->get_current() ) {
+			$this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
+		}
     ?>
 
     <?php if((is_user_logged_in() &&
@@ -632,7 +644,12 @@ class Registration_Form extends Widget_Base{
         ?>
     
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
-            <?php $field_creation = new Field_Creation(); ?>
+            
+            <?php 
+            
+            $field_creation = new Field_Creation(); 
+            
+            ?>
 
             <div class="elementor-form-fields-wrapper elementor-labels-above">
 
@@ -653,18 +670,29 @@ class Registration_Form extends Widget_Base{
                     case "username":
                     case "first_name":
                     case "last_name":
-                    case "user_password":
-                    case "user_password_confirm":
-                        $input_type = ($item['em_field_type'] == 'user_password' || $item['em_field_type'] == 'user_password_confirm') ? 'password' : 'text';
-
                         $field_creation->create_input_field(
                             $item['em_field_label'],
                             $item['em_field_label'],
-                            $input_type,
+                            "text",
                             $item['em_field_placeholder'],
                             $item['em_field_type'],
                             $item['em_field_required']
                         );
+                    break;
+                    case "user_password":
+                    case "user_password_confirm":
+
+                        $password_field_role = ($item['em_field_type'] == 'user_password') ? 'user_password' : 'user_password_confirm';
+                        
+                        $field_creation->create_input_field(
+                            $item['em_field_label'],
+                            $item['em_field_label'],
+                            "password",
+                            $item['em_field_placeholder'],
+                            $password_field_role,
+                            $item['em_field_required']
+                        );
+
                     break;
                     case "user_email":
                         $field_creation->create_input_field(
@@ -684,6 +712,8 @@ class Registration_Form extends Widget_Base{
                     case "select":
                         $field_creation->create_select_field($item['em_field_label'], $item['em_field_options']);
                     break;
+                    default:
+                    break;
                 endswitch;
 
             ?>
@@ -693,8 +723,8 @@ class Registration_Form extends Widget_Base{
             <?php endforeach; ?>
 
                 <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo $buttonWidth; ?>">
-                    <button type="submit" class="em-button elementor-button">
-                    <span><?php echo $settings['em_submit_button_text']; ?></span>
+                    <button type="submit" name="em-register-user" class="em-button elementor-button">
+                        <span><?php echo $settings['em_submit_button_text']; ?></span>
                     </button>
                 </div>
 
@@ -702,6 +732,8 @@ class Registration_Form extends Widget_Base{
 
             <input type="hidden" name="action" value="em_register_user" />
             <?php wp_nonce_field( 'em_reg_nonce' ); ?>
+            <input type="hidden" name="page_id" value="<?php echo esc_attr( $this->page_id ); ?>">
+            <input type="hidden" name="widget_id" value="<?php echo esc_attr( $this->get_id() ); ?>">
 
         </form>
 
@@ -712,7 +744,6 @@ class Registration_Form extends Widget_Base{
     }
 
     protected function _content_template(){
-
         ?>
 
          <# if(settings.registration_form_view == 'not_registered_view'){ #>
