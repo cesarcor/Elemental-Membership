@@ -1,4 +1,5 @@
 <?php
+
 namespace ElementalMembership\Widgets\Forms;
 
 use Elementor\Widget_Base;
@@ -12,53 +13,54 @@ use ElementalMembership\Widgets\Forms\Classes\Field_Creation;
 use ElementalMembership\Widgets\Forms\Classes\Form_Message;
 use ElementalMembership\Widgets\Forms\Traits\Register_User;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// Exit if accessed directly
+if (!defined('ABSPATH')):
+     exit;
+endif;
 
-class Registration_Form extends Widget_Base{
-
+class Registration_Form extends Widget_Base {
     use Register_User;
 
     protected $page_id;
 
-    public function get_name(){
+    public function get_name() {
         return 'em-registration-form';
     }
 
-    public function get_title(){
+    public function get_title() {
         return __('User Registration Form', 'elemental-membership');
     }
 
-    public function get_icon(){
+    public function get_icon() {
         return 'em-registration-icon';
     }
 
-    public function get_categories(){
+    public function get_categories() {
         return ['elemental-membership-category'];
     }
 
-    protected function _register_controls()
-    {
+    protected function _register_controls() {
         $repeater = new Repeater();
 
         $em_field_widths = [
-                '' => __( 'Default', 'elemental-membership' ),
-                '100' => '100%',
-                '80' => '80%',
-                '75' => '75%',
-                '66' => '66%',
-                '60' => '60%',
-                '50' => '50%',
-                '40' => '40%',
-                '33' => '33%',
-                '25' => '25%',
-                '20' => '20%',
+            '' => __('Default', 'elemental-membership'),
+            '100' => '100%',
+            '80' => '80%',
+            '75' => '75%',
+            '66' => '66%',
+            '60' => '60%',
+            '50' => '50%',
+            '40' => '40%',
+            '33' => '33%',
+            '25' => '25%',
+            '20' => '20%',
         ];
 
         $em_field_type = [
-            'username' => __( 'Username', 'elemental-memebership' ),
-            'user_email' => __( 'User Email', 'elemental-memebership' ),
-            'user_password' => __( 'User Password', 'elemental-memebership' ),
-            'user_password_confirm' => __( 'Password Confirmation', 'elemental-memebership' ),
+            'username' => __('Username', 'elemental-memebership'),
+            'user_email' => __('User Email', 'elemental-memebership'),
+            'user_password' => __('User Password', 'elemental-memebership'),
+            'user_password_confirm' => __('Password Confirmation', 'elemental-memebership'),
             'first_name' => __('First Name', 'elemental-membership'),
             'last_name' => __('Last Name', 'elemental-membership'),
             'biographical_info' => __('Biographical Info', 'elemental-membership')
@@ -75,7 +77,7 @@ class Registration_Form extends Widget_Base{
         $this->start_controls_section(
             'em_fields_section',
             [
-                'label' => __( 'Fields', 'elemental-membership' ),
+                'label' => __('Fields', 'elemental-membership'),
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -93,7 +95,7 @@ class Registration_Form extends Widget_Base{
         $repeater->add_control(
             'em_field_label',
             [
-                'label' => __( 'Field Label', 'elemental-membership'),
+                'label' => __('Field Label', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => ''
             ]
@@ -102,7 +104,7 @@ class Registration_Form extends Widget_Base{
         $repeater->add_control(
             'em_field_placeholder',
             [
-                'label' => __( 'Field Placeholder', 'elemental-membership'),
+                'label' => __('Field Placeholder', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => ''
             ]
@@ -162,33 +164,31 @@ class Registration_Form extends Widget_Base{
                         'em_field_required' => 'true',
                         'em_field_type' => 'user_password_confirm'
                     ]
-
-                    ],
+                ],
 
                 'title_field' => '{{{ em_field_label }}}',
             ]
         );
 
-
         $this->add_control(
-			'show_labels',
-			[
-				'label' => __( 'Label', 'elemental-membership' ),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elemental-membership' ),
-				'label_off' => __( 'Hide', 'elemental-membership' ),
-				'return_value' => 'true',
-				'default' => 'true',
-				'separator' => 'before',
-			]
-		);
+            'show_labels',
+            [
+                'label' => __('Label', 'elemental-membership'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Show', 'elemental-membership'),
+                'label_off' => __('Hide', 'elemental-membership'),
+                'return_value' => 'true',
+                'default' => 'true',
+                'separator' => 'before',
+            ]
+        );
 
         $this->end_controls_section();
 
         $this->start_controls_section(
             'em_registration_options_section',
             [
-                'label' => __( 'Registration Options', 'elemental-membership' ),
+                'label' => __('Registration Options', 'elemental-membership'),
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -204,46 +204,46 @@ class Registration_Form extends Widget_Base{
         );
 
         $this->add_control(
-			'user_requires_approval',
-			[
-				'label' => __( 'User Requires Approval', 'elemental-membership' ),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label_on' => __( 'Yes', 'elemental-membership' ),
-				'label_off' => __( 'No', 'elemental-membership' ),
-				'return_value' => 'yes',
-				'default' => 'yes',
-			]
+            'user_requires_approval',
+            [
+                'label' => __('User Requires Approval', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'elemental-membership'),
+                'label_off' => __('No', 'elemental-membership'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
         );
-        
+
         $this->add_control(
             'registration_form_view',
             [
                 'label' => __('View As', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'options' => [  
+                'options' => [
                     'not_registered_view' => 'User not registered',
                     'is_registered_view' => 'Already Registered'
                 ],
                 'default' => 'not_registered_view',
             ]
         );
-        
+
         $this->add_control(
-			'already_registered_message',
-			[
-				'label' => __( 'Already Registered Text', 'elemental-membership' ),
-				'type' => \Elementor\Controls_Manager::TEXTAREA,
-				'rows' => 5,
-				'default' => __( 'You are already registered', 'elemental-membership' )
-			]
-		);
+            'already_registered_message',
+            [
+                'label' => __('Already Registered Text', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'rows' => 5,
+                'default' => __('You are already registered', 'elemental-membership')
+            ]
+        );
 
         $this->end_controls_section();
 
         $this->start_controls_section(
             'em_submit_button_section',
             [
-                'label' => __( 'Submit Button', 'elemental-membership' ),
+                'label' => __('Submit Button', 'elemental-membership'),
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -251,7 +251,7 @@ class Registration_Form extends Widget_Base{
         $this->add_control(
             'em_submit_button_text',
             [
-                'label' => __( 'Button Text', 'elemental-membership'),
+                'label' => __('Button Text', 'elemental-membership'),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 'Register',
                 'placeholder' => ''
@@ -269,365 +269,432 @@ class Registration_Form extends Widget_Base{
         );
 
         $this->add_responsive_control(
-			'em_button_align',
-			[
-				'label' => __( 'Alignment', 'elemental-membership' ),
-				'type' => Controls_Manager::CHOOSE,
-				'options' => [
-					'start' => [
-						'title' => __( 'Left', 'elemental-membership' ),
-						'icon' => 'eicon-text-align-left',
-					],
-					'center' => [
-						'title' => __( 'Center', 'elemental-membership' ),
-						'icon' => 'eicon-text-align-center',
-					],
-					'end' => [
-						'title' => __( 'Right', 'elemental-membership' ),
-						'icon' => 'eicon-text-align-right',
-					],
-					'stretch' => [
-						'title' => __( 'Justified', 'elemental-membership' ),
-						'icon' => 'eicon-text-align-justify',
-					],
-				],
-				'default' => 'stretch',
-				'prefix_class' => 'elementor%s-button-align-',
-			]
-		);
+            'em_button_align',
+            [
+                'label' => __('Alignment', 'elemental-membership'),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => [
+                    'start' => [
+                        'title' => __('Left', 'elemental-membership'),
+                        'icon' => 'eicon-text-align-left',
+                    ],
+                    'center' => [
+                        'title' => __('Center', 'elemental-membership'),
+                        'icon' => 'eicon-text-align-center',
+                    ],
+                    'end' => [
+                        'title' => __('Right', 'elemental-membership'),
+                        'icon' => 'eicon-text-align-right',
+                    ],
+                    'stretch' => [
+                        'title' => __('Justified', 'elemental-membership'),
+                        'icon' => 'eicon-text-align-justify',
+                    ],
+                ],
+                'default' => 'stretch',
+                'prefix_class' => 'elementor%s-button-align-',
+            ]
+        );
 
         $this->end_controls_section();
-        
+
+        $this->start_controls_section(
+            'regform_terms_and_conditions_section',
+            [
+                'label' => __('Terms & Conditions', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'show_tnc',
+            [
+                'label' => __('Impose Terms & Conditions', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __('Show', 'elemental-membership'),
+                'label_off' => __('Hide', 'elemental-membership'),
+                'return_value' => 'yes',
+                'default' => '',
+            ]
+        );
+
+        $this->add_control(
+            'tnc_text',
+            [
+                'label' => __('Terms & Conditions Text', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'label_block' => true,
+                'placeholder' => __('I accept', 'elemental-membership'),
+                'default' => __('I Accept', 'elemental-membership'),
+                'condition' => [
+                    'show_tnc' => 'yes'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'tnc_text_link',
+            [
+                'label' => __('Terms & Conditions Text Link', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'label_block' => true,
+                'placeholder' => __('the terms & conditions', 'elemental-membership'),
+                'default' => __('the terms & conditions', 'elemental-membership'),
+                'condition' => [
+                    'show_tnc' => 'yes'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'tnc_link',
+            [
+                'label' => __('Terms & Conditions Link', 'elemental-membership'),
+                'type' => Controls_Manager::URL,
+                'dynamic' => [
+                    'active' => true
+                ],
+                'condition' => [
+                    'show_tnc' => 'yes'
+                ],
+                'default' => [
+                    'url' => get_the_permalink(get_option('wp_page_for_privacy_policy')),
+                    'is_external' => true,
+                    'nofollow' => true,
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
         $this->start_controls_section(
             'em_registration_form_style',
             [
-                'label' => __( 'Registration Form Styles', 'elemental-membership' ),
+                'label' => __('Registration Form Styles', 'elemental-membership'),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
 
         $this->add_control(
-			'column_gap',
-			[
-				'label' => __( 'Columns Gap', 'elemental-membership' ),
-				'type' => Controls_Manager::SLIDER,
-				'default' => [
-					'size' => 10,
-				],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 60,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .elementor-field-group' => 'padding-right: calc( {{SIZE}}{{UNIT}}/2 ); padding-left: calc( {{SIZE}}{{UNIT}}/2 );',
-					'{{WRAPPER}} .elementor-form-fields-wrapper' => 'margin-left: calc( -{{SIZE}}{{UNIT}}/2 ); margin-right: calc( -{{SIZE}}{{UNIT}}/2 );',
-				],
-			]
-		);
-
-        $this->add_control(
-			'em_row_gap',
-			[
-				'label' => __( 'Rows Gap', 'elemental-membership' ),
-				'type' => Controls_Manager::SLIDER,
-				'default' => [
-					'size' => 10,
-				],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 60,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .em-form-field-group' => 'margin-bottom: {{SIZE}}{{UNIT}};',
-				],
-			]
-        );
-        
-        $this->add_control(
-			'heading_label',
-			[
-				'label' => __( 'Label', 'elemental-membership' ),
-				'type' => Controls_Manager::HEADING,
-				'separator' => 'before',
-			]
+            'column_gap',
+            [
+                'label' => __('Columns Gap', 'elemental-membership'),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 10,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .elementor-field-group' => 'padding-right: calc( {{SIZE}}{{UNIT}}/2 ); padding-left: calc( {{SIZE}}{{UNIT}}/2 );',
+                    '{{WRAPPER}} .elementor-form-fields-wrapper' => 'margin-left: calc( -{{SIZE}}{{UNIT}}/2 ); margin-right: calc( -{{SIZE}}{{UNIT}}/2 );',
+                ],
+            ]
         );
 
         $this->add_control(
-			'label_spacing',
-			[
-				'label' => __( 'Spacing', 'elemental-membership' ),
-				'type' => Controls_Manager::SLIDER,
-				'default' => [
-					'size' => 0,
-				],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 60,
-					],
-				],
-				'selectors' => [
-					'body.rtl {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-left: {{SIZE}}{{UNIT}};',
-					// for the label position = inline option
-					'body:not(.rtl) {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-right: {{SIZE}}{{UNIT}};',
-					// for the label position = inline option
-					'body {{WRAPPER}} .elementor-labels-above .elementor-field-group > label' => 'padding-bottom: {{SIZE}}{{UNIT}};',
-					// for the label position = above option
-				],
-			]
-		);
-
-		$this->add_control(
-			'label_color',
-			[
-				'label' => __( 'Text Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .elementor-field-group > label, {{WRAPPER}} .elementor-field-subgroup label' => 'color: {{VALUE}};',
-				],
-				'scheme' => [
-					'type' => Schemes\Color::get_type(),
-					'value' => Schemes\Color::COLOR_3,
-				],
-			]
+            'em_row_gap',
+            [
+                'label' => __('Rows Gap', 'elemental-membership'),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 10,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .em-form-field-group' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                ],
+            ]
         );
-        
+
+        $this->add_control(
+            'heading_label',
+            [
+                'label' => __('Label', 'elemental-membership'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'label_spacing',
+            [
+                'label' => __('Spacing', 'elemental-membership'),
+                'type' => Controls_Manager::SLIDER,
+                'default' => [
+                    'size' => 0,
+                ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 60,
+                    ],
+                ],
+                'selectors' => [
+                    'body.rtl {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-left: {{SIZE}}{{UNIT}};',
+                    // for the label position = inline option
+                    'body:not(.rtl) {{WRAPPER}} .elementor-labels-inline .elementor-field-group > label' => 'padding-right: {{SIZE}}{{UNIT}};',
+                    // for the label position = inline option
+                    'body {{WRAPPER}} .elementor-labels-above .elementor-field-group > label' => 'padding-bottom: {{SIZE}}{{UNIT}};',
+                    // for the label position = above option
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'label_color',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .elementor-field-group > label, {{WRAPPER}} .elementor-field-subgroup label' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
         $this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'label_typography',
-				'selector' => '{{WRAPPER}} .elementor-field-group > label',
-				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
-			]
-		);
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'label_typography',
+                'selector' => '{{WRAPPER}} .elementor-field-group > label',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
 
-        $this-> end_controls_section();
+        $this->end_controls_section();
 
         $this->start_controls_section(
             'em_registration_form_field_style',
             [
-                'label' => __( 'Fields', 'elemental-membership' ),
+                'label' => __('Fields', 'elemental-membership'),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
 
         $this->add_control(
-			'field_text_color',
-			[
-				'label' => __( 'Text Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'color: {{VALUE}};',
-				],
-				'scheme' => [
-					'type' => Schemes\Color::get_type(),
-					'value' => Schemes\Color::COLOR_3,
-				],
-			]
+            'field_text_color',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-form-field-group .em-form-field' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
         );
-        
+
         $this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'field_typography',
-				'selector' => '{{WRAPPER}} .em-form-field-group .em-form-field, {{WRAPPER}} .em-form-field-group label',
-				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
-			]
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'field_typography',
+                'selector' => '{{WRAPPER}} .em-form-field-group .em-form-field, {{WRAPPER}} .em-form-field-group label',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
         );
-        
+
         $this->add_control(
-			'field_background_color',
-			[
-				'label' => __( 'Background Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '#ffffff',
-				'selectors' => [
-					'{{WRAPPER}} .em-form-field' => 'background-color: {{VALUE}};',
-				],
-				'separator' => 'before',
-			]
+            'field_background_color',
+            [
+                'label' => __('Background Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .em-form-field' => 'background-color: {{VALUE}};',
+                ],
+                'separator' => 'before',
+            ]
         );
-        
+
         $this->add_control(
-			'field_border_color',
-			[
-				'label' => __( 'Border Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-color: {{VALUE}};',
-				],
-				'separator' => 'before',
-			]
-		);
+            'field_border_color',
+            [
+                'label' => __('Border Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-color: {{VALUE}};',
+                ],
+                'separator' => 'before',
+            ]
+        );
 
-		$this->add_control(
-			'field_border_width',
-			[
-				'label' => __( 'Border Width', 'elemental-membership' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'placeholder' => '1',
-				'size_units' => [ 'px' ],
-				'selectors' => [
-					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+        $this->add_control(
+            'field_border_width',
+            [
+                'label' => __('Border Width', 'elemental-membership'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'placeholder' => '1',
+                'size_units' => ['px'],
+                'selectors' => [
+                    '{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
-		$this->add_control(
-			'field_border_radius',
-			[
-				'label' => __( 'Border Radius', 'elemental-membership' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'selectors' => [
-					'{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+        $this->add_control(
+            'field_border_radius',
+            [
+                'label' => __('Border Radius', 'elemental-membership'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .em-form-field-group .em-form-field' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
-        $this-> end_controls_section();
+        $this->end_controls_section();
 
-        
         $this->start_controls_section(
             'em_registration_form_button_style',
             [
-                'label' => __( 'Button', 'elemental-membership' ),
+                'label' => __('Button', 'elemental-membership'),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
 
-        $this->start_controls_tabs( 'tabs_button_style' );
+        $this->start_controls_tabs('tabs_button_style');
 
         $this->start_controls_tab(
-			'tab_button_normal',
-			[
-				'label' => __( 'Normal', 'elemental-membership' ),
-			]
+            'tab_button_normal',
+            [
+                'label' => __('Normal', 'elemental-membership'),
+            ]
         );
 
         $this->add_control(
-			'em_button_background_color',
-			[
-				'label' => __( 'Background Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'scheme' => [
-					'type' => Schemes\Color::get_type(),
-					'value' => Schemes\Color::COLOR_4,
-				],
-				'selectors' => [
-					'{{WRAPPER}} .em-button' => 'background-color: {{VALUE}};',
-				],
-			]
+            'em_button_background_color',
+            [
+                'label' => __('Background Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_4,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .em-button' => 'background-color: {{VALUE}};',
+                ],
+            ]
         );
-        
+
         $this->add_control(
-			'em_button_text_color',
-			[
-				'label' => __( 'Text Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'default' => '',
-				'selectors' => [
-					'{{WRAPPER}} .em-button' => 'color: {{VALUE}};',
-					'{{WRAPPER}} .em-button svg' => 'fill: {{VALUE}};',
-				],
-			]
+            'em_button_text_color',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'selectors' => [
+                    '{{WRAPPER}} .em-button' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .em-button svg' => 'fill: {{VALUE}};',
+                ],
+            ]
         );
 
         $this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'em_button_typography',
-				'scheme' => Schemes\Typography::TYPOGRAPHY_4,
-				'selector' => '{{WRAPPER}} .em-button',
-			]
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'em_button_typography',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_4,
+                'selector' => '{{WRAPPER}} .em-button',
+            ]
         );
-        
+
         $this->add_group_control(
-			Group_Control_Border::get_type(), [
-				'name' => 'button_border',
-				'selector' => '{{WRAPPER}} .em-button',
-			]
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'button_border',
+                'selector' => '{{WRAPPER}} .em-button',
+            ]
         );
-        
+
         $this->add_control(
-			'button_border_radius',
-			[
-				'label' => __( 'Border Radius', 'elemental-membership' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'selectors' => [
-					'{{WRAPPER}} .em-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
+            'button_border_radius',
+            [
+                'label' => __('Border Radius', 'elemental-membership'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .em-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
         );
-        
+
         $this->add_control(
-			'button_text_padding',
-			[
-				'label' => __( 'Text Padding', 'elemental-membership' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', 'em', '%' ],
-				'selectors' => [
-					'{{WRAPPER}} .em-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+            'button_text_padding',
+            [
+                'label' => __('Text Padding', 'elemental-membership'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .em-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->end_controls_tab();
 
         $this->start_controls_tab(
-			'tab_button_hover',
-			[
-				'label' => __( 'Hover', 'elemental-membership' ),
-			]
+            'tab_button_hover',
+            [
+                'label' => __('Hover', 'elemental-membership'),
+            ]
         );
 
         $this->add_control(
-			'button_background_hover_color',
-			[
-				'label' => __( 'Background Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .em-button:hover' => 'background-color: {{VALUE}};',
-				],
-			]
+            'button_background_hover_color',
+            [
+                'label' => __('Background Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-button:hover' => 'background-color: {{VALUE}};',
+                ],
+            ]
         );
-        
+
         $this->add_control(
-			'button_hover_color',
-			[
-				'label' => __( 'Text Color', 'elemental-membership' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .em-button:hover' => 'color: {{VALUE}};',
-				],
-			]
-		);
+            'button_hover_color',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-button:hover' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
 
         $this->end_controls_tab();
 
         $this->end_controls_tabs();
 
-        $this-> end_controls_section();
+        $this->end_controls_section();
 
     }
 
-    protected function render(){
-        
-        $settings = $this -> get_settings_for_display();
-        $buttonWidth = ( ( '' !== $settings['em_button_width'] ) ? $settings['em_button_width'] : '100' );
+    protected function render() {
+        $settings = $this->get_settings_for_display();
+        $buttonWidth = (('' !== $settings['em_button_width']) ? $settings['em_button_width'] : '100');
         $input_type = '';
 
-        if ( Plugin::$instance->documents->get_current() ) {
-			$this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
-		}
-    ?>
+        if (Plugin::$instance->documents->get_current()) {
+            $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
+        } ?>
 
-    <?php if((is_user_logged_in() &&
+    <?php if ((is_user_logged_in() &&
              !\Elementor\Plugin::$instance->editor->is_edit_mode()) ||
              (is_user_logged_in() &&
              $settings['registration_form_view'] == 'is_registered_view')
@@ -639,84 +706,80 @@ class Registration_Form extends Widget_Base{
 
     <?php else: ?>
 
-        <?php 
-            
+        <?php
+
         ?>
     
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
             
-            <?php 
-            
-            $field_creation = new Field_Creation(); 
-            
-            ?>
+            <?php
+
+            $field_creation = new Field_Creation(); ?>
 
             <div class="elementor-form-fields-wrapper elementor-labels-above">
 
-            <?php foreach($settings['em_field_list'] as $item_index => $item): ?>
+            <?php foreach ($settings['em_field_list'] as $item_index => $item): ?>
 
-            <?php 
-                $fieldWidth = ( ( '' !== $item['em_field_width'] ) ? $item['em_field_width'] : '100' ); 
-            ?>
+            <?php
+                $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100'); ?>
 
             <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
 
-            <?php 
-                if($settings['show_labels']):
-                    echo('<label for="'. $item['em_field_label'] .'">'. $item['em_field_label'] .'</label>');
-                endif;
+            <?php
+                if ($settings['show_labels']):
+                    echo('<label for="' . $item['em_field_label'] . '">' . $item['em_field_label'] . '</label>');
+        endif;
 
-                switch($item['em_field_type']):
-                    case "username":
-                    case "first_name":
-                    case "last_name":
+        switch ($item['em_field_type']):
+                    case 'username':
+                    case 'first_name':
+                    case 'last_name':
                         $field_creation->create_input_field(
                             $item['em_field_label'],
                             $item['em_field_label'],
-                            "text",
+                            'text',
                             $item['em_field_placeholder'],
                             $item['em_field_type'],
                             $item['em_field_required']
                         );
-                    break;
-                    case "user_password":
-                    case "user_password_confirm":
+        break;
+        case 'user_password':
+                    case 'user_password_confirm':
 
                         $password_field_role = ($item['em_field_type'] == 'user_password') ? 'user_password' : 'user_password_confirm';
-                        
-                        $field_creation->create_input_field(
-                            $item['em_field_label'],
-                            $item['em_field_label'],
-                            "password",
-                            $item['em_field_placeholder'],
-                            $password_field_role,
-                            $item['em_field_required']
-                        );
 
-                    break;
-                    case "user_email":
+        $field_creation->create_input_field(
+            $item['em_field_label'],
+            $item['em_field_label'],
+            'password',
+            $item['em_field_placeholder'],
+            $password_field_role,
+            $item['em_field_required']
+        );
+
+        break;
+        case 'user_email':
                         $field_creation->create_input_field(
                             $item['em_field_label'],
                             $item['em_field_label'],
-                            "email",
+                            'email',
                             $item['em_field_placeholder'],
                             $item['em_field_type'],
                             $item['em_field_required']
                         );
-                    break;
-                    case "biographical_info":
+        break;
+        case 'biographical_info':
                         $field_creation->create_textarea_field();
-                    break;
-                    case "checkbox":
+        break;
+        case 'checkbox':
                         $field_creation->create_checkbox_field();
-                    case "select":
+        break;
+        case 'select':
                         $field_creation->create_select_field($item['em_field_label'], $item['em_field_options']);
+        break;
+        default:
                     break;
-                    default:
-                    break;
-                endswitch;
-
-            ?>
+        endswitch; ?>
 
             </div>
 
@@ -728,22 +791,27 @@ class Registration_Form extends Widget_Base{
                     </button>
                 </div>
 
+                <div class="elementor-field-group">
+                    <?php if ('yes' === $settings['show_tnc']): ?>
+                    <?php $this->display_terms_and_conditions(); ?>
+                    <?php endif; ?>
+                </div>
+
             </div>
 
             <input type="hidden" name="action" value="em_register_user" />
-            <?php wp_nonce_field( 'em_reg_nonce' ); ?>
-            <input type="hidden" name="page_id" value="<?php echo esc_attr( $this->page_id ); ?>">
-            <input type="hidden" name="widget_id" value="<?php echo esc_attr( $this->get_id() ); ?>">
+            <?php wp_nonce_field('em_reg_nonce'); ?>
+            <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
+            <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
         </form>
 
     <?php endif; ?>
 
     <?php
-
     }
 
-    protected function _content_template(){
+    protected function _content_template() {
         ?>
 
          <# if(settings.registration_form_view == 'not_registered_view'){ #>
@@ -754,7 +822,6 @@ class Registration_Form extends Widget_Base{
 
                     if(settings.em_field_list){
                         var count = 0;
-                        var buttonWidth = ( ( '' !== settings.em_button_width ) ? settings.em_button_width : '100' );
                         var inputType = '';
 
                     #>
@@ -858,7 +925,7 @@ class Registration_Form extends Widget_Base{
 
                         }); #>
 
-                        <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-{{{buttonWidth}}}">
+                        <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-{{{settings.em_button_width}}}">
                             <button type="submit" class="em-button">
                                 <span>{{{ settings.em_submit_button_text }}}</span>
                             </button>
@@ -883,4 +950,21 @@ class Registration_Form extends Widget_Base{
 		<?php
     }
 
+    /**
+     *
+     * Shows acceptance field
+     *
+     * @since 1.0.0
+     * @access public
+     */
+    public function display_terms_and_conditions() {
+        $settings = $this->get_settings_for_display(); ?>
+        <div class = "em-tnc-wrap">
+            <input type="checkbox" name="form_fields[accept_tnc]" id="em-tnc-acceptance"/>
+            <label for="em-tnc-acceptance"><?php echo $settings['tnc_text']; ?></label>
+            <a href="<?php echo $settings['tnc_link']['url']; ?>"><?php echo $settings['tnc_text_link']; ?></a>
+        </div>
+
+    <?php
+    }
 }
