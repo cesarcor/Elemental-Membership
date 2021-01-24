@@ -73,7 +73,7 @@ trait Register_User {
                         $first_name = $value;
         break;
         case 'last_name':
-                        $first_name = $value;
+                        $last_name = $value;
         break;
         default:
 
