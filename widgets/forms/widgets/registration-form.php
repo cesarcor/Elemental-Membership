@@ -785,16 +785,16 @@ class Registration_Form extends Widget_Base {
 
             <?php endforeach; ?>
 
+                <div class="em-form-field-group elementor-field-group">
+                    <?php if ('yes' === $settings['show_tnc']): ?>
+                    <?php $this->display_terms_and_conditions(); ?>
+                    <?php endif; ?>
+                </div>
+
                 <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo $buttonWidth; ?>">
                     <button type="submit" name="em-register-user" class="em-button elementor-button">
                         <span><?php echo $settings['em_submit_button_text']; ?></span>
                     </button>
-                </div>
-
-                <div class="elementor-field-group">
-                    <?php if ('yes' === $settings['show_tnc']): ?>
-                    <?php $this->display_terms_and_conditions(); ?>
-                    <?php endif; ?>
                 </div>
 
             </div>
@@ -948,6 +948,18 @@ class Registration_Form extends Widget_Base {
 
             <# } #>
 		<?php
+    }
+
+    /**
+     *
+     * Shows login link
+     *
+     * @since 1.0.0
+     * @access public
+     */
+    public function display_login_link(){
+        $settings = $this->get_settings_for_display();
+
     }
 
     /**
