@@ -683,6 +683,55 @@ class Registration_Form extends Widget_Base {
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'em_tnc_styles',
+            [
+                'label' => __('Terms & Conditions', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'tnc_typography',
+                'selector' => '{{WRAPPER}} .em-tnc-wrap > *',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->add_control(
+            'tnc_text_color',
+            [
+                'label' => __('Text Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-tnc-text' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'tnc_link_color',
+            [
+                'label' => __('Link Color', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-tnc-link' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
     }
 
     protected function render() {
@@ -952,18 +1001,6 @@ class Registration_Form extends Widget_Base {
 
     /**
      *
-     * Shows login link
-     *
-     * @since 1.0.0
-     * @access public
-     */
-    public function display_login_link(){
-        $settings = $this->get_settings_for_display();
-
-    }
-
-    /**
-     *
      * Shows acceptance field
      *
      * @since 1.0.0
@@ -972,9 +1009,9 @@ class Registration_Form extends Widget_Base {
     public function display_terms_and_conditions() {
         $settings = $this->get_settings_for_display(); ?>
         <div class = "em-tnc-wrap">
-            <input type="checkbox" name="form_fields[accept_tnc]" id="em-tnc-acceptance"/>
+            <input type="checkbox" name="form_fields[accept_tnc]" id="em-tnc-acceptance" class="em-tnc-text" />
             <label for="em-tnc-acceptance"><?php echo $settings['tnc_text']; ?></label>
-            <a href="<?php echo $settings['tnc_link']['url']; ?>"><?php echo $settings['tnc_text_link']; ?></a>
+            <a href="<?php echo $settings['tnc_link']['url']; ?>" class="em-tnc-link"><?php echo $settings['tnc_text_link']; ?></a>
         </div>
 
     <?php
