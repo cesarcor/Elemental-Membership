@@ -225,6 +225,7 @@ class Registration_Form extends Widget_Base {
                     'is_registered_view' => 'Already Registered'
                 ],
                 'default' => 'not_registered_view',
+                'separator' => 'before',
             ]
         );
 
@@ -291,7 +292,7 @@ class Registration_Form extends Widget_Base {
                         'icon' => 'eicon-text-align-justify',
                     ],
                 ],
-                'default' => 'stretch',
+                'default' => 'start',
                 'prefix_class' => 'elementor%s-button-align-',
             ]
         );

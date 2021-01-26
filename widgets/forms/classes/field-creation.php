@@ -1,17 +1,32 @@
 <?php
 namespace ElementalMembership\Widgets\Forms\Classes;
 
-// Exit if accessed directlys
+// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ):
     exit; 
 endif;
 
 class Field_Creation{
 
+    /**
+     *
+     * Formats name attribute
+     *
+     * @since 1.0.0
+     * @param string $item
+     * @access public
+     */
     public function em_get_attribute_name($item){
         return "form_fields[{$item}]";
     }
 
+    /**
+     *
+     * Creates input form field
+     *
+     * @since 1.0.0
+     * @access public
+     */
     function create_input_field($field_label, $field_id, $field_type, $field_placeholder, $field_role, $is_required){
 
         $field_name = "";
@@ -56,14 +71,36 @@ class Field_Creation{
          $field_required . ' />';
     }
 
+    /**
+     *
+     * Creates textarea form field
+     *
+     * @since 1.0.0
+     * @access public
+     */
     function create_textarea_field(){
-        echo '<textarea class="em-form-field em-textarea-field"></textarea>';
+        $field_name = $this->em_get_attribute_name("biographical_info");
+        echo '<textarea name='. $field_name .' class="em-form-field em-textarea-field"></textarea>';
     }
 
+    /**
+     *
+     * Creates checkbox form field
+     *
+     * @since 1.0.0
+     * @access public
+     */
     function create_checkbox_field(){
         echo '<input type="checkbox" value="Checkbox!" class="em-form-field"/>';
     }
 
+    /**
+     *
+     * Creates select dropdown form field
+     *
+     * @since 1.0.0
+     * @access public
+     */
     function create_select_field($field_label, $field_options){
         $options = preg_split( "/\\r\\n|\\r|\\n/", $field_options );
 
