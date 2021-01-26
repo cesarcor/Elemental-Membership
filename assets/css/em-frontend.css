@@ -157,3 +157,11 @@
     bottom: unset;
   }
 }
+
+/* Registration Form */
+.em-user-registered-msg{
+  padding: 20px 10px;
+  text-align: center;
+  -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.1);
+}
