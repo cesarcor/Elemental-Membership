@@ -45,6 +45,7 @@ trait Register_User {
         $user_email = '';
         $first_name = '';
         $last_name = '';
+        $user_bio = '';
 
         if (!empty($_POST['page_id'])):
             $page_id = intval($_POST['page_id'], 10);
@@ -75,6 +76,8 @@ trait Register_User {
         case 'last_name':
                         $last_name = $value;
         break;
+        case 'biographical_info':
+            $user_bio = $value;
         default:
 
         endswitch;
@@ -95,7 +98,8 @@ trait Register_User {
             'user_email' => $user_email,
             'first_name' => $first_name,
             'last_name' => $last_name,
-            'role' => $user_role,
+            'description' => $user_bio,
+            'role' => $user_role
         ];
 
         $user_id = wp_insert_user($userdata);
