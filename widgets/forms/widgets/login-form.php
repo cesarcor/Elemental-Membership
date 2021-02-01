@@ -2,11 +2,13 @@
 
 namespace ElementalMembership\Widgets\Forms;
 
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
+use ElementalMembership\Widgets\Forms\Traits\Login_User;
 
 // Exit if accessed directly
 if (!defined('ABSPATH')):
@@ -14,6 +16,11 @@ if (!defined('ABSPATH')):
 endif;
 
 class Login_Form extends Widget_Base {
+
+    use Login_User;
+    
+    protected $page_id;
+
     public function get_name() {
         return 'em-login-form';
     }
@@ -202,14 +209,54 @@ class Login_Form extends Widget_Base {
             [
                 'label' => __('Lost your Password?', 'elemental-membership'),
                 'type' => Controls_Manager::SWITCHER,
-                'return_value' => 'true',
                 'label_on' => __('Show', 'elemental-membership'),
                 'label_off' => __('Hide', 'elemental-membership'),
                 'return_value' => 'yes'
             ]
         );
 
-        $this->end_controls_section();
+		$this->end_controls_section();
+		
+		$this->start_controls_section(
+            'em_login_redirect_section',
+            [
+                'label' => __('Login Redirect', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+		);
+        
+        $this->add_control(
+			'redirect_select',
+			[
+				'label' => __( 'On login, redirect to', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'user_profile',
+				'options' => [
+					'user_profile'  => __( 'User Profile', 'elemental-membership' ),
+					'custom_url' => __( 'Custom URL', 'elemental-membership' )
+				],
+			]
+		);
+		
+		$this->add_control(
+			'login_redirect_link',
+			[
+				'label' => __( 'Redirect Link', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::URL,
+				'placeholder' => __( 'https://your-link.com', 'elemental-membership' ),
+				'show_external' => true,
+				'default' => [
+					'url' => '',
+					'is_external' => false,
+					'nofollow' => true
+				],
+				'condition' => [
+					'redirect_select' => 'custom_url'
+				]
+			]
+		);
+		
+		$this->end_controls_section();
 
         $this->start_controls_section(
             'em_user_already_loggedin_section',
@@ -240,6 +287,26 @@ class Login_Form extends Widget_Base {
                 'rows' => 2,
                 'default' => __('You are already logged in', 'elemental-membership')
             ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'login_form_validation_messages',
+            [
+                'label' => __('Validation Messages', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'validation_incorrect_user_pwd',
+			[
+                'label' => __( 'Incorrect user or password', 'elemental-membership' ),
+                'label_block' => true,
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'Incorrect user or password', 'elemental-membership' )
+			]
         );
 
         $this->end_controls_section();
@@ -697,7 +764,13 @@ class Login_Form extends Widget_Base {
 	<?php
         else:
 
-        $this->form_fields_render_attributes(); ?>
+        $this->form_fields_render_attributes(); 
+        
+        if (Plugin::$instance->documents->get_current()):
+            $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
+        endif;
+        
+        ?>
 
 		<form class="em-user-login-form elementor-form">
 
@@ -765,6 +838,8 @@ class Login_Form extends Widget_Base {
 
 				<input type="hidden" name="action" value="em_login_user" />
 				<?php wp_nonce_field('em_login_nonce'); ?>
+                <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
+                <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
 			</div>
 		</form>
