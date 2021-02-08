@@ -7,6 +7,7 @@ use Elementor\Controls_Manager;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
+use ElementalMembership\Widgets\Forms\Traits\Password_Change;
 
 //Exit if accessed directly
 if (!defined('ABSPATH')):
@@ -14,6 +15,9 @@ if (!defined('ABSPATH')):
 endif;
 
 class Change_Password_Form extends Widget_Base {
+
+    use Password_Change;
+
     public function get_name() {
         return 'change-password-form';
     }
@@ -528,31 +532,34 @@ class Change_Password_Form extends Widget_Base {
     protected function render_form() {
         $settings = $this->get_settings_for_display(); ?>
 
-		<form class="em-form elementor-form">
+		<form class="em-form em-change-password-form elementor-form" method="post">
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					<?php if ('yes' === $settings['show_labels']): ?>
-					<label for="old-pwd"><?php echo __('Old Passsword', 'elemental-membership'); ?></label>
+					<label for="old-pwd"><?php echo __('Current Passsword', 'elemental-membership'); ?></label>
 					<?php endif; ?>
-					<input type="password" class="elementor-field" id="old-pwd"/>
+					<input type="password" name="pwd_change_form_fields[current_password]" class="elementor-field" id="old-pwd"/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					<?php if ('yes' === $settings['show_labels']): ?>
 					<label for="new-pwd"><?php echo __('New Password', 'elemental-membership'); ?></label>
 					<?php endif; ?>
-					<input type="password" class="elementor-field" id="new-pwd"/>
+					<input type="password" name="pwd_change_form_fields[new_password]" class="elementor-field" id="new-pwd"/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					<?php if ('yes' === $settings['show_labels']): ?>
 					<label for="new-pwd-confirm"><?php echo __('Confirm New Password', 'elemental-membership'); ?></label>
 					<?php endif; ?>
-					<input type="password" class="elementor-field" id="new-pwd-confirm"/>
+					<input type="password" name="pwd_change_form_fields[new_password_confirm]" class="elementor-field" id="new-pwd-confirm"/>
 				</div>
 
 				<div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-100">
 					<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>"><?php echo $settings['button_text']; ?></button>
 				</div>
+
+                <input type="hidden" name="action" value="em_change_password" />
+                <?php wp_nonce_field('em_change_password_nonce'); ?>
 
 			</form>
 

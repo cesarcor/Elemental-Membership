@@ -5,8 +5,13 @@ namespace ElementalMembership;
 use ElementalMembership\Admin;
 use ElementalMembership\Widgets\Forms\Classes;
 use ElementalMembership\Widgets\Forms\Traits\Register_User;
+use ElementalMembership\Widgets\Forms\Traits\Login_User;
+use ElementalMembership\Widgets\Forms\Traits\Password_Change;
 
+//Form traits files, here for now:
 require_once __DIR__ . '/widgets/forms/traits/register-user.php';
+require_once __DIR__ . '/widgets/forms/traits/login-user.php';
+require_once __DIR__ . '/widgets/forms/traits/password-change.php';
 
 /**
  * Class Plugin
@@ -16,7 +21,7 @@ require_once __DIR__ . '/widgets/forms/traits/register-user.php';
  */
 class Plugin {
 
-    use Register_User;
+    use Register_User, Login_User, Password_Change;
 
     /**
      * Instance
@@ -234,11 +239,16 @@ class Plugin {
          */
         add_action('init', [new Includes\Classes\Profile, 'profile_url_rewrite']);
 
+
+        /**
+        * Form traits
+        */
         add_action('init', [$this, 'ajax_register_user']);
+        add_action('init', [$this, 'ajax_login_user']);
+        add_action('init', [$this, 'ajax_change_password']);
 
         spl_autoload_register([$this, 'autoload']);
 
-        new Classes\Login_User();
         new Admin\Admin();
     }
 }
