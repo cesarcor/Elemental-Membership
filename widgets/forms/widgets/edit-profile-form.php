@@ -2,6 +2,7 @@
 
 namespace ElementalMembership\Widgets\Forms;
 
+use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Core\Schemes;
@@ -98,6 +99,32 @@ class Edit_Profile_Form extends Widget_Base{
 				'label' => __( 'Last Name Placeholder', 'elemental-membership' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => __( 'Last Name', 'elemental-membership' ),
+				'condition' => [
+					'show_labels' => 'yes',
+					'custom_labels' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'display_name_label',
+			[
+				'label' => __( 'Display Name Label', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Display Name', 'elemental-membership' ),
+				'condition' => [
+					'show_labels' => 'yes',
+					'custom_labels' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'display_name_placeholder',
+			[
+				'label' => __( 'Display Name Placeholder', 'elemental-membership' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Display Name', 'elemental-membership' ),
 				'condition' => [
 					'show_labels' => 'yes',
 					'custom_labels' => 'yes',
@@ -220,6 +247,39 @@ class Edit_Profile_Form extends Widget_Base{
 		);
 
         $this->end_controls_section();
+
+		$this->start_controls_section(
+            'user_logged_out_section',
+            [
+                'label' => __('Logged Out Users', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+		);
+		
+		$this->add_control(
+            'form_view',
+            [
+                'label' => __('View As', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    'logged_in_view' => 'User is logged in',
+                    'not_logged_in_view' => 'User is logged out'
+                ],
+                'default' => 'logged_in_view'
+            ]
+        );
+		
+		$this->add_control(
+            'logged_out_user_text',
+            [
+                'label' => __('Logged Out User Text', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'rows' => 5,
+                'default' => __('You must be logged in to edit', 'elemental-membership')
+            ]
+		);
+		
+		$this->end_controls_section();
 		
 		$this->start_controls_section(
             'em_form_style',
@@ -541,52 +601,125 @@ class Edit_Profile_Form extends Widget_Base{
 	}
 
 	protected function render() {
+		if ($this->em_user_is_in_editor()):
+			$this->render_user_loggedout_message(); 
+		else:
+			$this->render_form();
+		endif; 
+	}
+
+	protected function render_form(){
+
 		$settings = $this->get_settings_for_display();
+
+		if (Plugin::$instance->documents->get_current()):
+            $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
+        endif;
+
+
 	?>
 
-		<form class="em-form">
+		<form class="em-form em-edit-profile-form">
 
-			<div class="elementor-field-group">
-				<?php if('yes' === $settings['show_labels']): ?>
-					<label for="edit-first-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['first_name_label'] : __('First Name', 'elemental-membership'); ?></label>
-				<?php endif; ?>
-				<input type="text" id="edit-first-name" class="elementor-field" placeholder="<?php echo $settings['first_name_placeholder']; ?>"/>
-			</div>
+		<div class="elementor-field-group">
+			<?php if('yes' === $settings['show_labels']): ?>
+				<label for="edit-first-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['first_name_label'] : __('First Name', 'elemental-membership'); ?></label>
+			<?php endif; ?>
+			<input type="text" id="edit-first-name" name="form_fields[first_name]" class="elementor-field" placeholder="<?php echo $settings['first_name_placeholder']; ?>"/>
+		</div>
 
-			<div class="elementor-field-group">
-				<?php if('yes' === $settings['show_labels']): ?>
-					<label for="edit-last-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['last_name_label'] : __('Last Name', 'elemental-membership'); ?></label>
-				<?php endif; ?>
-				<input type="text" id="edit-last-name" class="elementor-field" placeholder="<?php echo $settings['last_name_placeholder']; ?>"/>
-			</div>
+		<div class="elementor-field-group">
+			<?php if('yes' === $settings['show_labels']): ?>
+				<label for="edit-last-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['last_name_label'] : __('Last Name', 'elemental-membership'); ?></label>
+			<?php endif; ?>
+			<input type="text" id="edit-last-name" name="form_fields[last_name]" class="elementor-field" placeholder="<?php echo $settings['last_name_placeholder']; ?>"/>
+		</div>
 
-			<div class="elementor-field-group">
-				<?php if('yes' === $settings['show_labels']): ?>
-					<label for="edit-email"><?php echo 'yes' === $settings['custom_labels'] ? $settings['email_label'] : __('Email', 'elemental-membership'); ?></label>
-				<?php endif; ?>
-				<input type="email" id="edit-email" class="elementor-field" placeholder="<?php echo $settings['email_placeholder']; ?>"/>
-			</div>
+		<div class="elementor-field-group">
+			<?php if('yes' === $settings['show_labels']): ?>
+				<label for="edit-display-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['display_name_label'] : __('Display Name', 'elemental-membership'); ?></label>
+			<?php endif; ?>
+			<input type="text" id="edit-display-name" name="form_fields[display_name]" class="elementor-field" placeholder="<?php echo $settings['display_name_placeholder']; ?>"/>
+		</div>
 
-			<div class="elementor-field-group">
-				<?php if('yes' === $settings['show_labels']): ?>
-					<label for="edit-textarea"><?php echo 'yes' === $settings['custom_labels'] ? $settings['bio_label'] : __('Bio', 'elemental-membership'); ?></label>
-				<?php endif; ?>
-				<textarea rows="3" id="edit-textarea" class="elementor-field" placeholder="<?php echo $settings['bio_placeholder']; ?>"></textarea>
-			</div>
+		<div class="elementor-field-group">
+			<?php if('yes' === $settings['show_labels']): ?>
+				<label for="edit-email"><?php echo 'yes' === $settings['custom_labels'] ? $settings['email_label'] : __('Email', 'elemental-membership'); ?></label>
+			<?php endif; ?>
+			<input type="email" id="edit-email" name="form_fields[user_email]" class="elementor-field" placeholder="<?php echo $settings['email_placeholder']; ?>"/>
+		</div>
 
-			<div class="elementor-field-group">
-				<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>">
-					<?php echo __('Update Account', 'elemental-membership'); ?>
-				</button>
-			</div>
-			
+		<div class="elementor-field-group">
+			<?php if('yes' === $settings['show_labels']): ?>
+				<label for="edit-textarea"><?php echo 'yes' === $settings['custom_labels'] ? $settings['bio_label'] : __('Bio', 'elemental-membership'); ?></label>
+			<?php endif; ?>
+			<textarea rows="3" id="edit-textarea" name="form_fields[user_bio]" class="elementor-field" placeholder="<?php echo $settings['bio_placeholder']; ?>"></textarea>
+		</div>
+
+		<div class="elementor-field-group">
+			<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>">
+				<?php echo $settings['button_text']; ?>
+			</button>
+		</div>
+
+		<input type="hidden" name="action" value="em_login_user" />
+		<?php wp_nonce_field('em_profile_info_change_nonce'); ?>
+		<input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
+		<input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
+
 		</form>
+
 
 	<?php
 	}
 
+	/**
+     *
+     * Renders message if the user accessing form is logged out
+     *
+     * @since 1.0.0
+     * @access protected
+     */
+    protected function render_user_loggedout_message() {
+		$settings = $this->get_settings_for_display();
+	?>
+		<div class="em-user-registered-msg">
+			<?php echo $settings['logged_out_user_text']; ?>
+		</div>
+
+	<?php
+	}
+	
+	/**
+     *
+     * Check if user is viewing the form in the Elementor editor
+     *
+     * @since 1.0.0
+     * @access public
+     */
+	public function em_user_is_in_editor(){
+		$settings = $this->get_settings_for_display();
+
+		if((is_user_logged_in() && 
+		!\Elementor\Plugin::$instance->editor->is_edit_mode()) ||
+		(is_user_logged_in() &&
+		$settings['form_view'] == 'logged_in_view')):
+			return;
+		else:
+			return true;
+		endif;
+	}
+
 	protected function _content_template() {
 	?>
+
+	<# if(settings.form_view == 'not_logged_in_view') { #>
+
+	<div class="em-user-registered-msg">
+		{{{ settings.logged_out_user_text }}}
+	</div>
+
+	<# } else { #>
 
 		<div class="em-form">
 
@@ -629,6 +762,26 @@ class Edit_Profile_Form extends Widget_Base{
 			</div>
 
 			<div class="elementor-field-group">
+
+				<# if('yes' === settings.show_labels){ #>
+				<#
+					if('yes' === settings.custom_labels){
+				#>
+					<label>{{{ settings.last_name_label }}}</label>
+				<#
+				}else{
+				#>
+					<label><?php echo __('Display Name', 'elemental-membership'); ?></label>
+				<#	
+				}}
+				#>
+
+				<input type="text" id="edit-display-name" class="elementor-field" placeholder="{{{	settings.display_name_placeholder }}}"/>
+
+			</div>
+
+
+			<div class="elementor-field-group">
 				<# if('yes' === settings.show_labels){ #>
 
 					<#
@@ -668,11 +821,13 @@ class Edit_Profile_Form extends Widget_Base{
 
 			<div class="elementor-field-group">
 				<button type="submit" class="em-button elementor-button elementor-size-{{ settings.button_size }}">
-					<?php echo __('Update Account', 'elemental-membership'); ?>
+				 	{{{ settings.button_text }}}
 				</button>
 			</div>
 
 		</div>
+
+		<# } #>
 
 	<?php
 	}
