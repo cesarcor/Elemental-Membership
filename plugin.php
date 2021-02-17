@@ -7,11 +7,13 @@ use ElementalMembership\Widgets\Forms\Classes;
 use ElementalMembership\Widgets\Forms\Traits\Register_User;
 use ElementalMembership\Widgets\Forms\Traits\Login_User;
 use ElementalMembership\Widgets\Forms\Traits\Password_Change;
+use ElementalMembership\Widgets\Forms\Traits\Profile_Info_Change;
 
 //Form traits files, here for now:
 require_once __DIR__ . '/widgets/forms/traits/register-user.php';
 require_once __DIR__ . '/widgets/forms/traits/login-user.php';
 require_once __DIR__ . '/widgets/forms/traits/password-change.php';
+require_once __DIR__ . '/widgets/forms/traits/profile-info-change.php';
 
 /**
  * Class Plugin
@@ -20,8 +22,7 @@ require_once __DIR__ . '/widgets/forms/traits/password-change.php';
  * @since 1.0.0
  */
 class Plugin {
-
-    use Register_User, Login_User, Password_Change;
+    use Register_User, Login_User, Password_Change, Profile_Info_Change;
 
     /**
      * Instance
@@ -173,21 +174,19 @@ class Plugin {
 
         for ($i = count($file_parts) - 1; $i > 0; $i--):
             $current = strtolower($file_parts[$i]);
-            $current = str_ireplace('_', '-', $current);
+        $current = str_ireplace('_', '-', $current);
 
-            if (count($file_parts) - 1 === $i):
-                $file_name = "$current.php";
-            else:
+        if (count($file_parts) - 1 === $i):
+                $file_name = "$current.php"; else:
                 $namespace = '/' . $current . $namespace;
-            endif;
+        endif;
         endfor;
 
         $filepath = trailingslashit(dirname(dirname(__FILE__)) . '/elemental-membership' . $namespace);
         $filepath .= $file_name;
 
         if (file_exists($filepath)):
-            include_once $filepath;
-        else:
+            include_once $filepath; else:
             wp_die(
                 esc_html("The file attempting to be loaded at $filepath does not exist.")
             );
@@ -239,13 +238,13 @@ class Plugin {
          */
         add_action('init', [new Includes\Classes\Profile, 'profile_url_rewrite']);
 
-
         /**
         * Form traits
         */
         add_action('init', [$this, 'ajax_register_user']);
         add_action('init', [$this, 'ajax_login_user']);
         add_action('init', [$this, 'ajax_change_password']);
+        add_action('init', [$this, 'ajax_em_edit_profile_info']);
 
         spl_autoload_register([$this, 'autoload']);
 

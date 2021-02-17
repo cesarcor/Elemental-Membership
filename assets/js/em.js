@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-  $(".em-user-registration-form, .em-user-login-form, .em-change-password-form").on("submit", function(e) {
+  $(".em-user-registration-form, .em-user-login-form, .em-change-password-form, .em-edit-profile-form").on("submit", function(e) {
     e.preventDefault();
     var form = $(this);
 
