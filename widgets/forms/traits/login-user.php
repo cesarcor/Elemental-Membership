@@ -17,9 +17,8 @@ trait Login_User {
      * @package ElementalMembership\Widgets\Forms\Traits
      */
     public function em_login_user() {
-        if (!check_ajax_referer('em_login_nonce')):
-            wp_die();
-        endif;
+
+        $errors = array();
 
         $page_id = $widget_id = 0;
 
@@ -28,6 +27,12 @@ trait Login_User {
         $remember_me = '';
 
         $redirect_url = '';
+
+        if (!wp_verify_nonce($_POST['em_login_nonce'], 'em_login_user')):
+            $errors['invalid_nonce'] = __('Security token not valid, try refreshing', 'elemental-membership');
+            wp_send_json_error($errors['invalid_nonce']);
+            wp_die();
+        endif;
 
         if (!empty($_POST['page_id'])):
             $page_id = intval($_POST['page_id'], 10);
@@ -45,20 +50,18 @@ trait Login_User {
 
         if (isset($_POST['login_fields'])):
             foreach ($_POST['login_fields'] as $field => $value):
-
-                    switch ($field):
-                        case 'user_login':
-                            $user_login = sanitize_text_field($value);
-        break;
-        case 'user_login_pwd':
-                            $user_password = $value;
-        // no break
-        case 'user_remember_me':
-                            $remember_me = $value == 'yes' ? true : false;
-        break;
-        endswitch;
-
-        endforeach;
+                switch ($field):
+                    case 'user_login':
+                        $user_login = sanitize_text_field($value);
+                    break;
+                    case 'user_login_pwd':
+                        $user_password = $value;
+                    break;
+                    case 'user_remember_me':
+                        $remember_me = $value == 'yes' ? true : false;
+                    break;
+                endswitch;
+            endforeach;
         endif;
 
         $login_user = wp_signon(
@@ -71,14 +74,12 @@ trait Login_User {
         );
 
         if (is_wp_error($login_user)):
-            wp_send_json_error(['login_error' => $login_user->get_error_message()], 401);
-            exit();
+            wp_send_json_error($login_user->get_error_messages());
+            return;
         endif;
 
-        wp_send_json_success(!empty($redirect_url) ? ['form_redirect' => esc_url($redirect_url)] : ['login_redirect' => home_url() . '/profile/' . $user_login]);
+        wp_send_json_success(!empty($redirect_url) ? ['form_redirect' => esc_url($redirect_url)] : ['form_redirect' => esc_url(home_url() . '/profile/' . $user_login)]);
     }
-
-    /* -- !! BELOW DUPLICATE OF CODE IN register-user ... [RETHINK] -- */
 
     /**
      * Gets widget data

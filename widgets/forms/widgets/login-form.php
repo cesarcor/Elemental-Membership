@@ -804,7 +804,7 @@ class Login_Form extends Widget_Base {
 					
 					<?php endif; ?>
 
-					<input type="text" name="login_fields[user_login]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_placeholder'] : $login_with; ?>" class="elementor-field"/>
+					<input type="text" name="login_fields[user_login]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_placeholder'] : $login_with; ?>" class="elementor-field" required/>
 
 				</div>
 
@@ -814,7 +814,7 @@ class Login_Form extends Widget_Base {
 						<label><?php echo $settings['custom_labels'] == 'yes' ? $settings['password_label'] : __('Password', 'elemental-membership'); ?></label>
 					<?php endif; ?>
 
-					<input type="password" name="login_fields[user_login_pwd]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['password_placeholder'] : __('Password', 'elemental-membership'); ?>" class="elementor-field"/>
+					<input type="password" name="login_fields[user_login_pwd]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['password_placeholder'] : __('Password', 'elemental-membership'); ?>" class="elementor-field" required/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
@@ -839,8 +839,8 @@ class Login_Form extends Widget_Base {
 					</div>
 				<?php endif; ?>
 
-				<input type="hidden" name="action" value="em_profile_info_change" />
-				<?php wp_nonce_field('em_login_nonce'); ?>
+				<input type="hidden" name="action" value="em_login_user" />
+                <?php wp_nonce_field('em_login_user', 'em_login_nonce'); ?>
                 <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
                 <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
