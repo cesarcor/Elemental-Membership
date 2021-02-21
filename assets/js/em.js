@@ -9,7 +9,11 @@ jQuery(document).ready(function($) {
       data: form.serialize(),
       dataType: 'JSON',
       success: (response) => {
-        window.location.href = response.data.form_redirect;
+        //window.location.href = response.data.form_redirect;
+        console.log(response);
+        if(!response.success){
+          $('.em-form-error').append('<small>' + response.data + '</small>');
+        }
       },
       error: (xhr, status, error, response) => {
         console.log(xhr.responseText);

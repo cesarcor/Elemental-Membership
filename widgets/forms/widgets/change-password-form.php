@@ -554,12 +554,14 @@ class Change_Password_Form extends Widget_Base {
 					<input type="password" name="pwd_change_form_fields[new_password_confirm]" class="elementor-field" id="new-pwd-confirm"/>
 				</div>
 
+                <div class="em-form-error elementor-field-group"></div>
+
 				<div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-100">
 					<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>"><?php echo $settings['button_text']; ?></button>
 				</div>
 
                 <input type="hidden" name="action" value="em_change_password" />
-                <?php wp_nonce_field('em_change_password_nonce'); ?>
+                <?php wp_nonce_field('em_change_password', 'em_change_password_nonce'); ?>
 
 			</form>
 
