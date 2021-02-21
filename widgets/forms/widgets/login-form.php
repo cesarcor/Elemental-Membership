@@ -799,7 +799,7 @@ class Login_Form extends Widget_Base {
                     ?>
 
 						<label>
-							<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_label'] : $login_with; ?>
+							<?php echo 'yes' === $settings['custom_labels']  ? $settings['user_label'] : $login_with; ?>
 						</label>
 					
 					<?php endif; ?>
@@ -824,6 +824,9 @@ class Login_Form extends Widget_Base {
 					</label>
 				</div>
 
+                <div class="em-form-error elementor-field-group"></div>
+                <div class="em-form-success elementor-field-group"></div>
+
 				<div <?php echo $this->get_render_attribute_string('submit-group'); ?>>
 					<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>">
 						<?php echo $settings['em_login_button_text']; ?>
@@ -836,7 +839,7 @@ class Login_Form extends Widget_Base {
 					</div>
 				<?php endif; ?>
 
-				<input type="hidden" name="action" value="em_login_user" />
+				<input type="hidden" name="action" value="em_profile_info_change" />
 				<?php wp_nonce_field('em_login_nonce'); ?>
                 <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
                 <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
