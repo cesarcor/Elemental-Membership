@@ -555,6 +555,7 @@ class Change_Password_Form extends Widget_Base {
 				</div>
 
                 <div class="em-form-error elementor-field-group"></div>
+                <div class="em-form-success elementor-field-group"></div>
 
 				<div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-100">
 					<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>"><?php echo $settings['button_text']; ?></button>

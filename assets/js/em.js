@@ -8,17 +8,21 @@ jQuery(document).ready(function($) {
       method: "POST",
       data: form.serialize(),
       dataType: 'JSON',
-      success: (response) => {
-        //window.location.href = response.data.form_redirect;
-        console.log(response);
+      success: (response) => {        
         if(!response.success){
-          $('.em-form-error').append('<small>' + response.data + '</small>');
+          $('.em-form-error, .em-form-success', this).empty();
+          $('.em-form-error', this).append('<small>' + response.data + '</small>');
+        }else{
+          $(this)[0].reset();
+          $('.em-form-success, .em-form-error', this).empty();
+          $('.em-form-success', this).append('<small>' + response.data + '</small>');
+          if(('form_redirect' in response.data)){
+            window.location.href = response.data.form_redirect;
+          }
         }
       },
-      error: (xhr, status, error, response) => {
-        console.log(xhr.responseText);
-        console.log("status: " + status);
-        console.log(error, status);
+      error: (xhr) => {
+        $('.em-form-error').append('<small>' + xhr.responseText + '</small>');
       }
     });
     
