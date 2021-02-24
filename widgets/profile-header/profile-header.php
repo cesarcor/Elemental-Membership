@@ -7,6 +7,7 @@ use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
+use ElementalMembership\Includes\Classes\Profile;
 
 class Profile_Header extends Widget_Base{
 
@@ -742,7 +743,8 @@ class Profile_Header extends Widget_Base{
 
     protected function render(){
         $settings = $this->get_settings_for_display();
-        $current_user = wp_get_current_user();
+        $profile = new Profile();
+        $profile_name = $profile->get_user_full_name();
 
         if ( ! empty( $settings['banner_button_link']['url'] ) ):
 			$this->add_link_attributes( 'banner_button', $settings['banner_button_link'] );
@@ -787,7 +789,7 @@ class Profile_Header extends Widget_Base{
                         <div class="em-col em-profile-modifier-actions">
 
                             <h2 class="em-profile-identifier">
-                                <?php printf(esc_html($current_user->user_firstname . " " . $current_user->user_lastname));?>
+                                <?php printf(esc_html($profile_name));?>
                             </h2>
 
                             <?php if ('yes' === $settings['show_profile_action_menu']): ?>
