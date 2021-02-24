@@ -8,6 +8,7 @@ use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use ElementalMembership\Widgets\Forms\Traits\Password_Change;
+use Elementor\Plugin;
 
 //Exit if accessed directly
 if (!defined('ABSPATH')):
@@ -151,6 +152,36 @@ class Change_Password_Form extends Widget_Base {
 		
 		$this->end_controls_section();
 
+        $this->start_controls_section(
+            'validation_messages',
+            [
+                'label' => __('Validation Messages', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+		);
+
+        $this->add_control(
+			'vm_current_pass',
+			[
+				'label' => __( 'Current password not correct', 'elemental-membership' ),
+                'label_block' => true,
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'Failed, current password is incorrect', 'elemental-membership' ),
+			]
+		);
+
+        $this->add_control(
+			'vm_passwords_mismatch',
+			[
+				'label' => __( 'Passwords don\'t match', 'elemental-membership' ),
+                'label_block' => true,
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'Failed, password confirmation has to match new password', 'elemental-membership' ),
+			]
+		);
+
+        $this->end_controls_section();
+		
         $this->start_controls_section(
             'em_form_style',
             [
@@ -530,21 +561,25 @@ class Change_Password_Form extends Widget_Base {
      * @access protected
      */
     protected function render_form() {
-        $settings = $this->get_settings_for_display(); ?>
+        $settings = $this->get_settings_for_display(); 
 
+        if (Plugin::$instance->documents->get_current()):
+            $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
+        endif; ?>
+        
 		<form class="em-form em-change-password-form elementor-form" method="post">
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					<?php if ('yes' === $settings['show_labels']): ?>
 					<label for="old-pwd"><?php echo __('Current Passsword', 'elemental-membership'); ?></label>
 					<?php endif; ?>
-					<input type="password" name="pwd_change_form_fields[current_password]" class="elementor-field" id="old-pwd"/>
+					<input type="password" name="pwd_change_form_fields[current_password]" class="elementor-field" id="old-pwd" required/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					<?php if ('yes' === $settings['show_labels']): ?>
 					<label for="new-pwd"><?php echo __('New Password', 'elemental-membership'); ?></label>
 					<?php endif; ?>
-					<input type="password" name="pwd_change_form_fields[new_password]" class="elementor-field" id="new-pwd"/>
+					<input type="password" name="pwd_change_form_fields[new_password]" class="elementor-field" id="new-pwd" required/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
@@ -563,6 +598,8 @@ class Change_Password_Form extends Widget_Base {
 
                 <input type="hidden" name="action" value="em_change_password" />
                 <?php wp_nonce_field('em_change_password', 'em_change_password_nonce'); ?>
+                <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
+                <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
 			</form>
 
