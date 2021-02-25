@@ -22,6 +22,7 @@ trait Profile_Info_Change{
 
         $first_name = $this->em_get_fields($post_var)['first_name'];
         $last_name = $this->em_get_fields($post_var)['last_name'];
+        $nickname = $this->em_get_fields($post_var)['nickname'];
         $user_email = $this->em_get_fields($post_var)['user_email'];
         $user_bio = $this->em_get_fields($post_var)['user_bio'];
 
@@ -31,6 +32,10 @@ trait Profile_Info_Change{
 
         if($this->em_confirm_field_change('last_name', $last_name)['last_name']):
             $this->em_change_last_name($last_name);
+        endif;
+
+        if($this->em_confirm_field_change('nickname', $last_name)['nickname']):
+            $this->em_change_nickname($nickname);
         endif;
 
         if($this->em_confirm_field_change('user_email', $user_email)['user_email']):
@@ -48,7 +53,7 @@ trait Profile_Info_Change{
         $field_change = array(
             'first_name' => false,
             'last_name' => false,
-            'display_name' => false,
+            'nickname' => false,
             'user_email' => false,
             'user_bio' => false
         );
@@ -61,8 +66,8 @@ trait Profile_Info_Change{
             $field_change['last_name'] = true;
         endif;
 
-        if($field_key === 'display_name' && $field_value !== $user_info->display_name):
-            $field_change['display_name'] = true;
+        if($field_key === 'nickname' && $field_value !== get_user_meta($user->ID, 'nickname', true)):
+            $field_change['nickname'] = true;
         endif;
 
         if($field_key === 'user_email' && $field_value !== $user_info->user_email):
@@ -94,8 +99,8 @@ trait Profile_Info_Change{
                         $field_value['last_name'] = $value;
                     break;
 
-                    case 'display_name':
-                        $field_value['display_name'] = $value;
+                    case 'nickname':
+                        $field_value['nickname'] = $value;
                     break;
 
                     case 'user_email':
@@ -127,7 +132,6 @@ trait Profile_Info_Change{
     protected function em_change_first_name($new_name){
         $user = wp_get_current_user();
         $first_name = update_user_meta($user->ID, 'first_name', $new_name);
-        error_log('First Ran');
     }
 
     /**
@@ -141,21 +145,19 @@ trait Profile_Info_Change{
     protected function em_change_last_name($new_name){
         $user = wp_get_current_user();
         $last_name = update_user_meta($user->ID, 'last_name', $new_name);
-        error_log('Last Ran');
     }
 
     /**
-     * change user display name
+     * change user nickname
      *
      * @since 1.0.0
      * 
      * @param string $new_name
      *
      */
-    protected function em_change_display_name($new_name){
+    protected function em_change_nickname($new_name){
         $user = wp_get_current_user();
-        wp_update_user(array('ID' => $user->ID, 'display_name' => $new_name));
-        error_log('Display Ran');
+        wp_update_user(array('ID' => $user->ID, 'nickname' => $new_name));
     }
 
     /**
@@ -169,7 +171,6 @@ trait Profile_Info_Change{
     protected function em_change_user_email($new_email){
         $user = wp_get_current_user();
         wp_update_user(array('ID' => $user->ID, 'user_email' => $new_email));
-        error_log('Email Ran');
     }
 
     /**
@@ -183,7 +184,6 @@ trait Profile_Info_Change{
     protected function em_change_bio($new_bio){
         $user = wp_get_current_user();
         update_user_meta($user->ID, 'description', $new_bio);
-        error_log('Bio Ran');
     }
 
 }

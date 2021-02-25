@@ -105,11 +105,11 @@ class Edit_Profile_Form extends Widget_Base {
         );
 
         $this->add_control(
-            'display_name_label',
+            'nickname_label',
             [
-                'label' => __('Display Name Label', 'elemental-membership'),
+                'label' => __('Nickname Label', 'elemental-membership'),
                 'type' => Controls_Manager::TEXT,
-                'default' => __('Display Name', 'elemental-membership'),
+                'default' => __('Nickname', 'elemental-membership'),
                 'condition' => [
                     'show_labels' => 'yes',
                     'custom_labels' => 'yes',
@@ -118,11 +118,11 @@ class Edit_Profile_Form extends Widget_Base {
         );
 
         $this->add_control(
-            'display_name_placeholder',
+            'nickname_placeholder',
             [
-                'label' => __('Display Name Placeholder', 'elemental-membership'),
+                'label' => __('Nickname Placeholder', 'elemental-membership'),
                 'type' => Controls_Manager::TEXT,
-                'default' => __('Display Name', 'elemental-membership'),
+                'default' => __('Nickname', 'elemental-membership'),
                 'condition' => [
                     'show_labels' => 'yes',
                     'custom_labels' => 'yes',
@@ -630,9 +630,9 @@ class Edit_Profile_Form extends Widget_Base {
 
 		<div class="elementor-field-group">
 			<?php if ('yes' === $settings['show_labels']): ?>
-				<label for="edit-display-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['display_name_label'] : __('Display Name', 'elemental-membership'); ?></label>
+				<label for="edit-nickname"><?php echo 'yes' === $settings['custom_labels'] ? $settings['nickname_label'] : __('Nickname', 'elemental-membership'); ?></label>
 			<?php endif; ?>
-			<input type="text" id="edit-display-name" name="form_fields[display_name]" class="elementor-field" placeholder="<?php echo $settings['display_name_placeholder']; ?>"/>
+			<input type="text" id="edit-nickname" name="form_fields[nickname]" class="elementor-field" placeholder="<?php echo $settings['nickname_placeholder']; ?>"/>
 		</div>
 
 		<div class="elementor-field-group">
@@ -762,12 +762,12 @@ class Edit_Profile_Form extends Widget_Base {
 				<#
 				}else{
 				#>
-					<label><?php echo __('Display Name', 'elemental-membership'); ?></label>
+					<label><?php echo __('Nickname', 'elemental-membership'); ?></label>
 				<#	
 				}}
 				#>
 
-				<input type="text" id="edit-display-name" class="elementor-field" placeholder="{{{	settings.display_name_placeholder }}}"/>
+				<input type="text" id="edit-nickname" class="elementor-field" placeholder="{{{	settings.nickname_placeholder }}}"/>
 
 			</div>
 
