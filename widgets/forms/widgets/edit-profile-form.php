@@ -600,7 +600,7 @@ class Edit_Profile_Form extends Widget_Base {
             <div class="em-edit-profile-field elementor-field-group">
                 <?php
                     if ($settings['show_labels']):
-                        echo('<label for="' . $item['em_field_label'] . '">' . $item['em_field_label'] . '</label>');
+                        echo('<label for="' . str_replace(' ', '', $item['em_field_label']) . '">' . $item['em_field_label'] . '</label>');
                     endif;
                 ?>
                 <?php
@@ -608,13 +608,13 @@ class Edit_Profile_Form extends Widget_Base {
                         case 'nickname':
                         case 'first_name':
                         case 'last_name':
-                            echo '<input type="text" name="form_fields[' . $item['em_field_type'] .  ']" id="' . $item['em_field_label'] . '" placeholder="' . $item['em_field_placeholder'] . '" >';
+                            echo '<input type="text" name="form_fields[' . $item['em_field_type'] .  ']" id="' . str_replace(' ', '', $item['em_field_label'])  . '" placeholder="' . $item['em_field_placeholder'] . '" >';
                         break;
                         case 'user_email':
-                            echo '<input type="email" name="form_fields[' . $item['em_field_type'] .  ']" id="' . $item['em_field_label'] . '" placeholder="' . $item['em_field_placeholder'] . '" >';
+                            echo '<input type="email" name="form_fields[' . $item['em_field_type'] .  ']" id="' . str_replace(' ', '', $item['em_field_label'])  . '" placeholder="' . $item['em_field_placeholder'] . '" >';
                         break;
                         case 'user_bio':
-                            echo '<textarea name="form_fields[' . $item['em_field_type'] .  ']" id="' . $item['em_field_label'] . '" placeholder="' . $item['em_field_placeholder'] . '"></textarea>';
+                            echo '<textarea name="form_fields[' . $item['em_field_type'] .  ']" id="' . str_replace(' ', '', $item['em_field_label'])  . '" placeholder="' . $item['em_field_placeholder'] . '"></textarea>';
                         break;
                     endswitch;
                 ?>
