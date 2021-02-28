@@ -176,6 +176,16 @@ class Edit_Profile_Form extends Widget_Base {
         );
 
         $this->add_responsive_control(
+            'em_button_width',
+            [
+                'label' => __('Column Width', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => '100',
+                'options' => $em_field_widths,
+            ]
+        );
+
+        $this->add_responsive_control(
             'align',
             [
                 'label' => __('Alignment', 'elemental-membership'),
@@ -566,6 +576,7 @@ class Edit_Profile_Form extends Widget_Base {
 
     protected function render_form() {
         $settings = $this->get_settings_for_display();
+        $buttonWidth = (('' !== $settings['em_button_width']) ? $settings['em_button_width'] : '100');
 
         if (Plugin::$instance->documents->get_current()):
             $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
@@ -575,7 +586,7 @@ class Edit_Profile_Form extends Widget_Base {
 
             <?php $this->render_form_fields(); ?>
 
-            <div class="elementor-field-group">
+            <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo $buttonWidth; ?>">
                 <button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>">
                     <?php echo $settings['button_text']; ?>
                 </button>
@@ -595,9 +606,12 @@ class Edit_Profile_Form extends Widget_Base {
     protected function render_form_fields(){
         $settings = $this->get_settings_for_display();
 
-        foreach ($settings['em_field_list'] as $item_index => $item): ?>
-
-            <div class="em-edit-profile-field elementor-field-group">
+        foreach ($settings['em_field_list'] as $item_index => $item): 
+        
+        $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100');
+        
+        ?>
+            <div class="em-edit-profile-field elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
                 <?php
                     if ($settings['show_labels']):
                         echo('<label for="' . str_replace(' ', '', $item['em_field_label']) . '">' . $item['em_field_label'] . '</label>');
@@ -677,9 +691,12 @@ class Edit_Profile_Form extends Widget_Base {
 
             <#
                 _.each( settings.em_field_list, function( item, index ) {
+
+                    var fieldWidth = ( ( '' !== item.em_field_width ) ? item.em_field_width : '100' );
+
                 #>
 
-                <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column">
+                <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-{{{ fieldWidth }}}">
 
                     <#
                     if(item.em_field_label && settings.show_labels){
@@ -734,7 +751,7 @@ class Edit_Profile_Form extends Widget_Base {
 
             <# } #>
 
-			<div class="elementor-field-group">
+			<div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-{{{settings.em_button_width}}}">
 				<button type="submit" class="em-button elementor-button elementor-size-{{ settings.button_size }}">
 				 	{{{ settings.button_text }}}
 				</button>
