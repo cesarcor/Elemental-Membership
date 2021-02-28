@@ -5,6 +5,7 @@ namespace ElementalMembership\Widgets\Forms;
 use Elementor\Plugin;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
@@ -27,6 +28,30 @@ class Edit_Profile_Form extends Widget_Base {
     }
 
     protected function _register_controls() {
+        $repeater = new Repeater();
+
+        $em_field_widths = [
+            '' => __('Default', 'elemental-membership'),
+            '100' => '100%',
+            '80' => '80%',
+            '75' => '75%',
+            '66' => '66%',
+            '60' => '60%',
+            '50' => '50%',
+            '40' => '40%',
+            '33' => '33%',
+            '25' => '25%',
+            '20' => '20%',
+        ];
+
+        $em_field_type = [
+            'nickname' => __('Nickname', 'elemental-memebership'),
+            'user_email' => __('User Email', 'elemental-memebership'),
+            'first_name' => __('First Name', 'elemental-membership'),
+            'last_name' => __('Last Name', 'elemental-membership'),
+            'user_bio' => __('User Bio/Description', 'elemental-membership')
+        ];
+        
         $this->start_controls_section(
             'fields_section',
             [
@@ -35,148 +60,82 @@ class Edit_Profile_Form extends Widget_Base {
             ]
         );
 
+        $repeater->add_control(
+            'em_field_type',
+            [
+                'label' => __('Field Type', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'first_name',
+                'options' => $em_field_type
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_label',
+            [
+                'label' => __('Field Label', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => ''
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_placeholder',
+            [
+                'label' => __('Field Placeholder', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => ''
+            ]
+        );
+
+        $repeater->add_control(
+            'em_field_width',
+            [
+                'label' => __('Field Width', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => '100',
+                'options' => $em_field_widths
+            ]
+        );
+
+        $this->add_control(
+            'em_field_list',
+            [
+                'label' => __('Field List', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'default' => [
+                    [
+                        'em_field_label' => __('Nickname', 'elemental-membership'),
+                        'em_field_placeholder' => 'jondoe',
+                        'em_field_type' => 'nickname'
+                    ],
+
+                    [
+                        'em_field_label' => __('Email', 'elemental-membership'),
+                        'em_field_placeholder' => 'jondoe@mail.com',
+                        'em_field_type' => 'user_email'
+                    ],
+
+                    [
+                        'em_field_label' => __('Bio/Description', 'elemental-membership'),
+                        'em_field_placeholder' => __('Add description...', 'elemental-membership'),
+                        'em_field_type' => 'user_bio'
+                    ],
+
+                ],
+
+                'title_field' => '{{{ em_field_label }}}',
+            ]
+        );
+
         $this->add_control(
             'show_labels',
             [
                 'label' => __('Show Label', 'elemental-membership'),
+                'separator' => 'before',
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes'
-            ]
-        );
-
-        $this->add_control(
-            'custom_labels',
-            [
-                'label' => __('Custom Label', 'elemental-membership'),
-                'type' => Controls_Manager::SWITCHER,
-            ]
-        );
-
-        $this->add_control(
-            'first_name_label',
-            [
-                'label' => __('First Name Label', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('First Name', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'first_name_placeholder',
-            [
-                'label' => __('First Name Placeholder', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('First Name', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'last_name_label',
-            [
-                'label' => __('Last Name Label', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Last Name', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'last_name_placeholder',
-            [
-                'label' => __('Last Name Placeholder', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Last Name', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'nickname_label',
-            [
-                'label' => __('Nickname Label', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Nickname', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'nickname_placeholder',
-            [
-                'label' => __('Nickname Placeholder', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Nickname', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'email_label',
-            [
-                'label' => __('Email Label', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Email', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'email_placeholder',
-            [
-                'label' => __('Email Placeholder', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Email', 'elemental-membership'),
-                'condition' => [
-                    'show_labels' => 'yes',
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'bio_label',
-            [
-                'label' => __('Bio Label', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Bio', 'elemental-membership'),
-                'condition' => [
-                    'custom_labels' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'bio_placeholder',
-            [
-                'label' => __('Bio Placeholder', 'elemental-membership'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Bio', 'elemental-membership'),
-                'condition' => [
-                    'custom_labels' => 'yes',
-                ],
             ]
         );
 
@@ -614,56 +573,54 @@ class Edit_Profile_Form extends Widget_Base {
 
 		<form class="em-form em-edit-profile-form">
 
-		<div class="elementor-field-group">
-			<?php if ('yes' === $settings['show_labels']): ?>
-				<label for="edit-first-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['first_name_label'] : __('First Name', 'elemental-membership'); ?></label>
-			<?php endif; ?>
-			<input type="text" id="edit-first-name" name="form_fields[first_name]" class="elementor-field" placeholder="<?php echo $settings['first_name_placeholder']; ?>"/>
-		</div>
+            <?php $this->render_form_fields(); ?>
 
-		<div class="elementor-field-group">
-			<?php if ('yes' === $settings['show_labels']): ?>
-				<label for="edit-last-name"><?php echo 'yes' === $settings['custom_labels'] ? $settings['last_name_label'] : __('Last Name', 'elemental-membership'); ?></label>
-			<?php endif; ?>
-			<input type="text" id="edit-last-name" name="form_fields[last_name]" class="elementor-field" placeholder="<?php echo $settings['last_name_placeholder']; ?>"/>
-		</div>
+            <div class="elementor-field-group">
+                <button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>">
+                    <?php echo $settings['button_text']; ?>
+                </button>
+            </div>
 
-		<div class="elementor-field-group">
-			<?php if ('yes' === $settings['show_labels']): ?>
-				<label for="edit-nickname"><?php echo 'yes' === $settings['custom_labels'] ? $settings['nickname_label'] : __('Nickname', 'elemental-membership'); ?></label>
-			<?php endif; ?>
-			<input type="text" id="edit-nickname" name="form_fields[nickname]" class="elementor-field" placeholder="<?php echo $settings['nickname_placeholder']; ?>"/>
-		</div>
-
-		<div class="elementor-field-group">
-			<?php if ('yes' === $settings['show_labels']): ?>
-				<label for="edit-email"><?php echo 'yes' === $settings['custom_labels'] ? $settings['email_label'] : __('Email', 'elemental-membership'); ?></label>
-			<?php endif; ?>
-			<input type="email" id="edit-email" name="form_fields[user_email]" class="elementor-field" placeholder="<?php echo $settings['email_placeholder']; ?>"/>
-		</div>
-
-		<div class="elementor-field-group">
-			<?php if ('yes' === $settings['show_labels']): ?>
-				<label for="edit-textarea"><?php echo 'yes' === $settings['custom_labels'] ? $settings['bio_label'] : __('Bio', 'elemental-membership'); ?></label>
-			<?php endif; ?>
-			<textarea rows="3" id="edit-textarea" name="form_fields[user_bio]" class="elementor-field" placeholder="<?php echo $settings['bio_placeholder']; ?>"></textarea>
-		</div>
-
-		<div class="elementor-field-group">
-			<button type="submit" class="em-button elementor-button elementor-size-<?php echo $settings['button_size']; ?>">
-				<?php echo $settings['button_text']; ?>
-			</button>
-		</div>
-
-		<input type="hidden" name="action" value="em_edit_profile_info_change" />
-		<?php wp_nonce_field('em_profile_info_change_nonce'); ?>
-		<input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
-		<input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
+            <input type="hidden" name="action" value="em_edit_profile_info_change" />
+            <?php wp_nonce_field('em_profile_info_change_nonce'); ?>
+            <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
+            <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
 		</form>
 
 
 	<?php
+    }
+
+    protected function render_form_fields(){
+        $settings = $this->get_settings_for_display();
+
+        foreach ($settings['em_field_list'] as $item_index => $item): ?>
+
+            <div class="em-edit-profile-field elementor-field-group">
+                <?php
+                    if ($settings['show_labels']):
+                        echo('<label for="' . $item['em_field_label'] . '">' . $item['em_field_label'] . '</label>');
+                    endif;
+                ?>
+                <?php
+                    switch($item['em_field_type']):
+                        case 'nickname':
+                        case 'first_name':
+                        case 'last_name':
+                            echo '<input type="text" name="form_fields[' . $item['em_field_type'] .  ']" id="' . $item['em_field_label'] . '" placeholder="' . $item['em_field_placeholder'] . '" >';
+                        break;
+                        case 'user_email':
+                            echo '<input type="email" name="form_fields[' . $item['em_field_type'] .  ']" id="' . $item['em_field_label'] . '" placeholder="' . $item['em_field_placeholder'] . '" >';
+                        break;
+                        case 'user_bio':
+                            echo '<textarea name="form_fields[' . $item['em_field_type'] .  ']" id="' . $item['em_field_label'] . '" placeholder="' . $item['em_field_placeholder'] . '"></textarea>';
+                        break;
+                    endswitch;
+                ?>
+            </div>
+
+        <?php endforeach;
     }
 
     /**
@@ -714,101 +671,68 @@ class Edit_Profile_Form extends Widget_Base {
 
 		<div class="em-form">
 
-			<div class="elementor-field-group">
-				<# if('yes' === settings.show_labels){ #>
+            <# if(settings.em_field_list){ #>
 
-					<#
-						if('yes' === settings.custom_labels){
-					#>
-						<label>{{{ settings.first_name_label }}}</label>
-					<#	
-					}else{
-					#>
-						<label><?php echo __('First Name', 'elemental-membership'); ?></label>
-					<#
-					} 
-					#>
+            <div class="elementor-form-fields-wrapper elementor-labels-above">
 
-				<# } #>
-				<input type="text" class="elementor-field" placeholder="{{{ settings.first_name_placeholder }}}"/>
-			</div>
+            <#
+                _.each( settings.em_field_list, function( item, index ) {
+                #>
 
-			<div class="elementor-field-group">
-				<# if('yes' === settings.show_labels){ #>
+                <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column">
 
-					<#
-						if('yes' === settings.custom_labels){
-					#>
-						<label>{{{ settings.last_name_label }}}</label>
-					<#
-					}else{
-					#>
-						<label><?php echo __('Last Name', 'elemental-membership'); ?></label>
-					<#
-					} 
-					#>
+                    <#
+                    if(item.em_field_label && settings.show_labels){
+                    #>
 
-				<# } #>
-				<input type="text" class="elementor-field" placeholder="{{{ settings.last_name_placeholder }}}"/>
-			</div>
+                        <label for="{{{ item.em_field_label }}}"> {{{item.em_field_label}}} </label>
 
-			<div class="elementor-field-group">
+                    <#
+                    }
+                    #>
 
-				<# if('yes' === settings.show_labels){ #>
-				<#
-					if('yes' === settings.custom_labels){
-				#>
-					<label>{{{ settings.last_name_label }}}</label>
-				<#
-				}else{
-				#>
-					<label><?php echo __('Nickname', 'elemental-membership'); ?></label>
-				<#	
-				}}
-				#>
+                    <#
 
-				<input type="text" id="edit-nickname" class="elementor-field" placeholder="{{{	settings.nickname_placeholder }}}"/>
+                    if(item.em_field_type){
 
-			</div>
+                        switch(item.em_field_type){
+                            case 'nickname':
+                            case 'first_name':
+                            case 'last_name':
+                        #>
+                            <input type="text" id="{{{ item.em_field_label }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
+                        
+                        <# break;
 
+                            case 'user_email':
+                        #>
+                            <input type="email" id="{{{ item.em_field_label }}}" class="em-form-field" placeholder="{{{ item.em_field_placeholder }}}">
+                        <#
+                            break;
+                            case 'user_bio': 
+                        #>
 
-			<div class="elementor-field-group">
-				<# if('yes' === settings.show_labels){ #>
+                            <textarea class="em-form-field em-textarea-field" placeholder="{{{ item.em_field_placeholder }}}"></textarea>
+                    
+                        <# 
+                            break;
+                        #>
 
-					<#
-						if('yes' === settings.custom_labels){
-					#>
-						<label>{{{ settings.email_label }}}</label>
-					<#
-					}else{
-					#>
-						<label><?php echo __('Email', 'elemental-membership'); ?></label>
-					<#
-					} 
-					#>
+                        <#
+                        
+                        }
 
-				<# } #>
-				<input type="email" class="elementor-field" placeholder="{{{ settings.email_placeholder }}}"/>
-			</div>
+                    } #>
 
-			<div class="elementor-field-group">
-				<# if('yes' === settings.show_labels){ #>
+                    </div>
 
-					<#
-						if('yes' === settings.custom_labels){
-					#>
-						<label>{{{ settings.bio_label }}}</label>
-					<#
-					}else{
-					#>
-						<label><?php echo __('Bio', 'elemental-membership'); ?></label>
-					<#
-					} 
-					#>
+                    <#
 
-				<# } #>
-				<textarea rows="3" class="elementor-field" placeholder="{{{ settings.bio_placeholder }}}"></textarea>
-			</div>
+                }); #>
+
+            </div>
+
+            <# } #>
 
 			<div class="elementor-field-group">
 				<button type="submit" class="em-button elementor-button elementor-size-{{ settings.button_size }}">
