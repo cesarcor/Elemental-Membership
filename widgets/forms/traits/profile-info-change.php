@@ -14,36 +14,39 @@ trait Profile_Info_Change{
      *
      */
     public function em_edit_profile_info_change(){
-        if(!check_ajax_referer('em_profile_info_change_nonce')):
+
+        $errors = array();
+
+        if (!wp_verify_nonce($_POST['em_profile_info_change_nonce'], 'em_edit_profile_info_change')):
+            $errors['invalid_nonce'] = __('Security token not valid, try refreshing', 'elemental-membership');
+            wp_send_json_error($errors['invalid_nonce']);
             wp_die();
         endif;
+
+        $post_var = array();
+
+        if(isset($_POST['form_fields'])):
+            $post_var = $_POST['form_fields'];
+        endif;
         
-        $post_var = $_POST['form_fields'];
-
-        $first_name = $this->em_get_fields($post_var)['first_name'];
-        $last_name = $this->em_get_fields($post_var)['last_name'];
-        $nickname = $this->em_get_fields($post_var)['nickname'];
-        $user_email = $this->em_get_fields($post_var)['user_email'];
-        $user_bio = $this->em_get_fields($post_var)['user_bio'];
-
-        if($this->em_confirm_field_change('first_name', $first_name)['first_name']):
-            $this->em_change_first_name($first_name);
+        if(isset($post_var['first_name']) && $this->em_confirm_field_change('first_name', $post_var['first_name'])['first_name']):
+            $this->em_change_first_name($post_var['first_name']);
         endif;
 
-        if($this->em_confirm_field_change('last_name', $last_name)['last_name']):
-            $this->em_change_last_name($last_name);
+        if(isset($post_var['last_name']) && $this->em_confirm_field_change('last_name', $post_var['last_name'])['last_name']):
+            $this->em_change_last_name($post_var['last_name']);
         endif;
 
-        if($this->em_confirm_field_change('nickname', $last_name)['nickname']):
-            $this->em_change_nickname($nickname);
+        if(isset($post_var['nickname']) && $this->em_confirm_field_change('nickname', $post_var['nickname'])['nickname']):
+            $this->em_change_nickname($post_var['nickname']);
         endif;
 
-        if($this->em_confirm_field_change('user_email', $user_email)['user_email']):
-            $this->em_change_user_email($user_email);
+        if(isset($post_var['user_email']) && $this->em_confirm_field_change('user_email', $post_var['user_email'])['user_email']):
+            $this->em_change_user_email($post_var['user_email']);
         endif;
 
-        if($this->em_confirm_field_change('user_bio', $user_bio)['user_bio']):
-            $this->em_change_bio($user_bio);
+        if(isset($post_var['user_bio']) && $this->em_confirm_field_change('user_bio', $post_var['user_bio'])['user_bio']):
+            $this->em_change_bio($post_var['user_bio']);
         endif;
     }
 
@@ -81,46 +84,6 @@ trait Profile_Info_Change{
         return $field_change;
     }
 
-    protected function em_get_fields($fields){
-
-        $field_value = array();
-
-        if(isset($fields)):
-
-            foreach ($fields as $field => $value):
-                
-                switch($field):
-
-                    case 'first_name':
-                        $field_value['first_name'] = $value;
-                    break;
-
-                    case 'last_name':
-                        $field_value['last_name'] = $value;
-                    break;
-
-                    case 'nickname':
-                        $field_value['nickname'] = $value;
-                    break;
-
-                    case 'user_email':
-                        $field_value['user_email'] = $value;
-                    break;
-
-                    case 'user_bio':
-                        $field_value['user_bio'] = $value;
-                    break;
-
-                endswitch;
-            
-            endforeach;
-
-            return $field_value;
-
-        endif;
-
-    }
-
     /**
      * change user first name
      *
@@ -132,6 +95,10 @@ trait Profile_Info_Change{
     protected function em_change_first_name($new_name){
         $user = wp_get_current_user();
         $first_name = update_user_meta($user->ID, 'first_name', $new_name);
+        if(is_wp_error($first_name)):
+            wp_send_json_error($first_name->get_error_message());
+            return;
+        endif;
     }
 
     /**
@@ -145,6 +112,10 @@ trait Profile_Info_Change{
     protected function em_change_last_name($new_name){
         $user = wp_get_current_user();
         $last_name = update_user_meta($user->ID, 'last_name', $new_name);
+        if(is_wp_error($last_name)):
+            wp_send_json_error($last_name->get_error_message());
+            return;
+        endif;
     }
 
     /**
@@ -157,7 +128,11 @@ trait Profile_Info_Change{
      */
     protected function em_change_nickname($new_name){
         $user = wp_get_current_user();
-        wp_update_user(array('ID' => $user->ID, 'nickname' => $new_name));
+        $nickname = wp_update_user(array('ID' => $user->ID, 'nickname' => $new_name));
+        if(is_wp_error($nickname)):
+            wp_send_json_error($nickname->get_error_message());
+            return;
+        endif;
     }
 
     /**
@@ -170,7 +145,11 @@ trait Profile_Info_Change{
      */
     protected function em_change_user_email($new_email){
         $user = wp_get_current_user();
-        wp_update_user(array('ID' => $user->ID, 'user_email' => $new_email));
+        $email = wp_update_user(array('ID' => $user->ID, 'user_email' => $new_email));
+        if(is_wp_error($email)):
+            wp_send_json_error($email->get_error_message());
+            return;
+        endif;
     }
 
     /**
@@ -183,7 +162,11 @@ trait Profile_Info_Change{
      */
     protected function em_change_bio($new_bio){
         $user = wp_get_current_user();
-        update_user_meta($user->ID, 'description', $new_bio);
+        $bio = update_user_meta($user->ID, 'description', $new_bio);
+        if(is_wp_error($bio)):
+            wp_send_json_error($bio->get_error_message());
+            return;
+        endif;
     }
 
 }
