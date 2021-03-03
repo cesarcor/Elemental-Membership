@@ -9,6 +9,7 @@ use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
+use ElementalMembership\Includes\Classes\Profile;
 
 class Edit_Profile_Form extends Widget_Base {
     public function get_name() {
@@ -574,6 +575,13 @@ class Edit_Profile_Form extends Widget_Base {
         endif;
     }
 
+    /**
+     *
+     * Renders edit profile form
+     *
+     * @since 1.0.0
+     * @access protected
+     */
     protected function render_form() {
         $settings = $this->get_settings_for_display();
         $buttonWidth = (('' !== $settings['em_button_width']) ? $settings['em_button_width'] : '100');
@@ -592,8 +600,11 @@ class Edit_Profile_Form extends Widget_Base {
                 </button>
             </div>
 
+            <div class="em-form-error elementor-field-group"></div>
+            <div class="em-form-success elementor-field-group"></div>
+
             <input type="hidden" name="action" value="em_edit_profile_info_change" />
-            <?php wp_nonce_field('em_profile_info_change_nonce'); ?>
+            <?php wp_nonce_field('em_edit_profile_info_change', 'em_profile_info_change_nonce'); ?>
             <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
             <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
@@ -603,36 +614,90 @@ class Edit_Profile_Form extends Widget_Base {
 	<?php
     }
 
+    /**
+     *
+     * Renders form fields based on Elementor's repeater control
+     *
+     * @since 1.0.0
+     * @access protected
+     */
     protected function render_form_fields(){
         $settings = $this->get_settings_for_display();
+        $user_profile = new Profile();
+        $user_first_name = $user_profile->get_user_first_name();
+        $user_last_name = $user_profile->get_user_last_name();
+        $user_nickname = $user_profile->em_get_user_nickname();
+        $user_email = $user_profile->em_get_user_email();
+        $user_bio = $user_profile->em_get_user_bio();
 
-        foreach ($settings['em_field_list'] as $item_index => $item): 
+        foreach ($settings['em_field_list'] as $item_index => $item):
         
-        $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100');
-        
-        ?>
-            <div class="em-edit-profile-field elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
-                <?php
-                    if ($settings['show_labels']):
-                        echo('<label for="' . str_replace(' ', '', $item['em_field_label']) . '">' . $item['em_field_label'] . '</label>');
-                    endif;
-                ?>
-                <?php
-                    switch($item['em_field_type']):
-                        case 'nickname':
-                        case 'first_name':
-                        case 'last_name':
-                            echo '<input type="text" name="form_fields[' . $item['em_field_type'] .  ']" id="' . str_replace(' ', '', $item['em_field_label'])  . '" placeholder="' . $item['em_field_placeholder'] . '" >';
-                        break;
-                        case 'user_email':
-                            echo '<input type="email" name="form_fields[' . $item['em_field_type'] .  ']" id="' . str_replace(' ', '', $item['em_field_label'])  . '" placeholder="' . $item['em_field_placeholder'] . '" >';
-                        break;
-                        case 'user_bio':
-                            echo '<textarea name="form_fields[' . $item['em_field_type'] .  ']" id="' . str_replace(' ', '', $item['em_field_label'])  . '" placeholder="' . $item['em_field_placeholder'] . '"></textarea>';
-                        break;
-                    endswitch;
-                ?>
-            </div>
+            $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100');
+            $field_value = '';
+            
+            ?>
+                <div class="em-edit-profile-field elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
+                    <?php
+                        if ($settings['show_labels']):
+                            echo('<label for="' . str_replace(' ', '', $item['em_field_label']) . '">' . $item['em_field_label'] . '</label>');
+                        endif;
+                    ?>
+                    <?php
+                        switch($item['em_field_type']):
+                            case 'first_name':
+                                $field_value = $user_first_name;
+                            break;
+                            case 'last_name':
+                                $field_value = $user_last_name;
+                            break;
+                            case 'nickname':
+                                $field_value = $user_nickname;
+                            break;
+                            case 'user_email':
+                                $field_value = $user_email;
+                            break;
+                            case 'user_bio':
+                                $field_value = $user_bio;
+                            break;
+                            default:
+                                $field_value = '';
+                        endswitch;
+
+                        switch($item['em_field_type']):
+                            case 'nickname':
+                            case 'first_name':
+                            case 'last_name':
+                                echo '
+                                <input
+                                type="text" 
+                                name="form_fields[' . $item['em_field_type'] .  ']" 
+                                id="' . esc_attr(str_replace(' ', '', $item['em_field_label']))  . '" 
+                                placeholder="' . esc_attr($item['em_field_placeholder']) . '" 
+                                value="'. $field_value .'"
+                                >';
+                            break;
+                            case 'user_email':
+                                echo '
+                                <input 
+                                type="email" 
+                                name="form_fields[' . $item['em_field_type'] .  ']" 
+                                id="' . esc_attr(str_replace(' ', '', $item['em_field_label']))  . '"
+                                placeholder="' . esc_attr($item['em_field_placeholder']) . '"
+                                value="' . $field_value . '"
+                                >';
+                            break;
+                            case 'user_bio':
+                                echo '
+                                <textarea
+                                name="form_fields[' . $item['em_field_type'] .  ']"
+                                id="' . esc_attr(str_replace(' ', '', $item['em_field_label']))  . '"
+                                placeholder="' . esc_attr($item['em_field_placeholder']) . '"
+                                >' . $field_value .  '</textarea>';
+                            break;
+                        endswitch;
+
+                    ?>
+                </div>
 
         <?php endforeach;
     }

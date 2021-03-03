@@ -2,10 +2,15 @@
 
 namespace ElementalMembership\Includes\Classes;
 
+// Exit if accessed directly
+if (!defined('ABSPATH')):
+    exit;
+endif;
+
 /**
- * Profile related functionality
+ * Profile & user related functionality
  *
- * This class defines all code necessary for profile related functionality
+ * This class defines all code necessary for profile and user related functionality
  *
  * @since      1.0.0
  * @author     Cesar Correchel <https://github.com/cesarcor>
@@ -41,7 +46,7 @@ class Profile {
     public function get_user_first_name() {
         $first_name = get_user_meta($this->get_user(), 'first_name', true);
 
-        return $first_name;
+        return esc_html($first_name);
     }
 
     /**
@@ -52,7 +57,7 @@ class Profile {
     public function get_user_last_name() {
         $last_name = get_user_meta($this->get_user(), 'last_name', true);
 
-        return $last_name;
+        return esc_html($last_name);
     }
 
     /**
@@ -63,7 +68,41 @@ class Profile {
     public function get_user_full_name() {
         $full_name = $this->get_user_first_name() . ' ' . $this->get_user_last_name();
 
-        return $full_name;
+        return esc_html($full_name);
+    }
+
+    /**
+     * Get user's nickname
+     *
+     * @since 1.0.0
+     */
+    public function em_get_user_nickname(){
+        $nickname = get_user_meta($this->get_user(), 'nickname', true);
+        
+        return esc_html($nickname);
+    }
+
+    /**
+     * Get user's email
+     *
+     * @since 1.0.0
+     */
+    public function em_get_user_email() {
+        $user_info = get_userdata($this->get_user());
+        $user_email = $user_info->user_email;
+
+        return esc_html($user_email);
+    }
+
+    /**
+     * Get user's description
+     *
+     * @since 1.0.0
+     */
+    public function em_get_user_bio(){
+        $user_description = get_user_meta($this->get_user(), 'description', true);
+
+        return esc_html($user_description);
     }
 
     /**
