@@ -36,15 +36,24 @@ trait Register_User {
      * @access public
      */
     public function em_register_user() {
-        $page_id = $widget_id = 0;
-        $user_role = '';
+        if(!wp_verify_nonce($_POST['em_register_user_nonce'], 'em_register_user')):
+            $errors['invalid_nonce'] = __('Security token not valid, try refreshing', 'elemental-membership');
+            wp_send_json_error(wp_die($errors['invalid_nonce']));
+        endif;
+        
+        $errors = array();
 
+        $page_id = $widget_id = 0;
+
+        $user_role = '';
         $user_login = '';
         $user_password = '';
+        $user_password_confirm = '';
         $user_email = '';
         $first_name = '';
         $last_name = '';
         $user_bio = '';
+        $terms_accepted = '';
 
         if (!empty($_POST['page_id'])):
             $page_id = intval($_POST['page_id'], 10);
@@ -54,6 +63,12 @@ trait Register_User {
             $widget_id = sanitize_text_field($_POST['widget_id']);
         endif;
 
+        $settings = $this->em_get_widget_settings($page_id, $widget_id);
+
+        if (!empty($settings)):
+            $user_role = sanitize_text_field($settings['em_user_role']);
+        endif;
+
         foreach ($_POST['form_fields'] as $field => $value):
 
             if (isset($field)):
@@ -61,34 +76,43 @@ trait Register_User {
                 switch ($field):
 
                     case 'username':
-                        $user_login = $value;
-        break;
-        case 'user_password':
-                        $user_password = $value;
-        break;
-        case 'user_email':
-                        $user_email = $value;
-        break;
-        case 'first_name':
-                        $first_name = $value;
-        break;
-        case 'last_name':
-                        $last_name = $value;
-        break;
-        case 'biographical_info':
-            $user_bio = $value;
-        default:
-
-        endswitch;
-
-        endif;
+                        $user_login = sanitize_user($value);
+                    break;
+                    case 'user_password':
+                                    $user_password = $value;
+                    break;
+                    case 'user_password_confirm':
+                        $user_password_confirm = $value;
+                    break;
+                    case 'user_email':
+                                    $user_email = sanitize_email($value);
+                    break;
+                    case 'first_name':
+                                    $first_name = sanitize_text_field($value);
+                    break;
+                    case 'last_name':
+                                    $last_name = sanitize_text_field($value);
+                    break;
+                    case 'biographical_info':
+                        $user_bio = sanitize_text_field($value);
+                    break;
+                    case 'accept_tnc':
+                        $terms_accepted = $value;
+                    endswitch;
+                endif;
 
         endforeach;
 
-        $settings = $this->em_get_widget_settings($page_id, $widget_id);
+        if($user_password !== $user_password_confirm):
+            $errors['password_mismatch'] = __('Password confirmation does not match', 'elemental-membership');
+            wp_send_json_error($errors['password_mismatch']);
+            wp_die();
+        endif;
 
-        if (!empty($settings)):
-            $user_role = sanitize_text_field($settings['em_user_role']);
+        $tnc_enabled = $settings['show_tnc'];
+        if('yes' === $tnc_enabled && !isset($_POST['form_fields']['accept_tnc'])):
+            wp_send_json_error('You must accept terms and conditions');
+            wp_die();
         endif;
 
         $userdata = [
@@ -104,13 +128,61 @@ trait Register_User {
         $user_id = wp_insert_user($userdata);
 
         if (is_wp_error($user_id)):
-                error_log($user_id->get_error_message());
-        var_dump($_POST);
+            $errors['wp_error'] = $user_id->get_error_message();
+            wp_send_json_error($errors['wp_error']);
+            return;
         endif;
 
-        var_dump($_POST);
+        wp_send_json_success(['form_redirect' => esc_url(home_url() . '/profile/' . $user_login)]);
 
-        wp_die();
+    }
+
+    /**
+     * Gets widget data
+     *
+     *  @since 1.0.0
+     *
+     * @param array  $elements Element array.
+     * @param string $form_id  Element ID.
+     *
+     */
+    function find_element_recursive($elements, $form_id) {
+        foreach ($elements as $element):
+            if ($form_id === $element['id']):
+                return $element;
+        endif;
+
+        if (!empty($element['elements'])):
+                $element = $this->find_element_recursive($element['elements'], $form_id);
+
+        if ($element):
+                    return $element;
+        endif;
+        endif;
+        endforeach;
+
+        return false;
+    }
+
+    /**
+     *
+     * Get form settings from EL.
+     *
+     * @since 1.0.0
+     * @access public
+     */
+    function em_get_widget_settings($page_id, $widget_id) {
+        $document = Plugin::$instance->documents->get($page_id);
+        $settings = [];
+        if ($document):
+            $elements = Plugin::instance()->documents->get($page_id)->get_elements_data();
+        $widget_data = $this->find_element_recursive($elements, $widget_id);
+        $widget = Plugin::instance()->elements_manager->create_element_instance($widget_data);
+        if ($widget):
+                $settings = $widget->get_settings_for_display();
+        endif;
+        endif;
+        return $settings;
     }
 
 }

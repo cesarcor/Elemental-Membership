@@ -847,10 +847,15 @@ class Registration_Form extends Widget_Base {
                     </button>
                 </div>
 
+                <div class="elementor-field-group">
+                    <div class="em-form-error"></div>
+                    <div class="em-form-success"></div>
+                </div>
+
             </div>
 
             <input type="hidden" name="action" value="em_register_user" />
-            <?php wp_nonce_field('em_reg_nonce'); ?>
+            <?php wp_nonce_field('em_register_user', 'em_register_user_nonce'); ?>
             <input type="hidden" name="page_id" value="<?php echo esc_attr($this->page_id); ?>">
             <input type="hidden" name="widget_id" value="<?php echo esc_attr($this->get_id()); ?>">
 
@@ -1010,7 +1015,7 @@ class Registration_Form extends Widget_Base {
     public function display_terms_and_conditions() {
         $settings = $this->get_settings_for_display(); ?>
         <div class = "em-tnc-wrap">
-            <input type="checkbox" name="form_fields[accept_tnc]" id="em-tnc-acceptance" class="em-tnc-text" />
+            <input type="checkbox" name="form_fields[accept_tnc]" id="em-tnc-acceptance" class="em-tnc-text" value="yes" />
             <label for="em-tnc-acceptance"><?php echo $settings['tnc_text']; ?></label>
             <a href="<?php echo $settings['tnc_link']['url']; ?>" class="em-tnc-link"><?php echo $settings['tnc_text_link']; ?></a>
         </div>
