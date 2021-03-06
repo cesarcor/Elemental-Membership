@@ -104,14 +104,15 @@ trait Register_User {
         endforeach;
 
         if($user_password !== $user_password_confirm):
-            $errors['password_mismatch'] = __('Password confirmation does not match', 'elemental-membership');
-            wp_send_json_error($errors['password_mismatch']);
+            $errors['password_mismatch'] = $settings['vm_password_confirm'];
+            wp_send_json_error(esc_html($errors['password_mismatch']));
             wp_die();
         endif;
 
         $tnc_enabled = $settings['show_tnc'];
         if('yes' === $tnc_enabled && !isset($_POST['form_fields']['accept_tnc'])):
-            wp_send_json_error('You must accept terms and conditions');
+            $errors['tnc_not_accepted'] = $settings['vm_tnc_acceptance'];
+            wp_send_json_error(esc_html($errors['tnc_not_accepted']));
             wp_die();
         endif;
 

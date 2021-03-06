@@ -369,6 +369,36 @@ class Registration_Form extends Widget_Base {
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'validation_messages',
+            [
+                'label' => __('Validation Messages', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'vm_password_confirm',
+			[
+				'label' => __( 'Password confirmation not passed', 'elemental-membership' ),
+                'label_block' => true,
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'Password confirmation does not matchrrr', 'elemental-membership' ),
+			]
+		);
+
+        $this->add_control(
+			'vm_tnc_acceptance',
+			[
+				'label' => __( 'Terms & Conditions not accepted', 'elemental-membership' ),
+                'label_block' => true,
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'To create an account, please accept our terms & conditions', 'elemental-membership' ),
+			]
+		);
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'em_registration_form_style',
             [
                 'label' => __('Registration Form Styles', 'elemental-membership'),
