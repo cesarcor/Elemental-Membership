@@ -876,7 +876,7 @@ class Registration_Form extends Widget_Base {
                             );
             break;
             case 'user_password':
-                        case 'user_password_confirm':
+            case 'user_password_confirm':
 
                             $password_field_role = ($item['em_field_type'] == 'user_password') ? 'user_password' : 'user_password_confirm';
 
@@ -1106,7 +1106,7 @@ class Registration_Form extends Widget_Base {
                         }); #>
 
                         <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-{{{settings.em_button_width}}}">
-                            <button type="submit" class="em-button">
+                            <button type="submit" class="em-button elementor-button">
                                 <span>{{{ settings.em_submit_button_text }}}</span>
                             </button>
                         </div>
