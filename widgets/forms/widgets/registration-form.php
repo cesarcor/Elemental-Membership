@@ -125,7 +125,7 @@ class Registration_Form extends Widget_Base {
                 'label' => __('Required', 'elemental-membership'),
                 'type' => Controls_Manager::SWITCHER,
                 'return_value' => 'true',
-                'default' => '',
+                'default' => ''
             ]
         );
 
@@ -809,112 +809,16 @@ class Registration_Form extends Widget_Base {
         $buttonWidth = (('' !== $settings['em_button_width']) ? $settings['em_button_width'] : '100');
         $input_type = '';
 
-        $username_exists = 0;
-        $first_name_exists = 0;
-		$last_name_exists = 0;
-        $user_email_exists = 0;
-		$user_password_exists = 0;
-		$user_password_confirm_exists = 0;
-		$biographical_info_exists = 0;
-
-        $em_field_type = [
-            'username' => __('Username', 'elemental-memebership'),
-            'user_email' => __('User Email', 'elemental-memebership'),
-            'user_password' => __('User Password', 'elemental-memebership'),
-            'user_password_confirm' => __('Password Confirmation', 'elemental-memebership'),
-            'first_name' => __('First Name', 'elemental-membership'),
-            'last_name' => __('Last Name', 'elemental-membership'),
-            'biographical_info' => __('Biographical Info', 'elemental-membership')
-        ];
-        $repeated_fields = [];
-
         if (Plugin::$instance->documents->get_current()):
             $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
         endif;
         ?>
 
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
-            
-        <?php
-
-        $field_creation = new Field_Creation(); ?>
 
         <div class="elementor-form-fields-wrapper elementor-labels-above">
 
-        <?php foreach ($settings['em_field_list'] as $item_index => $item): ?>
-        <?php
-            $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100'); 
-
-            $field_type = $item['em_field_type'];
-            $dynamic_field_name = "{$field_type}_exists";
-            $$dynamic_field_name ++;
-
-            if ( $$dynamic_field_name > 1 ):
-                $repeated_fields[] = $em_field_type[ $field_type ];
-            endif;
-            
-        ?>
-
-        <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
-
-        <?php
-            if ($settings['show_labels']):
-                echo('<label for="' . $item['em_field_label'] . '">' . $item['em_field_label'] . '</label>');
-            endif;
-
-            switch ($item['em_field_type']):
-                        case 'username':
-                        case 'first_name':
-                        case 'last_name':
-                            $field_creation->create_input_field(
-                                $item['em_field_label'],
-                                $item['em_field_label'],
-                                'text',
-                                $item['em_field_placeholder'],
-                                $item['em_field_type'],
-                                $item['em_field_required']
-                            );
-            break;
-            case 'user_password':
-            case 'user_password_confirm':
-
-                            $password_field_role = ($item['em_field_type'] == 'user_password') ? 'user_password' : 'user_password_confirm';
-
-            $field_creation->create_input_field(
-                $item['em_field_label'],
-                $item['em_field_label'],
-                'password',
-                $item['em_field_placeholder'],
-                $password_field_role,
-                $item['em_field_required']
-            );
-
-            break;
-            case 'user_email':
-                    $field_creation->create_input_field(
-                        $item['em_field_label'],
-                        $item['em_field_label'],
-                        'email',
-                        $item['em_field_placeholder'],
-                        $item['em_field_type'],
-                        $item['em_field_required']
-                    );
-            break;
-            case 'biographical_info':
-                    $field_creation->create_textarea_field();
-            break;
-            case 'checkbox':
-                    $field_creation->create_checkbox_field();
-            break;
-            case 'select':
-                    $field_creation->create_select_field($item['em_field_label'], $item['em_field_options']);
-            break;
-            endswitch; 
-        ?>
-
-        </div>
-
-        <?php endforeach; ?>
+            <?php $this->render_fields(); ?>
 
             <div class="em-form-field-group elementor-field-group">
                 <?php if ('yes' === $settings['show_tnc']): ?>
@@ -942,18 +846,118 @@ class Registration_Form extends Widget_Base {
 
     </form>
 
-    <?php 
-        if(\Elementor\Plugin::$instance->editor->is_edit_mode()):
-            $repeated_field = $this->display_repeated_fields_error($repeated_fields); 
-            if($repeated_field):
-                return;
-            endif;
-        endif;
-    ?>
-
-
     <?php
         
+    }
+
+    protected function render_fields(){
+        $settings = $this->get_settings_for_display();
+        $field_creation = new Field_Creation();
+
+        $username_exists = 0;
+        $first_name_exists = 0;
+		$last_name_exists = 0;
+        $user_email_exists = 0;
+		$user_password_exists = 0;
+		$user_password_confirm_exists = 0;
+		$biographical_info_exists = 0;
+
+        $em_field_type = [
+            'username' => __('Username', 'elemental-memebership'),
+            'user_email' => __('User Email', 'elemental-memebership'),
+            'user_password' => __('User Password', 'elemental-memebership'),
+            'user_password_confirm' => __('Password Confirmation', 'elemental-memebership'),
+            'first_name' => __('First Name', 'elemental-membership'),
+            'last_name' => __('Last Name', 'elemental-membership'),
+            'biographical_info' => __('Biographical Info', 'elemental-membership')
+        ];
+        $repeated_fields = [];
+
+        foreach ($settings['em_field_list'] as $item_index => $item):
+
+                $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100'); 
+    
+                $field_type = $item['em_field_type'];
+                $dynamic_field_name = "{$field_type}_exists";
+                $$dynamic_field_name ++;
+    
+                if ( $$dynamic_field_name > 1 ):
+                    $repeated_fields[] = $em_field_type[ $field_type ];
+                endif;
+                
+        ?>
+    
+            <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
+    
+            <?php
+                if ($settings['show_labels']):
+                    echo('<label for="' . $item['em_field_label'] . '">' . $item['em_field_label'] . '</label>');
+                endif;
+    
+                switch ($item['em_field_type']):
+                            case 'username':
+                            case 'first_name':
+                            case 'last_name':
+                                $field_creation->create_input_field(
+                                    $item['em_field_label'],
+                                    $item['em_field_label'],
+                                    'text',
+                                    $item['em_field_placeholder'],
+                                    $item['em_field_type'],
+                                    $item['em_field_required']
+                                );
+                break;
+                case 'user_password':
+                case 'user_password_confirm':
+    
+                                $password_field_role = ($item['em_field_type'] == 'user_password') ? 'user_password' : 'user_password_confirm';
+    
+                $field_creation->create_input_field(
+                    $item['em_field_label'],
+                    $item['em_field_label'],
+                    'password',
+                    $item['em_field_placeholder'],
+                    $password_field_role,
+                    $item['em_field_required']
+                );
+    
+                break;
+                case 'user_email':
+                        $field_creation->create_input_field(
+                            $item['em_field_label'],
+                            $item['em_field_label'],
+                            'email',
+                            $item['em_field_placeholder'],
+                            $item['em_field_type'],
+                            $item['em_field_required']
+                        );
+                break;
+                case 'biographical_info':
+                        $field_creation->create_textarea_field();
+                break;
+                case 'checkbox':
+                        $field_creation->create_checkbox_field();
+                break;
+                case 'select':
+                        $field_creation->create_select_field($item['em_field_label'], $item['em_field_options']);
+                break;
+                endswitch; 
+            ?>
+    
+            </div>
+    
+            <?php endforeach; ?>
+
+            <?php
+                if(\Elementor\Plugin::$instance->editor->is_edit_mode()):
+                    $repeated_field = $this->display_repeated_fields_error($repeated_fields); 
+                    if($repeated_field):
+                        return;
+                    endif;
+                endif;
+            ?>
+
+    <?php        
     }
 
     /**
@@ -978,12 +982,14 @@ class Registration_Form extends Widget_Base {
         if ( ! empty( $repeated_fields ) ) {
 			$error_fields = '<strong>' . implode( "</strong>, <strong>", $repeated_fields ) . '</strong>';
 			?>
-            <p class='em-repeated-f-error elementor-alert elementor-alert-warning'>
-				<?php
-				/* translators: %s: Error fields */
-				printf( __( 'Error! you seem to have added %s field in the form more than once.', 'elemental-membership' ), $error_fields );
-				?>
-            </p>
+            <div class='elementor-field-group'>
+                <p class='em-repeated-f-error elementor-alert elementor-alert-warning'>
+                    <?php
+                    /* translators: %s: Error fields */
+                    printf( __( '<b>Error!</b> you have added the %s field type more than once', 'elemental-membership' ), $error_fields );
+                    ?>
+                </p>
+            </div>
 			<?php
 			return true;
 		}
