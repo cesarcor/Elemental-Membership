@@ -1061,36 +1061,6 @@ class Registration_Form extends Widget_Base {
                                
                                 <# 
                                     break;
-                                    case 'checkbox':
-                                #>
-
-                                    <input type="checkbox" />
-
-                                <#
-                                    break;
-                                    case 'select':
-                                #>
-
-                                    <select class="em-form-field em-select-field">
-                                    
-                                        <#
-
-                                            if(item.em_field_options){
-
-                                            for(var x in item.em_field_options){
-
-                                             '<option>' + item.em_field_options[x] + '</option>';
-
-                                                }
-                                        
-                                            }
-
-                                        #>
-                                    
-                                    </select>
-
-                                <#
-                                    break;
                                 #>
 
                                 <#
