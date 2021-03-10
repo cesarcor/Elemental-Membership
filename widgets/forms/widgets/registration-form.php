@@ -63,7 +63,7 @@ class Registration_Form extends Widget_Base {
             'user_password_confirm' => __('Password Confirmation', 'elemental-memebership'),
             'first_name' => __('First Name', 'elemental-membership'),
             'last_name' => __('Last Name', 'elemental-membership'),
-            'biographical_info' => __('Biographical Info', 'elemental-membership')
+            'user_description' => __('User Description', 'elemental-membership')
         ];
 
         $em_user_roles = [
@@ -860,7 +860,7 @@ class Registration_Form extends Widget_Base {
         $user_email_exists = 0;
 		$user_password_exists = 0;
 		$user_password_confirm_exists = 0;
-		$biographical_info_exists = 0;
+		$user_description_exists = 0;
 
         $em_field_type = [
             'username' => __('Username', 'elemental-memebership'),
@@ -869,7 +869,7 @@ class Registration_Form extends Widget_Base {
             'user_password_confirm' => __('Password Confirmation', 'elemental-memebership'),
             'first_name' => __('First Name', 'elemental-membership'),
             'last_name' => __('Last Name', 'elemental-membership'),
-            'biographical_info' => __('Biographical Info', 'elemental-membership')
+            'user_description' => __('User Description', 'elemental-membership')
         ];
         $repeated_fields = [];
 
@@ -932,7 +932,7 @@ class Registration_Form extends Widget_Base {
                             $item['em_field_required']
                         );
                 break;
-                case 'biographical_info':
+                case 'user_description':
                         $field_creation->create_textarea_field();
                 break;
                 case 'checkbox':

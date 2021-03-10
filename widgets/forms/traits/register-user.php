@@ -52,7 +52,7 @@ trait Register_User {
         $user_email = '';
         $first_name = '';
         $last_name = '';
-        $user_bio = '';
+        $user_description = '';
         $terms_accepted = '';
 
         if (!empty($_POST['page_id'])):
@@ -93,8 +93,8 @@ trait Register_User {
                     case 'last_name':
                                     $last_name = sanitize_text_field($value);
                     break;
-                    case 'biographical_info':
-                        $user_bio = sanitize_text_field($value);
+                    case 'user_description':
+                        $user_description = sanitize_text_field($value);
                     break;
                     case 'accept_tnc':
                         $terms_accepted = $value;
@@ -122,7 +122,7 @@ trait Register_User {
             'user_email' => $user_email,
             'first_name' => $first_name,
             'last_name' => $last_name,
-            'description' => $user_bio,
+            'description' => $user_description,
             'role' => $user_role
         ];
 
