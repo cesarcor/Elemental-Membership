@@ -129,8 +129,20 @@ trait Register_User {
         $user_id = wp_insert_user($userdata);
 
         if (is_wp_error($user_id)):
-            $errors['wp_error'] = $user_id->get_error_message();
-            wp_send_json_error($errors['wp_error']);
+            $errors['wp_inser_user_error'] = $user_id->get_error_message();
+            wp_send_json_error($errors['wp_inser_user_error']);
+            return;
+        endif;
+
+        $login_user = wp_signon([
+            'user_login' => $user_login,
+            'user_password' => $user_password
+        ],
+        true);
+
+        if(is_wp_error($login_user)):
+            $errors['wp_login_error'] = $user_id->get_error_message();
+            wp_send_json_error($errors['wp_login_error']);
             return;
         endif;
 
