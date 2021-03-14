@@ -772,6 +772,41 @@ class Registration_Form extends Widget_Base {
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'validation_styles',
+            [
+                'label' => __('Validation Messages', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_control(
+            'error_message_color',
+            [
+                'label' => __('Validation Errors', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .em-form-error' => 'color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
+                'default' => '#ed2828'
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'error_message_typography',
+                'selector' => '{{WRAPPER}} .em-form-error',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->end_controls_section();
+
     }
 
     protected function render() {
