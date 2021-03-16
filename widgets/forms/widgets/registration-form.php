@@ -906,7 +906,8 @@ class Registration_Form extends Widget_Base {
             'last_name' => __('Last Name', 'elemental-membership'),
             'user_description' => __('User Description', 'elemental-membership')
         ];
-        $repeated_fields = [];
+        $repeated_fields = array();
+        $required_fields = array();
 
         foreach ($settings['em_field_list'] as $item_index => $item):
 
@@ -984,9 +985,25 @@ class Registration_Form extends Widget_Base {
             <?php endforeach; ?>
 
             <?php
+                if($username_exists === 0):
+                    $required_fields[] = $em_field_type[ 'username' ];
+                endif;
+
+                if($user_email_exists === 0):
+                    $required_fields[] = $em_field_type[ 'user_email' ];
+                endif;
+
+                if($user_password_exists === 0):
+                    $required_fields[] = $em_field_type[ 'user_password' ];
+                endif;
+            ?>
+
+            <?php
                 if(\Elementor\Plugin::$instance->editor->is_edit_mode()):
-                    $repeated_field = $this->display_repeated_fields_error($repeated_fields); 
-                    if($repeated_field):
+                    $repeated_field = $this->display_repeated_fields_error($repeated_fields);
+                    $required_field = $this->display_required_fields_error($required_fields);
+                    
+                    if($repeated_field || $required_field):
                         return;
                     endif;
                 endif;
@@ -1014,7 +1031,7 @@ class Registration_Form extends Widget_Base {
     }
 
     protected function display_repeated_fields_error($repeated_fields){
-        if ( ! empty( $repeated_fields ) ) {
+        if ( ! empty( $repeated_fields ) ):
 			$error_fields = '<strong>' . implode( "</strong>, <strong>", $repeated_fields ) . '</strong>';
 			?>
             <div class='elementor-field-group'>
@@ -1027,7 +1044,26 @@ class Registration_Form extends Widget_Base {
             </div>
 			<?php
 			return true;
-		}
+		endif;
+
+		return;
+    }
+
+    protected function display_required_fields_error($missing_fields){
+        if ( ! empty( $missing_fields ) ):
+			$error_fields = '<strong>' . implode( "</strong>, <strong>", $missing_fields ) . '</strong>';
+			?>
+            <div class='elementor-field-group'>
+                <p class='em-repeated-f-error elementor-alert elementor-alert-warning'>
+                    <?php
+                    /* translators: %s: Error fields */
+                    printf( __( '<b>Error!</b> the %s field type(s) is required', 'elemental-membership' ), $error_fields );
+                    ?>
+                </p>
+            </div>
+			<?php
+			return true;
+		endif;
 
 		return;
     }
