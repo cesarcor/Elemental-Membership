@@ -861,9 +861,9 @@ class Registration_Form extends Widget_Base {
                 <?php endif; ?>
             </div>
 
-            <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo $buttonWidth; ?>">
+            <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
                 <button type="submit" name="em-register-user" class="em-button elementor-button">
-                    <span><?php echo $settings['em_submit_button_text']; ?></span>
+                    <span><?php echo esc_html($settings['em_submit_button_text']); ?></span>
                 </button>
             </div>
 
@@ -923,11 +923,11 @@ class Registration_Form extends Widget_Base {
                 
         ?>
     
-            <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
+            <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo esc_attr($fieldWidth); ?>">
     
             <?php
                 if ($settings['show_labels']):
-                    echo('<label for="' . $item['em_field_label'] . '">' . $item['em_field_label'] . '</label>');
+                    echo('<label for="' . esc_attr($item['em_field_label']) . '">' . esc_attr($item['em_field_label']) . '</label>');
                 endif;
     
                 switch ($item['em_field_type']):
@@ -1023,8 +1023,8 @@ class Registration_Form extends Widget_Base {
         $settings = $this->get_settings_for_display(); ?>
         <div class = "em-tnc-wrap">
             <input type="checkbox" name="form_fields[accept_tnc]" id="em-tnc-acceptance" class="em-tnc-text" value="yes" />
-            <label for="em-tnc-acceptance"><?php echo $settings['tnc_text']; ?></label>
-            <a href="<?php echo $settings['tnc_link']['url']; ?>" class="em-tnc-link"><?php echo $settings['tnc_text_link']; ?></a>
+            <label for="em-tnc-acceptance"><?php echo esc_html($settings['tnc_text']); ?></label>
+            <a href="<?php echo esc_url($settings['tnc_link']['url']); ?>" class="em-tnc-link"><?php echo esc_html($settings['tnc_text_link']); ?></a>
         </div>
 
     <?php
