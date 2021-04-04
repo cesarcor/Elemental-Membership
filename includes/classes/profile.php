@@ -39,12 +39,33 @@ class Profile {
     }
 
     /**
+     * Get user's username
+     *
+     * @since 1.0.0
+     */
+    public function em_get_username() {
+        $user_info = get_userdata($this->get_user());
+        $username = $user_info->user_login;
+
+        if(!$username):
+            return esc_html('N/A');
+        endif;
+
+        return esc_html($username);
+    }
+
+
+    /**
      * Get user's first name
      *
      * @since 1.0.0
      */
     public function get_user_first_name() {
         $first_name = get_user_meta($this->get_user(), 'first_name', true);
+
+        if(!$first_name || is_wp_error($first_name)):
+            return false;
+        endif;
 
         return esc_html($first_name);
     }
@@ -57,6 +78,10 @@ class Profile {
     public function get_user_last_name() {
         $last_name = get_user_meta($this->get_user(), 'last_name', true);
 
+        if(!$last_name || is_wp_error($last_name)):
+            return false;
+        endif;
+
         return esc_html($last_name);
     }
 
@@ -66,9 +91,14 @@ class Profile {
      * @since 1.0.0
      */
     public function get_user_full_name() {
-        $full_name = $this->get_user_first_name() . ' ' . $this->get_user_last_name();
+        $full_name = '';
 
-        return esc_html($full_name);
+        if($this->get_user_first_name() && $this->get_user_last_name()):
+            $full_name = $this->get_user_first_name() . ' ' . $this->get_user_last_name();
+            return esc_html($full_name);
+        endif;
+
+        return false;
     }
 
     /**

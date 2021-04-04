@@ -64,6 +64,31 @@ class Profile_Header extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'em_profile_name_section',
+            [
+                'label' => __('Profile Name', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'em_display_name',
+			[
+				'label' => __( 'Display Name', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'full_name',
+				'options' => [
+					'full_name'  => __( 'Full Name', 'elemental-membership' ),
+					'username' => __( 'Username', 'elemental-membership' ),
+					'nickname' => __( 'Nickname', 'elemental-membership' ),
+                    'fist_name'  => __( 'First Name', 'elemental-membership' ),
+				],
+			]
+		);
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'em_profile_menu_section',
             [
                 'label' => __('Profile Menu', 'elemental-membership'),
@@ -744,7 +769,7 @@ class Profile_Header extends Widget_Base{
     protected function render(){
         $settings = $this->get_settings_for_display();
         $profile = new Profile();
-        $profile_name = $profile->get_user_full_name();
+        $display_name = "";
 
         if ( ! empty( $settings['banner_button_link']['url'] ) ):
 			$this->add_link_attributes( 'banner_button', $settings['banner_button_link'] );
@@ -789,7 +814,26 @@ class Profile_Header extends Widget_Base{
                         <div class="em-col em-profile-modifier-actions">
 
                             <h2 class="em-profile-identifier">
-                                <?php printf(esc_html($profile_name));?>
+                                <?php
+
+                                    switch($settings['em_display_name']):
+                                        case 'full_name':
+                                            $display_name = $profile->get_user_full_name();
+                                        break;
+                                        case 'username':
+                                            $display_name = $profile->em_get_username();
+                                        break;
+                                        case 'first_name':
+                                            $display_name = $profile->get_user_first_name();
+                                        break;
+                                        case 'nickname':
+                                            $display_name = $profile->em_get_user_nickname();
+                                        break;
+                                    endswitch;
+                                
+                                    printf(esc_html($display_name));
+                        
+                                ?>
                             </h2>
 
                             <?php if ('yes' === $settings['show_profile_action_menu'] && is_user_logged_in()): ?>
@@ -833,82 +877,6 @@ class Profile_Header extends Widget_Base{
     <?php
 }
 
-    protected function _content_template(){
-    ?>
-
-        <# 
-            var banner_btn_icon = elementor.helpers.renderIcon( view, settings.banner_button_icon, { 'aria-hidden': true }, 'i' , 'object' );  
-            var image_btn_icon = elementor.helpers.renderIcon( view, settings.image_button_icon, { 'aria-hidden': true }, 'i' , 'object' );  
-        #>
-
-        <div class="em-profile-header">
-
-        <div class="em-profile-banner">
-            <div class="em-profile-banner__bg" style="background-image: url({{ settings.profile_banner_image.url }});"></div>
-            <div class="em-profile-banner__change">
-            <div class="em-profile-btn">
-                <a <?php echo $this->get_render_attribute_string( 'banner_button' ); ?>>
-                    {{{ banner_btn_icon.value }}}
-                    <?php echo __('Change Image', 'elemental-membership'); ?>
-                </a>
-            </div>
-        </div>
-
-        <div class="em-profile-header-wrapper">
-
-            <div class="em-profile-header-user">
-
-                <div class="em-row">
-
-                    <div class="em-col em-user-avatar">
-                        <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
-                        <div class="em-user-avatar__change">
-                            <div class="em-profile-btn">
-                                {{{ image_btn_icon.value }}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="em-col em-profile-modifier-actions">
-
-                        <h2 class="em-profile-identifier">
-                            John Doe
-                        </h2>
-
-                    <# if ('yes' === settings.show_profile_action_menu){ #>
-                        <ul class="em-list em-header-actions">
-                            <li><a href="#">Edit Profile</a></li>
-                            <li><a href="#">Settings</a></li>
-                        </ul>
-                    <# } #>
-
-                    </div>
-
-                    <div class="em-col em-profile-header-nav">
-                        <ul class="em-list em-profile-menu-list">
-                            <# if( settings.profile_menu_list.length ){ #>
-                                <# _.each( settings.profile_menu_list, function(item){  #> 
-                                    <li><a href="#">{{{ item.menu_item_text }}}</a></li>
-                            <# }); } #>
-                        </ul>
-
-                        <# if ('yes' === settings.show_logout_link){ #>
-                            <a href="#" class="em-link-btn em-logout-btn">
-                                <?php echo __("Logout", "elemental-membership"); ?>
-                            </a>
-                        <# } #>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <?php
-
-    }
+    protected function _content_template(){}
 
 }
