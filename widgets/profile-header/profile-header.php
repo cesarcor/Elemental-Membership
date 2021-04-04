@@ -792,7 +792,7 @@ class Profile_Header extends Widget_Base{
                                 <?php printf(esc_html($profile_name));?>
                             </h2>
 
-                            <?php if ('yes' === $settings['show_profile_action_menu']): ?>
+                            <?php if ('yes' === $settings['show_profile_action_menu'] && is_user_logged_in()): ?>
                                 <ul class="em-list em-header-actions">
                                     <li><a href="#"><?php echo __("Edit Profile", "elemental-membership"); ?></a></li>
                                     <li><a href="#"><?php echo __("Settings", "elemental-membership"); ?></a></li>
