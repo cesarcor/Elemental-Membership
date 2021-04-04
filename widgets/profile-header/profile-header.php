@@ -113,6 +113,21 @@ class Profile_Header extends Widget_Base{
             ]
         );
 
+        $repeater->add_control(
+			'item_visible_to',
+			[
+				'label' => __( 'Visible To', 'elemental-membership' ),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'everyone' => __( 'Everyone', 'elemental-membership' ),
+                    'logged_in_only' => __( 'Logged in user only', 'elemental-membership' ),
+                    'profile_owner_only' => __( 'Profile owner only', 'elemental-membership' ),
+				],
+                'default' => 'everyone',
+                'separator' => 'before',
+			]
+        );
+
         $this->add_control(
             'profile_menu_list',
             [
@@ -813,9 +828,7 @@ class Profile_Header extends Widget_Base{
 
                         <div class="em-col em-profile-modifier-actions">
 
-                            <h2 class="em-profile-identifier">
                                 <?php
-
                                     switch($settings['em_display_name']):
                                         case 'full_name':
                                             $display_name = $profile->get_user_full_name();
@@ -830,9 +843,11 @@ class Profile_Header extends Widget_Base{
                                             $display_name = $profile->em_get_user_nickname();
                                         break;
                                     endswitch;
-                                
+                                ?>
+
+                            <h2 class="em-profile-identifier">
+                                <?php
                                     printf(esc_html($display_name));
-                        
                                 ?>
                             </h2>
 
@@ -853,7 +868,11 @@ class Profile_Header extends Widget_Base{
                                         foreach($settings['profile_menu_list'] as $item):
                                             $target = $item['menu_item_url']['is_external'] ? ' target="_blank"' : '';
                                             $nofollow = $item['menu_item_url']['nofollow'] ? ' rel="nofollow"' : '';
-                                            echo '<li><a href="' . $item['menu_item_url']['url'] . '"' . $target . $nofollow . '>' . $item['menu_item_text'] . '</a></li>';
+                                            $item_logged_in_var = ('logged_in_only' === $item['item_visible_to']) ? is_user_logged_in() : true;
+
+                                            if($item_logged_in_var):
+                                                echo '<li><a href="' . $item['menu_item_url']['url'] . '"' . $target . $nofollow . '>' . $item['menu_item_text'] . '</a></li>';
+                                            endif;
                                         endforeach;
                                     endif; 
                                  ?>
