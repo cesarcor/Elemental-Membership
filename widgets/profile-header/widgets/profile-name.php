@@ -43,6 +43,22 @@ class Profile_Name extends Widget_Base {
         );
 
         $this->add_control(
+			'em_display_name',
+			[
+				'label' => __( 'Display Name', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'full_name',
+                'separator' => 'after',
+				'options' => [
+					'full_name'  => __( 'Full Name', 'elemental-membership' ),
+					'username' => __( 'Username', 'elemental-membership' ),
+					'nickname' => __( 'Nickname', 'elemental-membership' ),
+                    'fist_name'  => __( 'First Name', 'elemental-membership' ),
+				],
+			]
+		);
+
+        $this->add_control(
             'size',
             [
                 'label' => __('Size', 'elemental-membership'),
@@ -120,16 +136,28 @@ class Profile_Name extends Widget_Base {
     protected function render() {
         $profile = new Profile();
         $settings = $this->get_settings_for_display();
+        $display_name = '';
 
         $this->add_render_attribute('name', 'class', 'em-profile-name elementor-heading-title');
 
-        $profile_name = $profile->get_user_full_name();
+        switch($settings['em_display_name']):
+            case 'full_name':
+                $display_name = $profile->get_user_full_name();
+            break;
+            case 'username':
+                $display_name = $profile->em_get_username();
+            break;
+            case 'first_name':
+                $display_name = $profile->get_user_first_name();
+            break;
+            case 'nickname':
+                $display_name = $profile->em_get_user_nickname();
+            break;
+        endswitch;
 
-        $profile_name_html = sprintf('<%1$s %2$s>%3$s</%1$s>', $settings['name_tag'], $this->get_render_attribute_string('name'), $profile_name);
+        $profile_name_html = sprintf('<%1$s %2$s>%3$s</%1$s>', $settings['name_tag'], $this->get_render_attribute_string('name'), $display_name);
 
         echo $profile_name_html;
     }
 
-    protected function _content_template() {
-    }
 }
