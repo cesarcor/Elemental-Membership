@@ -878,7 +878,7 @@ class Profile_Header extends Widget_Base{
                                  ?>
                             </ul>
 
-							<?php if ('yes' === $settings['show_logout_link']): ?>
+							<?php if ('yes' === $settings['show_logout_link'] && is_user_logged_in()): ?>
 								<a href="<?php echo wp_logout_url(); ?>" class="em-link-btn em-logout-btn">
 									<?php echo __("Logout", "elemental-membership"); ?>
 								</a>
