@@ -308,6 +308,25 @@ class Profile_Header extends Widget_Base{
         $this->end_controls_section();
 
         $this->start_controls_section(
+            'logout_link',
+            [
+                'label' => __('Logout Link', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+			'logout_link_text',
+			[
+				'label' => __( 'Logout Link Text', 'elemental-membership' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => __( 'Logout', 'elemental-membership' )
+			]
+		);
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
             'header_buttons',
             [
                 'label' => __('Buttons', 'elemental-membership'),
@@ -880,7 +899,7 @@ class Profile_Header extends Widget_Base{
 
 							<?php if ('yes' === $settings['show_logout_link'] && is_user_logged_in()): ?>
 								<a href="<?php echo wp_logout_url(); ?>" class="em-link-btn em-logout-btn">
-									<?php echo __("Logout", "elemental-membership"); ?>
+									<?php echo esc_html($settings['logout_link_text']); ?>
 								</a>
 							<?php endif;?>
                         </div>
@@ -895,7 +914,5 @@ class Profile_Header extends Widget_Base{
 
     <?php
 }
-
-    protected function _content_template(){}
 
 }
