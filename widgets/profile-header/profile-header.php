@@ -157,16 +157,15 @@ class Profile_Header extends Widget_Base{
             ]
         );
 
-        $this->add_control(
-            'profile_banner_image',
-            [
-                'label' => __('Choose Image', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::MEDIA,
-                'default' => [
-                    'url' => \Elementor\Utils::get_placeholder_image_src(),
-                ],
-            ]
-        );
+        $this->add_group_control(
+			\Elementor\Group_Control_Background::get_type(),
+			[
+				'name' => 'default_banner_image',
+				'label' => __( 'Default Banner Image', 'elemental-membership' ),
+				'types' => [ 'classic', 'gradient' ],
+				'selector' => '{{WRAPPER}} .em-profile-banner__bg',
+			]
+		);
 
         $this->add_control(
             'profile_banner_height',
@@ -815,7 +814,7 @@ class Profile_Header extends Widget_Base{
         <div class="em-profile-header">
 
             <div class="em-profile-banner">
-                <div class="em-profile-banner__bg" style="background-image: url(<?php echo $settings['profile_banner_image']['url']; ?>)"></div>
+                <div class="em-profile-banner__bg"></div>
                 <div class="em-profile-banner__change">
                 <?php if(is_user_logged_in()): ?>
                     <div class="em-profile-btn">
