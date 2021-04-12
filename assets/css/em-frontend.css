@@ -70,6 +70,13 @@
   flex-grow: 1;
 }
 
+@media (min-width: 481px){
+  .em-profile-header-nav{
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
 .em-profile-header-nav li a{
   padding: 6px 12px;
 }
