@@ -3,6 +3,7 @@
 namespace ElementalMembership\Widgets\ProfileHeader;
 
 use Elementor\Controls_Manager;
+use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
 
@@ -139,6 +140,27 @@ class Profile_Banner extends Widget_Base {
         );
 
         $this->end_controls_section();
+        
+        $this->start_controls_section(
+            'button_style',
+            [
+                'label' => __('Button', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'banner_widget_button_typography',
+                'label' => __('Banner Btn Typography', 'elemental-membership'),
+                'selector' => '{{WRAPPER}} .em-profile-btn-text',
+                'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->end_controls_section();
+
     }
 
     protected function render() {
@@ -150,7 +172,7 @@ class Profile_Banner extends Widget_Base {
                 <div class="em-profile-btn">
                     <a <?php echo $this->get_render_attribute_string('banner_button'); ?>>
                         <?php \Elementor\Icons_Manager::render_icon($settings['banner_button_icon'], ['aria-hidden' => 'true']); ?>
-                        <?php echo __('Change Image', 'elemental-membership'); ?>
+                        <span class="em-profile-btn-text"><?php echo __('Change Image', 'elemental-membership'); ?></span>
                     </a>
                 </div>
             <?php endif; ?>
