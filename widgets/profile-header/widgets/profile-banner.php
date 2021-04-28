@@ -71,6 +71,7 @@ class Profile_Banner extends Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .em-profile-banner__bg' => 'height: {{SIZE}}{{UNIT}};',
                 ],
+                'separator' => 'before'
             ]
         );
 
@@ -156,6 +157,22 @@ class Profile_Banner extends Widget_Base {
                 'label' => __('Banner Btn Typography', 'elemental-membership'),
                 'selector' => '{{WRAPPER}} .em-profile-btn-text',
                 'scheme' => Schemes\Typography::TYPOGRAPHY_3,
+            ]
+        );
+
+        $this->add_control(
+            'change_banner_btn_bg_color',
+            [
+                'label' => __('Button Background', 'elemental-membership'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#e5e5e5',
+                'selectors' => [
+                    '{{WRAPPER}} .em-profile-btn' => 'background-color: {{VALUE}};',
+                ],
+                'scheme' => [
+                    'type' => Schemes\Color::get_type(),
+                    'value' => Schemes\Color::COLOR_3,
+                ],
             ]
         );
 
