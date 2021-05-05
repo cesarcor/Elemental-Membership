@@ -8,16 +8,19 @@ jQuery(document).ready(function($) {
       method: "POST",
       data: form.serialize(),
       dataType: 'JSON',
-      success: (response) => {        
+      success: (response) => {  
+        console.log(response);      
         if(!response.success){
           $('.em-form-error, .em-form-success', this).empty();
           $('.em-form-error', this).append('<small>' + response.data + '</small>');
         }else{
-          $(this)[0].reset();
-          $('.em-form-success, .em-form-error', this).empty();
-          $('.em-form-success', this).append('<small>' + response.data + '</small>');
+          console.log(response);
           if(('form_redirect' in response.data)){
             window.location.href = response.data.form_redirect;
+          }else{
+            $(this)[0].reset();
+            $('.em-form-success, .em-form-error', this).empty();
+            $('.em-form-success', this).append('<small>' + response.data.success_message + '</small>');
           }
         }
       },
@@ -27,4 +30,26 @@ jQuery(document).ready(function($) {
     });
     
   });
+
+  var frame;
+
+  document.querySelector('#banner-button').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    if (frame) {
+        frame.open();
+        return;
+    }
+
+    frame = wp.media({
+        title: 'Upload Banner Image',
+        button: { text: 'Insert' },
+        multiple: false,
+    }).on('select', function () {
+
+    });
+
+    frame.open();
+  });
+
 });

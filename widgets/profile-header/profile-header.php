@@ -357,9 +357,26 @@ class Profile_Header extends Widget_Base{
 					'value' => 'fas fa-image',
 					'library' => 'solid',
                 ],
-                'separator' => 'after'
 			]
         );
+
+        $this->add_control(
+			'banner_button_icon_spacing',
+			[
+				'label' => __( 'Banner Button Icon Spacing', 'elementor' ),
+                'label_block' => true,
+				'type' => Controls_Manager::SLIDER,
+				'range' => [
+					'px' => [
+						'max' => 50,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-button-link i' => 'margin-right: {{SIZE}}{{UNIT}};',
+				],
+                'separator' => 'after',
+			]
+		);
 
         $this->add_control(
 			'image_button_link',
@@ -817,6 +834,7 @@ class Profile_Header extends Widget_Base{
         if ( ! empty( $settings['banner_button_link']['url'] ) ):
 			$this->add_link_attributes( 'banner_button', $settings['banner_button_link'] );
 			$this->add_render_attribute( 'banner_button', 'class', 'elementor-button-link' );
+            $this->add_render_attribute( 'banner_button', 'id', 'banner-button' );
         endif;
         
     ?>
