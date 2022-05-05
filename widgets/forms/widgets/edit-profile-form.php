@@ -28,7 +28,7 @@ class Edit_Profile_Form extends Widget_Base {
         return ['elemental-membership-category'];
     }
 
-    protected function _register_controls() {
+    protected function register_controls() {
         $repeater = new Repeater();
 
         $em_field_widths = [

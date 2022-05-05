@@ -16,6 +16,9 @@ endif;
  * @package ElementalMembership\Widgets\Forms\Traits
  */
 trait Register_User {
+
+    public static $send_notification_email = false;
+
     /**
      *
      * Executes user registration with Ajax
@@ -55,6 +58,8 @@ trait Register_User {
         $user_description = '';
         $terms_accepted = '';
 
+        $registration_actions = array();
+
         if (!empty($_POST['page_id'])):
             $page_id = intval($_POST['page_id'], 10);
         endif;
@@ -67,6 +72,7 @@ trait Register_User {
 
         if (!empty($settings)):
             $user_role = sanitize_text_field($settings['em_user_role']);
+            $registration_actions = $settings['em_registration_actions'];
         endif;
 
         foreach ($_POST['form_fields'] as $field => $value):
@@ -129,8 +135,8 @@ trait Register_User {
         $user_id = wp_insert_user($userdata);
 
         if (is_wp_error($user_id)):
-            $errors['wp_inser_user_error'] = $user_id->get_error_message();
-            wp_send_json_error($errors['wp_inser_user_error']);
+            $errors['wp_insert_user_error'] = $user_id->get_error_message();
+            wp_send_json_error($errors['wp_insert_user_error']);
             return;
         endif;
 
@@ -147,6 +153,10 @@ trait Register_User {
         endif;
 
         wp_send_json_success(['form_redirect' => esc_url(home_url() . '/profile/' . $user_login)]);
+
+        if(in_array('email_notification', $registration_actions)):
+            wp_new_user_notification( $user_id );
+        endif;
 
     }
 

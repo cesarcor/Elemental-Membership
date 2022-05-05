@@ -26,7 +26,7 @@ class Forgot_Password_Form extends Widget_Base{
         return ['elemental-membership-category'];
     }
 
-	protected function _register_controls() {
+	protected function register_controls() {
         $this->start_controls_section(
             'fields_section',
             [

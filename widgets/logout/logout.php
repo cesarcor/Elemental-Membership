@@ -27,7 +27,7 @@ class Logout extends Widget_Base{
         return ['elemental-membership-category'];
     }
 
-    public function _register_controls(){
+    public function register_controls(){
 
         $actions_logged_out = [
             'show_login_link' => __('Show login link', 'elemental-membership'),

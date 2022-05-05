@@ -34,7 +34,7 @@ class Profile_Name extends Widget_Base {
         return ['profile name', 'heading'];
     }
 
-    protected function _register_controls() {
+    protected function register_controls() {
         $this->start_controls_section(
             'profile_name',
             [

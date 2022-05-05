@@ -28,7 +28,7 @@ class Profile_Content extends Widget_Base{
 		return [ 'content' ];
 	}
 
-    protected function _register_controls(){
+    protected function register_controls(){
 
     }
 

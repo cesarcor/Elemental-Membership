@@ -39,7 +39,7 @@ class Registration_Form extends Widget_Base {
         return ['elemental-membership-category'];
     }
 
-    protected function _register_controls() {
+    protected function register_controls() {
         $repeater = new Repeater();
 
         $em_field_widths = [
@@ -223,30 +223,22 @@ class Registration_Form extends Widget_Base {
                 'default' => 'yes',
             ]
         );
-
-        $this->add_control(
-            'registration_form_view',
-            [
-                'label' => __('View As', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::SELECT,
-                'options' => [
-                    'not_registered_view' => 'User not registered',
-                    'is_registered_view' => 'Already Registered'
-                ],
-                'default' => 'not_registered_view',
+        
+		$this->add_control(
+			'em_registration_actions',
+			[
+				'label' => __( 'Registration Actions', 'elemental-membership' ),
+                'label_block' => true,
+				'type' => \Elementor\Controls_Manager::SELECT2,
+				'multiple' => true,
                 'separator' => 'before',
-            ]
-        );
-
-        $this->add_control(
-            'already_registered_message',
-            [
-                'label' => __('Already Registered Text', 'elemental-membership'),
-                'type' => \Elementor\Controls_Manager::TEXTAREA,
-                'rows' => 5,
-                'default' => __('You are already registered', 'elemental-membership')
-            ]
-        );
+				'options' => [
+					'auto_login'  => __( 'Auto Login', 'elemental-membership' ),
+					'email_notification' => __( 'Send Notification Email', 'elemental-membership' ),
+				],
+				'default' => [ 'auto_login' ],
+			]
+		);
 
         $this->end_controls_section();
 
@@ -303,6 +295,39 @@ class Registration_Form extends Widget_Base {
                 ],
                 'default' => 'start',
                 'prefix_class' => 'elementor%s-button-align-',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'em_user_registered_section',
+            [
+                'label' => __('User Already Registered', 'elemental-membership'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->add_control(
+            'registration_form_view',
+            [
+                'label' => __('View As', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    'not_registered_view' => 'User not registered',
+                    'is_registered_view' => 'Already Registered'
+                ],
+                'default' => 'not_registered_view',
+            ]
+        );
+
+        $this->add_control(
+            'already_registered_message',
+            [
+                'label' => __('Already Registered Text', 'elemental-membership'),
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'rows' => 5,
+                'default' => __('You are already registered', 'elemental-membership')
             ]
         );
 

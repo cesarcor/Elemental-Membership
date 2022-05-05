@@ -37,7 +37,7 @@ class Login_Form extends Widget_Base {
         return ['elemental-membership-category'];
     }
 
-    protected function _register_controls() {
+    protected function register_controls() {
         $em_login_identifiers = [
             'username_email' => __('Username & Email', 'elemental-membership'),
             'username_only' => __('Username Only', 'elemental-membership'),

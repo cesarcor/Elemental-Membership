@@ -27,7 +27,7 @@ class Profile_Header extends Widget_Base{
         return ['elemental-membership-category'];
     }
 
-    protected function _register_controls(){
+    protected function register_controls(){
 
         $repeater = new Repeater();
 
