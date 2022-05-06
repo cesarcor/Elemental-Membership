@@ -165,6 +165,13 @@
   }
 }
 
+/* ================================= 
+
+--------- FORMS
+
+==================================== */
+
+
 /* Registration Form */
 .em-user-registered-msg,
 .em-user-loggedin-msg{
@@ -172,6 +179,12 @@
   text-align: center;
   -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.1);
   box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.1);
+}
+
+/* Form Buttons */
+
+.em-submit-button{
+  flex-basis: 100%;
 }
 
 /* Form Validation */

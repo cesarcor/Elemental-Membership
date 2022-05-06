@@ -889,8 +889,8 @@ class Registration_Form extends Widget_Base {
                 <?php endif; ?>
             </div>
 
-            <div class="elementor-field-group elementor-field-type-submit elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
-                <button type="submit" name="em-register-user" class="em-button elementor-button">
+            <div class="elementor-field-group elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
+                <button type="submit" name="em-register-user" class="em-button elementor-button em-submit-button">
                     <span><?php echo esc_html($settings['em_submit_button_text']); ?></span>
                 </button>
             </div>
