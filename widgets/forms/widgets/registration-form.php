@@ -419,7 +419,7 @@ class Registration_Form extends Widget_Base {
 				'label' => __( 'Password confirmation not passed', 'elemental-membership' ),
                 'label_block' => true,
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => __( 'Password confirmation does not matchrrr', 'elemental-membership' ),
+				'default' => __( 'Password confirmation does not match', 'elemental-membership' ),
 			]
 		);
 
