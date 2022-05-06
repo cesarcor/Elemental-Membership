@@ -883,11 +883,11 @@ class Registration_Form extends Widget_Base {
 
             <?php $this->render_fields(); ?>
 
-            <div class="em-form-field-group elementor-field-group">
-                <?php if ('yes' === $settings['show_tnc']): ?>
-                <?php $this->display_terms_and_conditions(); ?>
-                <?php endif; ?>
-            </div>
+            <?php if ('yes' === $settings['show_tnc']): ?>
+                <div class="em-form-field-group elementor-field-group">
+                    <?php $this->display_terms_and_conditions(); ?>
+                </div>
+            <?php endif; ?>
 
             <div class="elementor-field-group elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
                 <button type="submit" name="em-register-user" class="em-button elementor-button em-submit-button">
