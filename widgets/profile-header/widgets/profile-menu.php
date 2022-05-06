@@ -260,7 +260,7 @@ class Profile_Menu extends Widget_Base{
     <?php
     }
 
-    protected function _content_template(){
+    protected function content_template(){
     ?>
 
         <nav class="em-profile-menu-container elementor-nav-menu--main elementor-nav-menu__container">

@@ -555,7 +555,7 @@ class Forgot_Password_Form extends Widget_Base{
 
     }
 
-	protected function _content_template() {
+	protected function content_template() {
     ?>
 
         <div class="elementor-form">

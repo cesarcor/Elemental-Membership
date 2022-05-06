@@ -854,7 +854,7 @@ class Login_Form extends Widget_Base {
     <?php
     }
 
-    protected function _content_template() {
+    protected function content_template() {
         ?>
 
 	<# if(settings.login_form_view == 'not_loggedin_view'){ #>

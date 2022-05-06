@@ -570,7 +570,7 @@ class Change_Password_Form extends Widget_Base {
 		endif; 
     }
 
-    protected function _content_template() {
+    protected function content_template() {
         ?>
 
 		<# if(settings.change_password_form_view == 'not_logged_in_view') { #>
