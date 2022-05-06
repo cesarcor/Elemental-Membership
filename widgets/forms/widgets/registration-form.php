@@ -125,6 +125,9 @@ class Registration_Form extends Widget_Base {
                 'label' => __('Required', 'elemental-membership'),
                 'type' => Controls_Manager::SWITCHER,
                 'return_value' => 'true',
+                'condition' => [
+                    'em_field_type!' => ['username', 'user_email', 'user_password', 'user_password_confirm']
+                ],
                 'default' => ''
             ]
         );
