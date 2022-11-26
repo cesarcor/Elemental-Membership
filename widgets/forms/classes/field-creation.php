@@ -53,8 +53,8 @@ class Field_Creation{
             case "last_name":
                 $field_name = $this->em_get_attribute_name("last_name");
             break;
-            case "biographical_info":
-                $field_name = $this->em_get_attribute_name("biographical_info");
+            case "user_description":
+                $field_name = $this->em_get_attribute_name("user_description");
             break;
             default:
                 $field_name = $this->em_get_attribute_name("custom");
@@ -79,7 +79,7 @@ class Field_Creation{
      * @access public
      */
     function create_textarea_field(){
-        $field_name = $this->em_get_attribute_name("biographical_info");
+        $field_name = $this->em_get_attribute_name("user_description");
         echo '<textarea name='. $field_name .' class="em-form-field em-textarea-field"></textarea>';
     }
 
