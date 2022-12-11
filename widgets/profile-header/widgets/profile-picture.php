@@ -146,13 +146,13 @@ class Profile_Picture extends Widget_Base{
 
         <div class="em-profile-picture">
             <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
-            <?php if(is_user_logged_in()): ?>
+            <?php if(is_user_logged_in()){ ?>
                 <div class="em-user-picture__change">
                     <div class="em-profile-btn">
                         <?php \Elementor\Icons_Manager::render_icon( $settings['picture_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
                     </div>
                 </div>
-            <?php endif; ?>
+            <?php } ?>
         </div>
 
     <?php    

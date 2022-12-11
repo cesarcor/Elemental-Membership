@@ -164,33 +164,33 @@ class Plugin {
      * @access public
      */
     public function autoload($classname) {
-        if (false === strpos($classname, 'ElementalMembership')):
+        if (false === strpos($classname, 'ElementalMembership')){
             return;
-        endif;
+        }
 
         $namespace = '';
         $file_parts = explode('\\', $classname);
         $file_name = '';
 
-        for ($i = count($file_parts) - 1; $i > 0; $i--):
+        for ($i = count($file_parts) - 1; $i > 0; $i--){
             $current = strtolower($file_parts[$i]);
         $current = str_ireplace('_', '-', $current);
 
-        if (count($file_parts) - 1 === $i):
-                $file_name = "$current.php"; else:
+        if (count($file_parts) - 1 === $i){
+                $file_name = "$current.php"; } else{
                 $namespace = '/' . $current . $namespace;
-        endif;
-        endfor;
+        }
+        }
 
         $filepath = trailingslashit(dirname(dirname(__FILE__)) . '/elemental-membership' . $namespace);
         $filepath .= $file_name;
 
-        if (file_exists($filepath)):
-            include_once $filepath; else:
+        if (file_exists($filepath)){
+            include_once $filepath; } else{
             wp_die(
                 esc_html("The file attempting to be loaded at $filepath does not exist.")
             );
-        endif;
+        }
     }
 
     /**

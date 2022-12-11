@@ -568,11 +568,11 @@ class Edit_Profile_Form extends Widget_Base {
     }
 
     protected function render() {
-        if ($this->em_user_is_in_editor()):
+        if ($this->em_user_is_in_editor()){
             $this->render_user_loggedout_message(); 
-		else:
+		} else{
             $this->render_form();
-        endif;
+        }
     }
 
     /**
@@ -586,9 +586,9 @@ class Edit_Profile_Form extends Widget_Base {
         $settings = $this->get_settings_for_display();
         $buttonWidth = (('' !== $settings['em_button_width']) ? $settings['em_button_width'] : '100');
 
-        if (Plugin::$instance->documents->get_current()):
+        if (Plugin::$instance->documents->get_current()){
             $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
-        endif; ?>
+        } ?>
 
 		<form class="em-form em-edit-profile-form">
 
@@ -630,7 +630,7 @@ class Edit_Profile_Form extends Widget_Base {
         $user_email = $user_profile->em_get_user_email();
         $user_bio = $user_profile->em_get_user_bio();
 
-        foreach ($settings['em_field_list'] as $item_index => $item):
+        foreach ($settings['em_field_list'] as $item_index => $item){
         
             $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100');
             $field_value = '';
@@ -638,12 +638,12 @@ class Edit_Profile_Form extends Widget_Base {
             ?>
                 <div class="em-edit-profile-field elementor-field-group elementor-column elementor-col-<?php echo $fieldWidth; ?>">
                     <?php
-                        if ($settings['show_labels']):
+                        if ($settings['show_labels']){
                             echo('<label for="' . str_replace(' ', '', $item['em_field_label']) . '">' . $item['em_field_label'] . '</label>');
-                        endif;
+                        }
                     ?>
                     <?php
-                        switch($item['em_field_type']):
+                        switch($item['em_field_type']){
                             case 'first_name':
                                 $field_value = $user_first_name;
                             break;
@@ -661,9 +661,9 @@ class Edit_Profile_Form extends Widget_Base {
                             break;
                             default:
                                 $field_value = '';
-                        endswitch;
+                        }
 
-                        switch($item['em_field_type']):
+                        switch($item['em_field_type']){
                             case 'nickname':
                             case 'first_name':
                             case 'last_name':
@@ -694,12 +694,12 @@ class Edit_Profile_Form extends Widget_Base {
                                 placeholder="' . esc_attr($item['em_field_placeholder']) . '"
                                 >' . $field_value .  '</textarea>';
                             break;
-                        endswitch;
+                        }
 
                     ?>
                 </div>
 
-        <?php endforeach;
+        <?php }
     }
 
     /**
@@ -731,10 +731,10 @@ class Edit_Profile_Form extends Widget_Base {
         if ((is_user_logged_in() &&
         !\Elementor\Plugin::$instance->editor->is_edit_mode()) ||
         (is_user_logged_in() &&
-        $settings['form_view'] == 'logged_in_view')):
-            return; else:
+        $settings['form_view'] == 'logged_in_view')){
+            return; } else{
             return true;
-        endif;
+        }
     }
 
     protected function content_template() {

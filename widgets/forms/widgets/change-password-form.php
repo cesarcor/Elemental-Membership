@@ -11,9 +11,9 @@ use ElementalMembership\Widgets\Forms\Traits\Password_Change;
 use Elementor\Plugin;
 
 //Exit if accessed directly
-if (!defined('ABSPATH')):
+if (!defined('ABSPATH')){
     exit;
-endif;
+}
 
 class Change_Password_Form extends Widget_Base {
 
@@ -563,11 +563,11 @@ class Change_Password_Form extends Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-		if ($this->em_user_is_in_editor()):
+		if ($this->em_user_is_in_editor()){
 			$this->render_user_loggedout_message(); 
-		else:
+		} else{
 			$this->render_form();
-		endif; 
+		} 
     }
 
     protected function content_template() {
@@ -624,29 +624,29 @@ class Change_Password_Form extends Widget_Base {
     protected function render_form() {
         $settings = $this->get_settings_for_display(); 
 
-        if (Plugin::$instance->documents->get_current()):
+        if (Plugin::$instance->documents->get_current()){
             $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
-        endif; ?>
+        } ?>
         
 		<form class="em-form em-change-password-form elementor-form" method="post">
 				<div class="elementor-field-group elementor-column elementor-col-100">
-					<?php if ('yes' === $settings['show_labels']): ?>
+					<?php if ('yes' === $settings['show_labels']){ ?>
 					<label for="old-pwd"><?php echo __('Current Passsword', 'elemental-membership'); ?></label>
-					<?php endif; ?>
+					<?php } ?>
 					<input type="password" name="pwd_change_form_fields[current_password]" class="elementor-field" id="old-pwd" required/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
-					<?php if ('yes' === $settings['show_labels']): ?>
+					<?php if ('yes' === $settings['show_labels']){ ?>
 					<label for="new-pwd"><?php echo __('New Password', 'elemental-membership'); ?></label>
-					<?php endif; ?>
+					<?php } ?>
 					<input type="password" name="pwd_change_form_fields[new_password]" class="elementor-field" id="new-pwd" required/>
 				</div>
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
-					<?php if ('yes' === $settings['show_labels']): ?>
+					<?php if ('yes' === $settings['show_labels']){ ?>
 					<label for="new-pwd-confirm"><?php echo __('Confirm New Password', 'elemental-membership'); ?></label>
-					<?php endif; ?>
+					<?php } ?>
 					<input type="password" name="pwd_change_form_fields[new_password_confirm]" class="elementor-field" id="new-pwd-confirm"/>
 				</div>
 
@@ -698,10 +698,10 @@ class Change_Password_Form extends Widget_Base {
 		if((is_user_logged_in() && 
 		!\Elementor\Plugin::$instance->editor->is_edit_mode()) ||
 		(is_user_logged_in() &&
-		$settings['change_password_form_view'] == 'logged_in_view')):
+		$settings['change_password_form_view'] == 'logged_in_view')){
 			return;
-		else:
+		} else{
 			return true;
-		endif;
+		}
 	}
 }

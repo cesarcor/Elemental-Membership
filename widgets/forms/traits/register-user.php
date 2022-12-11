@@ -5,9 +5,9 @@ namespace ElementalMembership\Widgets\Forms\Traits;
 use Elementor\Plugin;
 
 //Exit if accessed directly
-if (!defined('ABSPATH')):
+if (!defined('ABSPATH')){
     exit;
-endif;
+}
 
 /**
  * 
@@ -39,10 +39,10 @@ trait Register_User {
      * @access public
      */
     public function em_register_user() {
-        if(!wp_verify_nonce($_POST['em_register_user_nonce'], 'em_register_user')):
+        if(!wp_verify_nonce($_POST['em_register_user_nonce'], 'em_register_user')){
             $errors['invalid_nonce'] = __('Security token not valid, try refreshing', 'elemental-membership');
             wp_send_json_error(wp_die($errors['invalid_nonce']));
-        endif;
+        }
         
         $errors = array();
 
@@ -60,26 +60,26 @@ trait Register_User {
 
         $registration_actions = array();
 
-        if (!empty($_POST['page_id'])):
+        if (!empty($_POST['page_id'])){
             $page_id = intval($_POST['page_id'], 10);
-        endif;
+        }
 
-        if (!empty($_POST['widget_id'])):
+        if (!empty($_POST['widget_id'])){
             $widget_id = sanitize_text_field($_POST['widget_id']);
-        endif;
+        }
 
         $settings = $this->em_get_widget_settings($page_id, $widget_id);
 
-        if (!empty($settings)):
+        if (!empty($settings)){
             $user_role = sanitize_text_field($settings['em_user_role']);
             $registration_actions = $settings['em_registration_actions'];
-        endif;
+        }
 
-        foreach ($_POST['form_fields'] as $field => $value):
+        foreach ($_POST['form_fields'] as $field => $value){
 
-            if (isset($field)):
+            if (isset($field)){
 
-                switch ($field):
+                switch ($field){
 
                     case 'username':
                         $user_login = sanitize_user($value);
@@ -104,23 +104,23 @@ trait Register_User {
                     break;
                     case 'accept_tnc':
                         $terms_accepted = $value;
-                    endswitch;
-                endif;
+                    }
+                }
 
-        endforeach;
+        }
 
-        if($user_password !== $user_password_confirm):
+        if($user_password !== $user_password_confirm){
             $errors['password_mismatch'] = $settings['vm_password_confirm'];
             wp_send_json_error(esc_html($errors['password_mismatch']));
             wp_die();
-        endif;
+        }
 
         $tnc_enabled = $settings['show_tnc'];
-        if('yes' === $tnc_enabled && !isset($_POST['form_fields']['accept_tnc'])):
+        if('yes' === $tnc_enabled && !isset($_POST['form_fields']['accept_tnc'])){
             $errors['tnc_not_accepted'] = $settings['vm_tnc_acceptance'];
             wp_send_json_error(esc_html($errors['tnc_not_accepted']));
             wp_die();
-        endif;
+        }
 
         $userdata = [
             'user_login' => $user_login,
@@ -134,11 +134,11 @@ trait Register_User {
 
         $user_id = wp_insert_user($userdata);
 
-        if (is_wp_error($user_id)):
+        if (is_wp_error($user_id)){
             $errors['wp_insert_user_error'] = $user_id->get_error_message();
             wp_send_json_error($errors['wp_insert_user_error']);
             return;
-        endif;
+        }
 
         $login_user = wp_signon([
             'user_login' => $user_login,
@@ -146,17 +146,17 @@ trait Register_User {
         ],
         true);
 
-        if(is_wp_error($login_user)):
+        if(is_wp_error($login_user)){
             $errors['wp_login_error'] = $user_id->get_error_message();
             wp_send_json_error($errors['wp_login_error']);
             return;
-        endif;
+        }
 
         wp_send_json_success(['form_redirect' => esc_url(home_url() . '/profile/' . $user_login)]);
 
-        if(in_array('email_notification', $registration_actions)):
+        if(in_array('email_notification', $registration_actions)){
             wp_new_user_notification( $user_id );
-        endif;
+        }
 
     }
 
@@ -170,19 +170,19 @@ trait Register_User {
      *
      */
     function find_element_recursive($elements, $form_id) {
-        foreach ($elements as $element):
-            if ($form_id === $element['id']):
+        foreach ($elements as $element){
+            if ($form_id === $element['id']){
                 return $element;
-        endif;
+        }
 
-        if (!empty($element['elements'])):
+        if (!empty($element['elements'])){
                 $element = $this->find_element_recursive($element['elements'], $form_id);
 
-        if ($element):
+        if ($element){
                     return $element;
-        endif;
-        endif;
-        endforeach;
+        }
+        }
+        }
 
         return false;
     }
@@ -197,14 +197,14 @@ trait Register_User {
     function em_get_widget_settings($page_id, $widget_id) {
         $document = Plugin::$instance->documents->get($page_id);
         $settings = [];
-        if ($document):
+        if ($document){
             $elements = Plugin::instance()->documents->get($page_id)->get_elements_data();
         $widget_data = $this->find_element_recursive($elements, $widget_id);
         $widget = Plugin::instance()->elements_manager->create_element_instance($widget_data);
-        if ($widget):
+        if ($widget){
                 $settings = $widget->get_settings_for_display();
-        endif;
-        endif;
+        }
+        }
         return $settings;
     }
 

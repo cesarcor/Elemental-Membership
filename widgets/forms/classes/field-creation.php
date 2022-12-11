@@ -2,9 +2,9 @@
 namespace ElementalMembership\Widgets\Forms\Classes;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ):
+if ( ! defined( 'ABSPATH' ) ){
     exit; 
-endif;
+}
 
 class Field_Creation{
 
@@ -33,7 +33,7 @@ class Field_Creation{
         $field_label = strtolower(preg_replace('/\s+/', '-', $field_label));
         $field_required = $is_required ? "required" : "";
 
-        switch($field_role):
+        switch($field_role){
 
             case "username":
                 $field_name = $this->em_get_attribute_name("username");
@@ -60,7 +60,7 @@ class Field_Creation{
                 $field_name = $this->em_get_attribute_name("custom");
             break;
 
-        endswitch;
+        }
 
         echo '<input type="'. $field_type .
         '"name="'. $field_name .'"
@@ -110,12 +110,12 @@ class Field_Creation{
 
         echo '<select class="em-form-field em-select-field">';
 
-        foreach($options as $option):
+        foreach($options as $option){
             $option_label = esc_html( $option );
 
             echo '<option>' . $option_label . '</option>';
 
-        endforeach;
+        }
          
         echo '</select>';
     }

@@ -28,29 +28,29 @@ trait Login_User {
 
         $redirect_url = '';
 
-        if (!wp_verify_nonce($_POST['em_login_nonce'], 'em_login_user')):
+        if (!wp_verify_nonce($_POST['em_login_nonce'], 'em_login_user')){
             $errors['invalid_nonce'] = __('Security token not valid, try refreshing', 'elemental-membership');
             wp_send_json_error($errors['invalid_nonce']);
             wp_die();
-        endif;
+        }
 
-        if (!empty($_POST['page_id'])):
+        if (!empty($_POST['page_id'])){
             $page_id = intval($_POST['page_id'], 10);
-        endif;
+        }
 
-        if (!empty($_POST['widget_id'])):
+        if (!empty($_POST['widget_id'])){
             $widget_id = sanitize_text_field($_POST['widget_id']);
-        endif;
+        }
 
         $settings = $this->em_get_login_widget_settings($page_id, $widget_id);
 
-        if (!empty($settings)):
+        if (!empty($settings)){
             $redirect_url = $settings['login_redirect_link']['url'];
-        endif;
+        }
 
-        if (isset($_POST['login_fields'])):
-            foreach ($_POST['login_fields'] as $field => $value):
-                switch ($field):
+        if (isset($_POST['login_fields'])){
+            foreach ($_POST['login_fields'] as $field => $value){
+                switch ($field){
                     case 'user_login':
                         $user_login = sanitize_text_field($value);
                     break;
@@ -60,9 +60,9 @@ trait Login_User {
                     case 'user_remember_me':
                         $remember_me = $value == 'yes' ? true : false;
                     break;
-                endswitch;
-            endforeach;
-        endif;
+                }
+            }
+        }
 
         $login_user = wp_signon(
             [
@@ -73,10 +73,10 @@ trait Login_User {
             true
         );
 
-        if (is_wp_error($login_user)):
+        if (is_wp_error($login_user)){
             wp_send_json_error($login_user->get_error_messages());
             return;
-        endif;
+        }
 
         wp_send_json_success(!empty($redirect_url) ? ['form_redirect' => esc_url($redirect_url)] : ['form_redirect' => esc_url(home_url() . '/profile/' . $user_login)]);
     }
@@ -91,19 +91,19 @@ trait Login_User {
      *
      */
     public function login_form_find_element_recursive($elements, $form_id) {
-        foreach ($elements as $element):
-            if ($form_id === $element['id']):
+        foreach ($elements as $element){
+            if ($form_id === $element['id']){
                 return $element;
-        endif;
+        }
 
-        if (!empty($element['elements'])):
+        if (!empty($element['elements'])){
                 $element = $this->login_form_find_element_recursive($element['elements'], $form_id);
 
-        if ($element):
+        if ($element){
                     return $element;
-        endif;
-        endif;
-        endforeach;
+        }
+        }
+        }
 
         return false;
     }
@@ -118,14 +118,14 @@ trait Login_User {
     public function em_get_login_widget_settings($page_id, $widget_id) {
         $document = Plugin::$instance->documents->get($page_id);
         $settings = [];
-        if ($document):
+        if ($document){
             $elements = Plugin::instance()->documents->get($page_id)->get_elements_data();
         $widget_data = $this->login_form_find_element_recursive($elements, $widget_id);
         $widget = Plugin::instance()->elements_manager->create_element_instance($widget_data);
-        if ($widget):
+        if ($widget){
                 $settings = $widget->get_settings_for_display();
-        endif;
-        endif;
+        }
+        }
         return $settings;
     }
 }

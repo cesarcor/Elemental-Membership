@@ -140,7 +140,7 @@ class Profile_Name extends Widget_Base {
 
         $this->add_render_attribute('name', 'class', 'em-profile-name elementor-heading-title');
 
-        switch($settings['em_display_name']):
+        switch($settings['em_display_name']){
             case 'full_name':
                 $display_name = $profile->get_user_full_name();
             break;
@@ -153,7 +153,7 @@ class Profile_Name extends Widget_Base {
             case 'nickname':
                 $display_name = $profile->em_get_user_nickname();
             break;
-        endswitch;
+        }
 
         $profile_name_html = sprintf('<%1$s %2$s>%3$s</%1$s>', $settings['name_tag'], $this->get_render_attribute_string('name'), $display_name);
 

@@ -374,11 +374,11 @@ class Logout extends Widget_Base{
 		$this->add_inline_editing_attributes( 'text', 'none' );
 		?>
 		<span <?php echo $this->get_render_attribute_string( 'content-wrapper' ); ?>>
-			<?php if (! empty( $settings['selected_icon']['value'] ) ) : ?>
+			<?php if (! empty( $settings['selected_icon']['value'] ) ){ ?>
 			<span <?php echo $this->get_render_attribute_string( 'icon-align' ); ?>>
 				<i class="<?php echo esc_attr( $settings['selected_icon']['value'] ); ?>" aria-hidden="true"></i>
 			</span>
-			<?php endif; ?>
+			<?php } ?>
 			<span <?php echo $this->get_render_attribute_string( 'text' ); ?>><?php echo $settings['em_logout_link_text']; ?></span>
 		</span>
 		<?php

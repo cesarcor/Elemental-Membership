@@ -11,9 +11,9 @@ use Elementor\Group_Control_Border;
 use ElementalMembership\Widgets\Forms\Traits\Login_User;
 
 // Exit if accessed directly
-if (!defined('ABSPATH')):
+if (!defined('ABSPATH')){
 	exit;
-endif;
+}
 
 class Login_Form extends Widget_Base {
 
@@ -754,7 +754,7 @@ class Login_Form extends Widget_Base {
         if ((is_user_logged_in() && !\Elementor\Plugin::$instance->editor->is_edit_mode())
         || (is_user_logged_in() &&
         $settings['login_form_view'] == 'is_loggedin_view')
-        ):
+        ){
     ?>
 
 		<div class="em-user-loggedin-msg">
@@ -762,13 +762,13 @@ class Login_Form extends Widget_Base {
 		</div>
 
 	<?php
-        else:
+        } else{
 
         $this->form_fields_render_attributes(); 
         
-        if (Plugin::$instance->documents->get_current()):
+        if (Plugin::$instance->documents->get_current()){
             $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
-        endif;
+        }
         
         ?>
 
@@ -782,7 +782,7 @@ class Login_Form extends Widget_Base {
 
                         $login_with = '';
 
-						switch ($settings['em_login_identifier_opt']):
+						switch ($settings['em_login_identifier_opt']){
 							case 'username_only':
 									$login_with = __('Username', 'elemental-membership');
 							break;
@@ -792,17 +792,17 @@ class Login_Form extends Widget_Base {
 							case 'email_only':
 													$login_with = __('Email', 'elemental-membership');
 							break;
-						endswitch; ?>
+						} ?>
 
 					<?php
-                        if ('yes' === $settings['show_labels']):
+                        if ('yes' === $settings['show_labels']){
                     ?>
 
 						<label>
 							<?php echo 'yes' === $settings['custom_labels']  ? $settings['user_label'] : $login_with; ?>
 						</label>
 					
-					<?php endif; ?>
+					<?php } ?>
 
 					<input type="text" name="login_fields[user_login]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['user_placeholder'] : $login_with; ?>" class="elementor-field" required/>
 
@@ -810,9 +810,9 @@ class Login_Form extends Widget_Base {
 
 				<div class="elementor-field-group elementor-column elementor-col-100">
 					
-					<?php if ('yes' === $settings['show_labels']): ?>
+					<?php if ('yes' === $settings['show_labels']){ ?>
 						<label><?php echo $settings['custom_labels'] == 'yes' ? $settings['password_label'] : __('Password', 'elemental-membership'); ?></label>
-					<?php endif; ?>
+					<?php } ?>
 
 					<input type="password" name="login_fields[user_login_pwd]" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['password_placeholder'] : __('Password', 'elemental-membership'); ?>" class="elementor-field" required/>
 				</div>
@@ -833,11 +833,11 @@ class Login_Form extends Widget_Base {
 					</button>
 				</div>
 
-				<?php if ('yes' === $settings['em_show_lost_pw_link']): ?>
+				<?php if ('yes' === $settings['em_show_lost_pw_link']){ ?>
 					<div class="elementor-field-group elementor-column elementor-col-100">
 						<a href="<?php echo wp_lostpassword_url(); ?>">Lost your password?</a>
 					</div>
-				<?php endif; ?>
+				<?php } ?>
 
 				<input type="hidden" name="action" value="em_login_user" />
                 <?php wp_nonce_field('em_login_user', 'em_login_nonce'); ?>
@@ -849,7 +849,7 @@ class Login_Form extends Widget_Base {
 
 
 	<?php
-        endif; ?>
+        } ?>
 
     <?php
     }
@@ -883,7 +883,7 @@ class Login_Form extends Widget_Base {
 						<# 
 						 if('yes' === settings.custom_labels){
 						 	{{{ settings.user_label }}}
-						 }else{
+						 }} else{
 							 {{{ login_with }}}
 						 } 
 						 #>
@@ -922,7 +922,7 @@ class Login_Form extends Widget_Base {
 
         </div>
 
-	<# } else{ #>
+	<# } } else{ #>
 
 		<div class="em-user-loggedin-msg">
          {{{ settings.already_loggedin_message }}}

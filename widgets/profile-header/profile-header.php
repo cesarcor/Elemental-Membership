@@ -831,11 +831,11 @@ class Profile_Header extends Widget_Base{
         $profile = new Profile();
         $display_name = "";
 
-        if ( ! empty( $settings['banner_button_link']['url'] ) ):
+        if ( ! empty( $settings['banner_button_link']['url'] ) ){
 			$this->add_link_attributes( 'banner_button', $settings['banner_button_link'] );
 			$this->add_render_attribute( 'banner_button', 'class', 'elementor-button-link' );
             $this->add_render_attribute( 'banner_button', 'id', 'banner-button' );
-        endif;
+        }
         
     ?>
 
@@ -844,14 +844,14 @@ class Profile_Header extends Widget_Base{
             <div class="em-profile-banner">
                 <div class="em-profile-banner__bg"></div>
                 <div class="em-profile-banner__change">
-                <?php if(is_user_logged_in()): ?>
+                <?php if(is_user_logged_in()){ ?>
                     <div class="em-profile-btn">
                         <a <?php echo $this->get_render_attribute_string( 'banner_button' ); ?>>
                             <?php \Elementor\Icons_Manager::render_icon( $settings['banner_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
                             <span class="em-profile-btn-text"><?php echo __('Change Image', 'elemental-membership'); ?><span>
                         </a>
                     </div>
-                <?php endif; ?>
+                <?php } ?>
                 </div>
             </div>
 
@@ -863,19 +863,19 @@ class Profile_Header extends Widget_Base{
 
                         <div class="em-col em-user-avatar">
                             <?php echo get_avatar(get_the_author_meta('email'), '60'); ?>
-                            <?php if(is_user_logged_in()): ?>
+                            <?php if(is_user_logged_in()){ ?>
                                 <div class="em-user-avatar__change">
                                     <div class="em-profile-btn">
                                         <?php \Elementor\Icons_Manager::render_icon( $settings['image_button_icon'], [ 'aria-hidden' => 'true' ] ); ?>
                                     </div>
                                 </div>
-                            <?php endif; ?>
+                            <?php } ?>
                         </div>
 
                         <div class="em-col em-profile-modifier-actions">
 
                                 <?php
-                                    switch($settings['em_display_name']):
+                                    switch($settings['em_display_name']){
                                         case 'full_name':
                                             $display_name = $profile->get_user_full_name();
                                         break;
@@ -888,7 +888,7 @@ class Profile_Header extends Widget_Base{
                                         case 'nickname':
                                             $display_name = $profile->em_get_user_nickname();
                                         break;
-                                    endswitch;
+                                    }
                                 ?>
 
                             <h2 class="em-profile-identifier">
@@ -897,12 +897,12 @@ class Profile_Header extends Widget_Base{
                                 ?>
                             </h2>
 
-                            <?php if ('yes' === $settings['show_profile_action_menu'] && is_user_logged_in()): ?>
+                            <?php if ('yes' === $settings['show_profile_action_menu'] && is_user_logged_in()){ ?>
                                 <ul class="em-list em-header-actions">
                                     <li><a href="#"><?php echo __("Edit Profile", "elemental-membership"); ?></a></li>
                                     <li><a href="#"><?php echo __("Settings", "elemental-membership"); ?></a></li>
                                 </ul>
-                            <?php endif;?>
+                            <?php }?>
 
                         </div>
 
@@ -910,25 +910,25 @@ class Profile_Header extends Widget_Base{
                             <ul class="em-list em-profile-menu-list">
                                 <?php 
                                     //elementor-hidden-tablet elementor-hidden-phone elementor-hidden-desktop
-                                    if($settings['profile_menu_list']): 
-                                        foreach($settings['profile_menu_list'] as $item):
+                                    if($settings['profile_menu_list']){ 
+                                        foreach($settings['profile_menu_list'] as $item){
                                             $target = $item['menu_item_url']['is_external'] ? ' target="_blank"' : '';
                                             $nofollow = $item['menu_item_url']['nofollow'] ? ' rel="nofollow"' : '';
                                             $item_logged_in_var = ('logged_in_only' === $item['item_visible_to']) ? is_user_logged_in() : true;
 
-                                            if($item_logged_in_var):
+                                            if($item_logged_in_var){
                                                 echo '<li><a href="' . $item['menu_item_url']['url'] . '"' . $target . $nofollow . '>' . $item['menu_item_text'] . '</a></li>';
-                                            endif;
-                                        endforeach;
-                                    endif; 
+                                            }
+                                        }
+                                    } 
                                  ?>
                             </ul>
 
-							<?php if ('yes' === $settings['show_logout_link'] && is_user_logged_in()): ?>
+							<?php if ('yes' === $settings['show_logout_link'] && is_user_logged_in()){ ?>
 								<a href="<?php echo wp_logout_url(); ?>" class="em-link-btn em-logout-btn">
 									<?php echo esc_html($settings['logout_link_text']); ?>
 								</a>
-							<?php endif;?>
+							<?php }?>
                         </div>
 
                     </div>

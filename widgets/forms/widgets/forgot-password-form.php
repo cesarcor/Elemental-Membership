@@ -527,11 +527,11 @@ class Forgot_Password_Form extends Widget_Base{
         <form class="em-forgot-password-form elementor-form">
 
                 <div class="elementor-field-group elementor-column elementor-col-100">
-                    <?php if('yes' === $settings['show_labels']): ?>
+                    <?php if('yes' === $settings['show_labels']){ ?>
                       <label for="forgot-pw-email">
                         <?php echo 'yes' === $settings['custom_labels'] ? $settings['email_label'] : __('Your Email', 'elemental-membership'); ?>
                       </label>
-                    <?php endif; ?>
+                    <?php } ?>
                     <input type="email" id="forgot-pw-email" class="elementor-field" placeholder="<?php echo $settings['custom_labels'] == 'yes' ? $settings['email_placeholder'] : __('Email', 'elemental-membership'); ?>"/>
                 </div>
 
@@ -566,7 +566,7 @@ class Forgot_Password_Form extends Widget_Base{
                             <#
                                 if('yes' === settings.custom_labels){
                                     {{{ settings.email_label }}}
-                                }else{
+                                }} else{
                                 #>
                                     <?php echo __('Your Email', 'elemental-membership'); ?>
                                 <#

@@ -235,27 +235,27 @@ class Profile_Menu extends Widget_Base{
         $logged_in_var = ('logged_in_only' === $settings['visible_to']) ? is_user_logged_in() : true;
     ?>
 
-        <?php if($logged_in_var): ?>
+        <?php if($logged_in_var){ ?>
 
         <nav class="em-profile-menu-container elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-<?php echo 'vertical' === $settings['layout'] ? 'vertical' : 'horizontal'; ?>">
             <ul class="em-list em-profile-menu-list elementor-nav-menu <?php echo 'vertical' === $settings['layout'] ? 'sm-vertical' : ''; ?>">
                 <?php 
-                    if($settings['profile_menu_list']): 
-                        foreach($settings['profile_menu_list'] as $item):
+                    if($settings['profile_menu_list']){ 
+                        foreach($settings['profile_menu_list'] as $item){
                             $target = $item['menu_item_url']['is_external'] ? ' target="_blank"' : '';
                             $nofollow = $item['menu_item_url']['nofollow'] ? ' rel="nofollow"' : '';
                             $item_logged_in_var = ('logged_in_only' === $item['item_visible_to']) ? is_user_logged_in() : true;
 
-                            if($item_logged_in_var):
+                            if($item_logged_in_var){
                                 echo '<li><a href="' . $item['menu_item_url']['url'] . '"' . $target . $nofollow . '>' . $item['menu_item_text'] . '</a></li>';
-                            endif;
-                        endforeach;
-                    endif; 
+                            }
+                        }
+                    } 
                 ?>
             </ul>
         </nav>
 
-        <?php endif; ?>
+        <?php } ?>
 
     <?php
     }

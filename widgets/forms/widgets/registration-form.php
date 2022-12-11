@@ -14,9 +14,9 @@ use ElementalMembership\Widgets\Forms\Classes\Form_Message;
 use ElementalMembership\Widgets\Forms\Traits\Register_User;
 
 // Exit if accessed directly
-if (!defined('ABSPATH')):
+if (!defined('ABSPATH')){
      exit;
-endif;
+}
 
 class Registration_Form extends Widget_Base {
     use Register_User;
@@ -844,18 +844,18 @@ class Registration_Form extends Widget_Base {
              !\Elementor\Plugin::$instance->editor->is_edit_mode()) ||
              (is_user_logged_in() &&
              $settings['registration_form_view'] == 'is_registered_view')
-             ): ?>
+             ){ ?>
 
             <div class="em-user-registered-msg">
                 <?php echo esc_html($settings['already_registered_message']); ?>
             </div>
 
          <?php
-        else:
+        } else{
     
          $this->render_form();
          
-        endif; 
+        } 
 
     }
 
@@ -872,9 +872,9 @@ class Registration_Form extends Widget_Base {
         $buttonWidth = (('' !== $settings['em_button_width']) ? $settings['em_button_width'] : '100');
         $input_type = '';
 
-        if (Plugin::$instance->documents->get_current()):
+        if (Plugin::$instance->documents->get_current()){
             $this->page_id = Plugin::$instance->documents->get_current()->get_main_id();
-        endif;
+        }
         ?>
 
         <form class="em-user-registration-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" enctype="multipart/form-data">
@@ -883,11 +883,11 @@ class Registration_Form extends Widget_Base {
 
             <?php $this->render_fields(); ?>
 
-            <?php if ('yes' === $settings['show_tnc']): ?>
+            <?php if ('yes' === $settings['show_tnc']){ ?>
                 <div class="em-form-field-group elementor-field-group">
                     <?php $this->display_terms_and_conditions(); ?>
                 </div>
-            <?php endif; ?>
+            <?php } ?>
 
             <div class="elementor-field-group elementor-column elementor-col-<?php echo esc_attr($buttonWidth); ?>">
                 <button type="submit" name="em-register-user" class="em-button elementor-button em-submit-button">
@@ -937,7 +937,7 @@ class Registration_Form extends Widget_Base {
         $repeated_fields = array();
         $required_fields = array();
 
-        foreach ($settings['em_field_list'] as $item_index => $item):
+        foreach ($settings['em_field_list'] as $item_index => $item){
 
                 $fieldWidth = (('' !== $item['em_field_width']) ? $item['em_field_width'] : '100'); 
     
@@ -945,20 +945,20 @@ class Registration_Form extends Widget_Base {
                 $dynamic_field_name = "{$field_type}_exists";
                 $$dynamic_field_name ++;
     
-                if ( $$dynamic_field_name > 1 ):
+                if ( $$dynamic_field_name > 1 ){
                     $repeated_fields[] = $em_field_type[ $field_type ];
-                endif;
+                }
                 
         ?>
     
             <div class="em-user-registration-form__field em-form-field-group elementor-field-group elementor-column elementor-col-<?php echo esc_attr($fieldWidth); ?>">
     
             <?php
-                if ($settings['show_labels']):
+                if ($settings['show_labels']){
                     echo('<label for="' . esc_attr($item['em_field_label']) . '">' . esc_attr($item['em_field_label']) . '</label>');
-                endif;
+                }
     
-                switch ($item['em_field_type']):
+                switch ($item['em_field_type']){
                             case 'username':
                             case 'first_name':
                             case 'last_name':
@@ -1005,36 +1005,36 @@ class Registration_Form extends Widget_Base {
                 case 'select':
                         $field_creation->create_select_field($item['em_field_label'], $item['em_field_options']);
                 break;
-                endswitch; 
+                } 
             ?>
     
             </div>
     
-            <?php endforeach; ?>
+            <?php } ?>
 
             <?php
-                if($username_exists === 0):
+                if($username_exists === 0){
                     $required_fields[] = $em_field_type[ 'username' ];
-                endif;
+                }
 
-                if($user_email_exists === 0):
+                if($user_email_exists === 0){
                     $required_fields[] = $em_field_type[ 'user_email' ];
-                endif;
+                }
 
-                if($user_password_exists === 0):
+                if($user_password_exists === 0){
                     $required_fields[] = $em_field_type[ 'user_password' ];
-                endif;
+                }
             ?>
 
             <?php
-                if(\Elementor\Plugin::$instance->editor->is_edit_mode()):
+                if(\Elementor\Plugin::$instance->editor->is_edit_mode()){
                     $repeated_field = $this->display_repeated_fields_error($repeated_fields);
                     $required_field = $this->display_required_fields_error($required_fields);
                     
-                    if($repeated_field || $required_field):
+                    if($repeated_field || $required_field){
                         return;
-                    endif;
-                endif;
+                    }
+                }
             ?>
 
     <?php        
@@ -1059,7 +1059,7 @@ class Registration_Form extends Widget_Base {
     }
 
     protected function display_repeated_fields_error($repeated_fields){
-        if ( ! empty( $repeated_fields ) ):
+        if ( ! empty( $repeated_fields ) ){
 			$error_fields = '<strong>' . implode( "</strong>, <strong>", $repeated_fields ) . '</strong>';
 			?>
             <div class='elementor-field-group'>
@@ -1072,13 +1072,13 @@ class Registration_Form extends Widget_Base {
             </div>
 			<?php
 			return true;
-		endif;
+		}
 
 		return;
     }
 
     protected function display_required_fields_error($missing_fields){
-        if ( ! empty( $missing_fields ) ):
+        if ( ! empty( $missing_fields ) ){
 			$error_fields = '<strong>' . implode( "</strong>, <strong>", $missing_fields ) . '</strong>';
 			?>
             <div class='elementor-field-group'>
@@ -1091,7 +1091,7 @@ class Registration_Form extends Widget_Base {
             </div>
 			<?php
 			return true;
-		endif;
+		}
 
 		return;
     }

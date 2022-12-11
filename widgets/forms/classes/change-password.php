@@ -7,11 +7,11 @@ class Change_Password{
 
         $user = get_user_by('id', $user_id);
 
-        if( $user && wp_check_password($current_password, $user->data->user_pass, $user_id)):
+        if( $user && wp_check_password($current_password, $user->data->user_pass, $user_id)){
             wp_set_password($new_password, $user_id);
-        else:
+        } else{
             echo __("Old password not correct", "elemental-membership");
-        endif;
+        }
         
         wp_die();
 

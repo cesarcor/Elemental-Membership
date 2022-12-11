@@ -30,9 +30,9 @@ class Pages {
 
         $page_id = wp_insert_post( $page_args );
 
-        if(is_wp_error($page_id)):
+        if(is_wp_error($page_id)){
             error_log($page_id->get_error_message());
-        endif;
+        }
 
     }
 

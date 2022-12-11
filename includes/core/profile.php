@@ -3,9 +3,9 @@
 namespace ElementalMembership\Includes\Core;
 
 // Exit if accessed directly
-if (!defined('ABSPATH')):
+if (!defined('ABSPATH')){
     exit;
-endif;
+}
 
 /**
  * Profile & user related functionality
@@ -25,15 +25,15 @@ class Profile {
     public function get_user() {
         $user_id;
 
-        if(\Elementor\Plugin::$instance->editor->is_edit_mode()):
+        if(\Elementor\Plugin::$instance->editor->is_edit_mode()){
             $user_id = get_current_user_id();
-        else:
+        } else{
             $uri = rtrim($_SERVER['REQUEST_URI'], '/');
             $user_uri = explode('/', $uri);
             $user_login = end($user_uri);
             $user = get_user_by('login', $user_login);
             $user_id = $user->ID;    
-        endif;
+        }
 
         return $user_id;
     }
@@ -47,9 +47,9 @@ class Profile {
         $user_info = get_userdata($this->get_user());
         $username = $user_info->user_login;
 
-        if(!$username):
+        if(!$username){
             return esc_html('N/A');
-        endif;
+        }
 
         return esc_html($username);
     }
@@ -63,9 +63,9 @@ class Profile {
     public function get_user_first_name() {
         $first_name = get_user_meta($this->get_user(), 'first_name', true);
 
-        if(!$first_name || is_wp_error($first_name)):
+        if(!$first_name || is_wp_error($first_name)){
             return false;
-        endif;
+        }
 
         return esc_html($first_name);
     }
@@ -78,9 +78,9 @@ class Profile {
     public function get_user_last_name() {
         $last_name = get_user_meta($this->get_user(), 'last_name', true);
 
-        if(!$last_name || is_wp_error($last_name)):
+        if(!$last_name || is_wp_error($last_name)){
             return false;
-        endif;
+        }
 
         return esc_html($last_name);
     }
@@ -93,10 +93,10 @@ class Profile {
     public function get_user_full_name() {
         $full_name = '';
 
-        if($this->get_user_first_name() && $this->get_user_last_name()):
+        if($this->get_user_first_name() && $this->get_user_last_name()){
             $full_name = $this->get_user_first_name() . ' ' . $this->get_user_last_name();
             return esc_html($full_name);
-        endif;
+        }
 
         return false;
     }

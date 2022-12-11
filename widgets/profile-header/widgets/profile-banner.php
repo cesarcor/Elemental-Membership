@@ -185,14 +185,14 @@ class Profile_Banner extends Widget_Base {
         <div class="em-profile-banner">
             <div class="em-profile-banner__bg"></div>
             <div class="em-profile-banner__change">
-            <?php if (is_user_logged_in()): ?>
+            <?php if (is_user_logged_in()){ ?>
                 <div class="em-profile-btn">
                     <a <?php echo $this->get_render_attribute_string('banner_button'); ?>>
                         <?php \Elementor\Icons_Manager::render_icon($settings['banner_button_icon'], ['aria-hidden' => 'true']); ?>
                         <span class="em-profile-btn-text"><?php echo __('Change Image', 'elemental-membership'); ?></span>
                     </a>
                 </div>
-            <?php endif; ?>
+            <?php } ?>
         </div>
 
     <?php
