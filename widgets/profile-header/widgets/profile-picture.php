@@ -17,7 +17,7 @@ class Profile_Picture extends Widget_Base{
     }
 
     public function get_icon(){
-        return '';
+        return 'icon-em-profile-picture';
     }
 
     public function get_categories(){

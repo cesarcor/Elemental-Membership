@@ -20,7 +20,7 @@ class Logout extends Widget_Base{
     }
 
     public function get_icon(){
-        return 'fa fa-form';
+        return 'icon-em-logout';
     }
 
     public function get_categories(){

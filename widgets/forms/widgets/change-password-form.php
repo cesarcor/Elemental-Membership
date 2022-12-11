@@ -28,7 +28,7 @@ class Change_Password_Form extends Widget_Base {
     }
 
     public function get_icon() {
-        return '';
+        return 'icon-em-change-password';
     }
 
     public function get_categories() {

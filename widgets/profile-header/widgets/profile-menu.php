@@ -19,7 +19,7 @@ class Profile_Menu extends Widget_Base{
     }
 
     public function get_icon(){
-        return '';
+        return 'icon-em-profile-menu';
     }
 
     public function get_categories(){

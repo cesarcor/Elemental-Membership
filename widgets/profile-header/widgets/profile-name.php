@@ -23,7 +23,7 @@ class Profile_Name extends Widget_Base {
     }
 
     public function get_icon() {
-        return '';
+        return 'icon-em-profile-name';
     }
 
     public function get_categories() {

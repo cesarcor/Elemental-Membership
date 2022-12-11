@@ -30,7 +30,7 @@ class Login_Form extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'fa fa-form';
+        return 'icon-em-login';
     }
 
     public function get_categories() {

@@ -21,7 +21,7 @@ class Edit_Profile_Form extends Widget_Base {
     }
 
     public function get_icon() {
-        return '';
+        return 'icon-em-edit-profile';
     }
 
     public function get_categories() {

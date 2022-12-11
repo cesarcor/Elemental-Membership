@@ -82,7 +82,8 @@ class Plugin {
     public function widget_editor_styles() {
         wp_enqueue_style(
             'em-icons',
-            EM_ASSETS . 'icons/elemental-membership-icons/css/elemental-membership-icons.css',
+            EM_ASSETS . 'icons/em-icons/style.css',
+            [],
             []
         );
     }

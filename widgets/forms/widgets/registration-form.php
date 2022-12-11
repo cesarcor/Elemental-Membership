@@ -32,7 +32,7 @@ class Registration_Form extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'em-registration-icon';
+        return 'icon-em-user-registration';
     }
 
     public function get_categories() {
