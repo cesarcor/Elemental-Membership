@@ -7,7 +7,7 @@ use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
-use ElementalMembership\Includes\Classes\Profile;
+use ElementalMembership\Includes\Core\Profile;
 
 class Profile_Header extends Widget_Base{
 

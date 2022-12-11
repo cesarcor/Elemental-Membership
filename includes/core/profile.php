@@ -1,6 +1,6 @@
 <?php
 
-namespace ElementalMembership\Includes\Classes;
+namespace ElementalMembership\Includes\Core;
 
 // Exit if accessed directly
 if (!defined('ABSPATH')):
@@ -22,7 +22,7 @@ class Profile {
      *
      * @since 1.0.0
      */
-    public function get_user_1() {
+    public function get_user() {
         $user_id;
 
         if(\Elementor\Plugin::$instance->editor->is_edit_mode()):

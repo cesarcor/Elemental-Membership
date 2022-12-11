@@ -9,7 +9,7 @@ use Elementor\Repeater;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
-use ElementalMembership\Includes\Classes\Profile;
+use ElementalMembership\Includes\Core\Profile;
 
 class Edit_Profile_Form extends Widget_Base {
     public function get_name() {

@@ -1,7 +1,6 @@
 <?php
-// namespace ElementalMembership\Classes;
 
-use ElementalMembership\Includes\Classes\Pages;
+use ElementalMembership\Includes\Core;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

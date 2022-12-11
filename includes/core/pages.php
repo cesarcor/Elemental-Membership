@@ -1,5 +1,5 @@
 <?php
-namespace ElementalMembership\Includes\Classes;
+namespace ElementalMembership\Includes\Core;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

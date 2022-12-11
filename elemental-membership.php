@@ -24,7 +24,7 @@ define( 'EM_ASSETS', trailingslashit( EM_DIR_URL . 'assets' ) );
  * The init class that runs the Elemental Membership plugin.
  * Intended To make sure that the plugin's minimum requirements are met.
  *
- * You should only modify the constants to match your plugin's needs.
+ * You should only modify the constants to match the plugin's needs.
  *
  * Any custom code should go inside Plugin Class in the plugin.php file.
  * @since 1.2.0
@@ -64,7 +64,7 @@ final class Elemental_Membership {
 	public function __construct() {
 
 		//------> IMPROVE <----
-		require_once plugin_dir_path( __FILE__ ) . 'includes/classes/em-activator.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/core/em-activator.php';
 		register_activation_hook( __FILE__, array( 'EM_Activator', 'activate' ) );
 
 		// Load translation

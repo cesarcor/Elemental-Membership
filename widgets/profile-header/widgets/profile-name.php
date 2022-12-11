@@ -11,7 +11,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
-use ElementalMembership\Includes\Classes\Profile;
+use ElementalMembership\Includes\Core\Profile;
 
 class Profile_Name extends Widget_Base {
     public function get_name() {

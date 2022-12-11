@@ -154,7 +154,7 @@ class Plugin {
      * @access private
      */
     private function load_dependencies() {
-        require_once __DIR__ . '/includes/classes/profile.php';
+        require_once __DIR__ . '/includes/core/profile.php';
     }
 
     /**
@@ -236,7 +236,7 @@ class Plugin {
         /**
          * Required plugin hooks
          */
-        add_action('init', [new Includes\Classes\Profile, 'profile_url_rewrite']);
+        add_action('init', [new Includes\Core\Profile, 'profile_url_rewrite']);
 
         /**
         * Form traits
